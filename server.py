@@ -18,25 +18,8 @@ WS_PORT = 8084
 COLOR = u'#444'
 BGCOLOR = u'#333'
 
-class StreamingOutput(object):
 
-    def __init__(self):
-        self.frame = None
-        self.buffer = io.BytesIO()
-        self.condition = Condition()
-
-    def write(self, buf):
-        if buf.startswith(b'\xff\xd8'):
-            # New frame, copy the existing buffer's content and notify all
-            # clients it's available
-            self.buffer.truncate()
-            with self.condition:
-                self.frame = self.buffer.getvalue()
-                self.condition.notify_all()
-            self.buffer.seek(0)
-        return self.buffer.write(buf)
-
-class StreamingHandler(BaseHTTPRequestHandler):
+class StreamingHttpHandler(BaseHTTPRequestHandler):
 
     #Handler for the GET requests
     def do_GET(self):
@@ -117,8 +100,9 @@ class StreamingHandler(BaseHTTPRequestHandler):
 class StreamingHttpServer(HTTPServer):
     def __init__(self):
         super(StreamingHttpServer, self).__init__(
-            ('', HTTP_PORT), StreamingHandler)
-        self.index_template = "OK"
+            ('', HTTP_PORT), StreamingHttpHandler)
+        with io.open('index.html', 'r') as f:
+            self.index_template = f.read()
 
 
                             #with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
@@ -131,3 +115,5 @@ def main():
     # address = ('', HTTP_PORT)
 # server = StreamingHttpServer(address, StreamingHandler)
 # server.serve_forever()
+if __name__ == '__main__':
+    main()
