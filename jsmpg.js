@@ -50,8 +50,6 @@ var jsmpeg = window.jsmpeg = function( url, opts ) {
 	}
 };
 
-
-
 // ----------------------------------------------------------------------------
 // Streaming over WebSockets
 
