@@ -1,10 +1,14 @@
 <!doctype html>
 <html>
    <head>
-      <title>Мій перший HTML-документ</title>
-<meta name="viewport" content="width=${WIDTH}, initial-scale=1"/>
-	<title>jsmpeg streaming</title>
-	<style type="text/css">
+      <title>Мурашина ферма</title>
+      <meta charset="utf-8">
+<!-- <meta name="viewport" content="width=${WIDTH}, initial-scale=1"/> -->
+      <link rel="stylesheet" type="text/css" href="css/waterLevel.css">
+      <link rel="stylesheet" type="text/css" href="css/main.css">
+      <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+
+	<!-- <style type="text/css">
 		body {
 			background: ${BGCOLOR};
 			text-align: center;
@@ -16,270 +20,175 @@
 			width: ${WIDTH}px;
 			height: ${HEIGHT}px;
 		}
-	</style>
+	</style> -->
 
-    <style>
-        body {
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height: 100vh;
-}
-main {
-  position:relative;
-  width:35vmin;
-  height:75vmin;
-  border-radius: 50vmin;
-  background:#D0DFDF;
-  overflow:hidden;
-  -webkit-box-shadow: 0px 34px 159px -10px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 34px 159px -10px rgba(0,0,0,0.75);
-  box-shadow: 0px 34px 159px -10px rgba(0,0,0,0.75);
-  z-index:1;
-}
-#sky {
-  height:25vmin;
-  background:rgb(155,198,204);
-  z-index:1;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-#sky .sun {
-  position:absolute;
-  z-index:6;
-  height:17vmin;
-  width:15vmin;
-  border-radius:100%;
-  background:#fff;
-  margin-top:11vmin;
-}
-#sky .sunset {
-  position:relative;
-  z-index:5;
-  height:19vmin;
-  width:18vmin;
-  border-radius:100%;
-  background:rgb(220,236,230);
-  margin-top:16vmin;
-}
-#sky .sunset_1 {
-  height:28vmin;
-  width:26vmin;
-  border-radius:100%;
-  background:rgb(188,220,215);
-  margin-top:8vmin;
-  content:"";
-  position:absolute;
-  z-index:4;
-}
-
-#water {
-  display:flex;
-  justify-content:center;
-  margin-bottom:2vmin;
-  position: absolute;
-  height:60vmin;
-  width:100vmin;
-  background: rgba(183,222,237,1);
-  background: -moz-linear-gradient(top, rgba(183,222,237,1) 0%, rgba(183,222,237,1) 5%, rgba(49,126,143,1) 98%, rgba(113,206,239,1) 100%);
-  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(183,222,237,1)), color-stop(5%, rgba(183,222,237,1)), color-stop(98%, rgba(49,126,143,1)), color-stop(100%, rgba(113,206,239,1)));
-  background: -webkit-linear-gradient(top, rgba(183,222,237,1) 0%, rgba(183,222,237,1) 5%, rgba(49,126,143,1) 98%, rgba(113,206,239,1) 100%);
-  background: -o-linear-gradient(top, rgba(183,222,237,1) 0%, rgba(183,222,237,1) 5%, rgba(49,126,143,1) 98%, rgba(113,206,239,1) 100%);
-  background: -ms-linear-gradient(top, rgba(183,222,237,1) 0%, rgba(183,222,237,1) 5%, rgba(49,126,143,1) 98%, rgba(113,206,239,1) 100%);
-  background: linear-gradient(to bottom, rgba(183,222,237,1) 0%, rgba(183,222,237,1) 5%, rgba(49,126,143,1) 98%, rgba(113,206,239,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7deed', endColorstr='#71ceef', GradientType=0 );
-  z-index:6;
-  animation:waves 1.5s ease-in-out alternate infinite;
-}
-#water .top {
-  position:absolute;
-  height:2vmin;
-  width:100%;
-  background:rgb(231,253,246);
-  z-index:7;
-}
-#water #rays {
-  position:relative;
-  margin-right:40vmin;
-  top:1vmin;
-  height:35vmin;
-  width:5vmin;
-  transform:rotate(20deg);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(0, 0, 0, 0)));
-  z-index:5;
-  animation:fadeInOut 4s ease-in-out alternate infinite;
-}
-#rays .ray1 {
-  position:absolute;
-  right:20vmin;
-  top:5.5vmin;
-  height:25vmin;
-  width:3vmin;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(0, 0, 0, 0)));
-  z-index:-1;
-  animation:fadeInOut 3.2s ease-in-out alternate infinite;
-}
-
-#rays .ray2 {
-  position:absolute;
-  right:20vmin;
-  top:7vmin;
-  height:20vmin;
-  width:5vmin;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(0, 0, 0, 0)));
-  z-index:-1;
-  animation:fadeInOut 3s ease-in-out alternate infinite;
-}
-#rays .ray3 {
-  position:absolute;
-  right:2vmin;
-  top:.5vmin;
-  height:25vmin;
-  width:5vmin;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(0, 0, 0, 0)));
-  z-index:-1;
-  animation:fadeInOut 3.7s ease-in-out alternate infinite;
-}
-
-.bubl {
-  position:absolute;
-  top:80vmin;
-  left:10vmin;
-  height:1vmin;
-  width:1vmin;
-  border-radius:100%;
-  border: 2px solid #6897bb;
-  z-index:10;
-  animation:floatUp 4s ease-in-out infinite;
-}
-.buble::after {
-  content:"";
-  position:relative;
-  top:80vmin;
-  left:15vmin;
-  height:1vmin;
-  width:1vmin;
-  border-radius:100%;
-  border: 2px solid #6897bb;
-  z-index:10;
-  animation:floatUp 4s ease-in-out infinite;
-}
-
-
-@keyframes floatUp {
-  100% {
-    transform:translateY(-40vmin);
-    opacity:.5;
-  }
-}
-
-@keyframes waves {
-  0% {
-    transform:translateY(-6vmin);
-  }
-  100% {
-    transform:translateY(-4vmin);
-  }
-}
-
-@keyframes fadeInOut {
-  0% {
-    opacity:1;
-  }
-  50% {
-    opacity:0;
-  }
-  100% {
-    opacity:1;
-  }
-}
-    </style>
    </head>
    <body>
-   <canvas id="videoCanvas" width="${WIDTH}" height="${HEIGHT}">
-		<p>
-			Please use a browser that supports the Canvas Element, like
-			<a href="http://www.google.com/chrome">Chrome</a>,
-			<a href="http://www.mozilla.com/firefox/">Firefox</a>,
-			<a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
-		</p>
-	</canvas>
-   <div id="Humidity">
-	   <table style="width:50%">
-  <tr>
-	  <th></th>
-    <th>Температура повітря</th>
-    <th>Вологість %</th>
-  </tr>
-  <tr>
-    <td>Сотах</td>
-    <td id="sotTemp">0</td>
-    <td id="sotHum">0</td>
-  </tr>
-  <tr>
-    <td>Арена</td>
-    <td id="arenaTemp">0</td>
-    <td id="arenaHum">0</td>
-  </tr>
-	<tr>
-    <td>Кімната</td>
-    <td id="roomTemp">0</td>
-    <td id="roomHum">0</td>
-  </tr>
-</table>
-       <table style="width:50%">
-  <tr>
-	  <th></th>
-    <th>Рівень води</th>
-  </tr>
-  <tr>
-    <td>Повна ємність</td>
-    <td id="waterLvlHigh">0</td>
-  </tr>
-  <tr>
-    <td>Напівзаповнена</td>
-    <td id="waterLvlMiddle">0</td>
-  </tr>
-	<tr>
-    <td>Вода майже закінчилася</td>
-    <td id="waterLvlLow">0</td>
-  </tr>
-</table>
-   </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <img src="images/logo1.png" width="100" height="30" alt="">
+        </a>
+        <div class="pos-f-t">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="index.html">Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="main.html">Глава 22
+             </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="avtor.html">Автор</a>
+            </li>
 
+          </ul>
+        </div>
+      </div>
+    </nav>
+<!-- <div class="jumbotron"> -->
+<div class="container">
 
+<!-- <div id="wrapper">
 
-     <!--<img src="stream.mjpg" width="640" height="480" />-->
-      <div id="TextBlock">
-	<p >2</p>
-	</div>
-    <input type="button" >Click</input>
-    <form name=test_form>
-sqr(
-<input type="text" name="test_text" value="0" size="4">
-) =
-<span id="test_result">0</span>
-<input type=button onClick="makePOST();" value="start" title="start">
-</form>
-<main>
-  <div id="sky">
-    <div class="sun"></div>
-    <div class="sunset"></div>
-    <div class="sunset_1"></div>
+    <div class="mainpage"> -->
+   <div class="row">
+    <div class="col-md-4">
+      <!-- <div id="sidebar-wrapper">
+          <ul class="sidebar-nav">
+              <li>
+                  <a href="index.html">Home</a>
+              </li>
+              <li>
+                  <a href="main.html">Глава 22</a>
+              </li>
+              <li>
+                  <a href="avtor.html">Автор</a>
+              </li>
+          </ul>
+      </div>
+    </div> -->
+    <!-- Default switch --> -->
+    <label class="switch">
+    <input type="checkbox">
+    <span class="slider round"></span>
+    </label>
+
+    <label class="switch">
+    <input type="checkbox" checked>
+    <span class="slider round"></span>
+    </label>
   </div>
-  <div id="water">
-    <div id="topWater" class="top"></div>
-    <div id="rays">
-      <div class="ray1"></div>
-      <div class="ray2"></div>
-      <div class="ray3"></div>
+
+
+
+
+
+       <!-- <img src="stream.mjpg" width="640" height="480" /> -->
+       <div class="col-md-4">
+     <div id="TextBlock">
+ 	<p >2</p>
+ 	</div>
+     <input type="button" >Click</input>
+     <form name=test_form>
+ sqr(
+ <input type="text" name="test_text" value="0" size="4">
+ ) =
+ <span id="test_result">0</span>
+ <input type=button onClick="makePOST();" value="start" title="start">
+ </form>
+</div>
+<!-- second row -->
+<div class = "col-md-4">
+ <main>
+   <div id="sky">
+     <div class="sun"></div>
+     <div class="sunset"></div>
+     <div class="sunset_1"></div>
+   </div>
+   <div id="water">
+     <div id="topWater" class="top"></div>
+     <div id="rays">
+       <div class="ray1"></div>
+       <div class="ray2"></div>
+       <div class="ray3"></div>
+     </div>
+   </div>
+   <div class="bubl"></div>
+ </main>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div>
+    <canvas id="videoCanvas" width="640" height="480">
+    <p>
+      Please use a browser that supports the Canvas Element, like
+      <a href="http://www.google.com/chrome">Chrome</a>,
+      <a href="http://www.mozilla.com/firefox/">Firefox</a>,
+      <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
+    </p>
+    </canvas>
     </div>
   </div>
-  <div class="bubl"></div>
-</main>
+  <div class="col">
+    <div id="Humidity">
+ 	   <table style="width:50%">
+   <tr>
+ 	  <th></th>
+     <th>Температура повітря</th>
+     <th>Вологість %</th>
+   </tr>
+   <tr>
+     <td>Сотах</td>
+     <td id="sotTemp">0</td>
+     <td id="sotHum">0</td>
+   </tr>
+   <tr>
+     <td>Арена</td>
+     <td id="arenaTemp">0</td>
+     <td id="arenaHum">0</td>
+   </tr>
+ 	<tr>
+     <td>Кімната</td>
+     <td id="roomTemp">0</td>
+     <td id="roomHum">0</td>
+   </tr>
+ </table>
+        <table style="width:50%">
+   <tr>
+ 	  <th></th>
+     <th>Рівень води</th>
+   </tr>
+   <tr>
+     <td>Повна ємність</td>
+     <td id="waterLvlHigh">0</td>
+   </tr>
+   <tr>
+     <td>Напівзаповнена</td>
+     <td id="waterLvlMiddle">0</td>
+   </tr>
+ 	<tr>
+     <td>Вода майже закінчилася</td>
+     <td id="waterLvlLow">0</td>
+   </tr>
+ </table>
+    </div>
+  </div>
+</div>
+<!--
+    </div>
+    </div> -->
+<!-- </div>
+</div> -->
+<!-- </div> -->
    <!--<script type="text/javascript" src="jsmpg.js"></script>-->
+   <script src="bootstrap/js/bootstrap.min.js" ></script>
    <script type="text/javascript">
 		// Show loading notice
 		var canvas = document.getElementById('videoCanvas');
@@ -288,9 +197,9 @@ sqr(
 		ctx.fillText('Loading...', canvas.width/2-30, canvas.height/3);
 
 		// Setup the WebSocket connection and start the player
-		<!--var client = new WebSocket('ws://' + window.location.hostname + ':${WS_PORT}/');-->
-		<!--var player = new jsmpeg(client, {canvas:canvas});-->
+		/* <!--var client = new WebSocket('ws://' + window.location.hostname + ':${WS_PORT}/');--> */
+		/* <!--var player = new jsmpeg(client, {canvas:canvas});--> */
 	</script>
-	<script src="main.js" ></script>
+	<script src="js/main.js" ></script>
    </body>
 </html>
