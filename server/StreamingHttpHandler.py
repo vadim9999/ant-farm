@@ -3,7 +3,6 @@ import logging
 import socketserver
 from threading import Condition
 from http.server import HTTPServer, BaseHTTPRequestHandler
-import pymjpeg
 from glob import glob
 from os import curdir, sep
 from string import Template
@@ -35,7 +34,7 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
             print(self.path)
             if self.path == "/":
-                self.path = '/index.html'
+                self.path = 'templates/index.html'
 
             if self.path == '/sensors':
                 content_type = 'text/html; charset=utf-8'
