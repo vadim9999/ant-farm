@@ -1,0 +1,20 @@
+$background-color: #0f2027;
+$accent-color: #b3ffab;
+.gauge {
+	&-chart {
+		width: 20rem;
+	}
+	&-text {
+		text-anchor: middle;
+		fill: $accent-color;
+		font-weight: 400;
+		font-size: 75%;
+	}
+}
+
+.sotHum{
+  text-anchor: middle;
+  fill: $accent-color;
+  font-weight: 400;
+  font-size: 75%;
+}

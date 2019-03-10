@@ -3,11 +3,11 @@
    <head>
       <title>Мурашина ферма</title>
       <meta charset="utf-8">
-<!-- <meta name="viewport" content="width=${WIDTH}, initial-scale=1"/> -->
+      <meta name="viewport" content="width=${WIDTH}, initial-scale=1"/>
       <link rel="stylesheet" type="text/css" href="static/css/waterLevel.css">
       <link rel="stylesheet" type="text/css" href="static/css/main.css">
       <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
-
+      <link rel="stylesheet" type="text/css" href="static/css/humiditySensor.css">
 	<!-- <style type="text/css">
 		body {
 			background: ${BGCOLOR};
@@ -57,6 +57,26 @@
 <!-- <div id="wrapper">
 
     <div class="mainpage"> -->
+    <div class="row">
+      <div class="col-5">
+    <div class="gauge-chart">
+    	<svg viewBox="0 0 80 40" class="gauge">
+    		<circle  class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4" stroke-width="15"></circle>
+    		<circle id = "humidityCircle" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135" stroke-dashoffset="-100">
+    			<animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray' values= "${animationValues}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
+    		</circle>
+
+    		<text id="sotHum" x="25" y="39.5" >65</text>
+    	</svg>
+    	<p>super gauge chart 2</p>
+    </div>
+    </div>
+    <div class="col-1">
+
+      <img id="badge" width="640" height="480" />
+    </div>
+    </div>
+
    <div class="row">
     <div class="col-md-4">
       <!-- <div id="sidebar-wrapper">
@@ -100,7 +120,8 @@
  <input type="text" name="test_text" value="0" size="4">
  ) =
  <span id="test_result">0</span>
- <input type=button onClick="makePOST();" value="start" title="start">
+ <input type=button onClick="makePOSTStart();" value="start" title="start">
+  <input type=button onClick="makePOSTStop();" value="stop" title="stop">
  </form>
 </div>
 <!-- second row -->
@@ -126,14 +147,14 @@
 <div class="row">
   <div class="col">
     <div>
-    <canvas id="videoCanvas" width="640" height="480">
+    <!-- <canvas id="videoCanvas" width="640" height="480">
     <p>
       Please use a browser that supports the Canvas Element, like
       <a href="http://www.google.com/chrome">Chrome</a>,
       <a href="http://www.mozilla.com/firefox/">Firefox</a>,
       <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
     </p>
-    </canvas>
+    </canvas> -->
     </div>
   </div>
   <div class="col">
@@ -147,7 +168,7 @@
    <tr>
      <td>Сотах</td>
      <td id="sotTemp">0</td>
-     <td id="sotHum">0</td>
+     <td>0</td>
    </tr>
    <tr>
      <td>Арена</td>
@@ -181,6 +202,8 @@
     </div>
   </div>
 </div>
+
+
 <!--
     </div>
     </div> -->
@@ -189,17 +212,7 @@
 <!-- </div> -->
    <!--<script type="text/javascript" src="jsmpg.js"></script>-->
    <script src="static/bootstrap/js/bootstrap.min.js" ></script>
-   <script type="text/javascript">
-		// Show loading notice
-		var canvas = document.getElementById('videoCanvas');
-		var ctx = canvas.getContext('2d');
-		ctx.fillStyle = '${COLOR}';
-		ctx.fillText('Loading...', canvas.width/2-30, canvas.height/3);
 
-		// Setup the WebSocket connection and start the player
-		/* <!--var client = new WebSocket('ws://' + window.location.hostname + ':${WS_PORT}/');--> */
-		/* <!--var player = new jsmpeg(client, {canvas:canvas});--> */
-	</script>
 	<script src="static/js/main.js" ></script>
    </body>
 </html>

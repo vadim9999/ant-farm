@@ -9,6 +9,7 @@ from string import Template
 from wsgiref.simple_server import make_server
 from threading import Thread
 from ws4py.websocket import WebSocket
+import Cookie
 
 WIDTH = 640
 HEIGHT = 480
@@ -34,11 +35,12 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
             print(self.path)
             if self.path == "/":
+
                 self.path = 'templates/index.html'
 
             if self.path == '/sensors':
                 content_type = 'text/html; charset=utf-8'
-                content = str([[21,80],[22,70],[20,85],2])
+                content = str([[21,60],[22,70],[20,85],2])
                 content = content.encode('utf-8')
 
                 self.send_response(200)
@@ -54,8 +56,29 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 print("block try")
                 sendReply = False
                 if self.path.endswith(".html"):
+                    print('it is html ')
                     mimetype='text/html'
-                    sendReply = True
+                    content_type = 'text/html; charset=utf-8'
+                    with io.open(self.path, 'r') as f:
+                        index_template = f.read()
+
+                    tpl = Template(index_template)
+                    sotHum = 60
+
+                    values = ("0 200; {0:0} 180; {1} 150; {2} 135; {2} 135;".format(int(sotHum/3), int(sotHum/2), sotHum))
+                    print(values)
+                    content = tpl.safe_substitute(dict(
+                        WS_PORT=WS_PORT, WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR,
+                        BGCOLOR=BGCOLOR, animationValues = values))
+
+                    content = content.encode('utf-8')
+                    self.send_response(200)
+                    self.send_header('Content-Type', content_type)
+                    self.send_header('Content-Length', len(content))
+                    # self.send_header('Last-Modified', self.date_time_string(time()))
+                    self.end_headers()
+                    self.wfile.write(content)
+
                 if self.path.endswith(".jpg"):
                     mimetype='image/jpg'
                     sendReply = True
