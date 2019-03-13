@@ -38,7 +38,6 @@ YOUTUBE="rtmp://a.rtmp.youtube.com/live2/"
 KEY= "6kbh-kq1m-zbty-e4rt"
 
 class Streaming():
-    streaming = False
     connectedClients = 0
     startedRecording = False
     startedStream = False
@@ -48,13 +47,14 @@ class Streaming():
     width = 640
     height = 480
     deleteUsers = False
+    splitter_port = False
 
     def startCamera(self):
         self.camera = picamera.PiCamera(resolution=(self.width, self.height), framerate=24)
         self.output = StreamingOutput()
 
 # *********Preview***********
-    def streamPreview(self,selfed,user_Id):
+    def startPreview(self,selfed,user_Id):
         # ----------------------
         # cookie
         # C = http.cookies.SimpleCookie(selfed.headers["Cookie"])
@@ -80,7 +80,6 @@ class Streaming():
 
             # global streaming
             # streaming = True
-            self.streaming = True
             try:
                 print("try and below while")
                 while (user_Id != self.stoppedUserId):
@@ -120,20 +119,34 @@ class Streaming():
                     print("O users")
                     print(str(self.connectedClients))
                     self.startedRecording = False
-                    self.camera.stop_recording()
-                    self.camera.close()
+                    if self.splitter_port == True:
+                        self.camera.stop_recording(splitter_port=2)
+                        self.splitter_port = False
+                    else:
+                        self.camera.stop_recording()
+                        self.camera.close()
+
         else:
             selfed.send_response(200)
             selfed.end_headers()
 
     def startRecording(self):
+        if self.startedStream == True:
+            self.splitter_port = True
+            
+        if self.splitter_port == True:
+            print("______splitter_port = true_____")
+            self.camera.start_recording(self.output, splitter_port=2, format = 'mjpeg')
+            print("________started recording_______")
+            self.startedRecording = True
+        else:
+            if(self.startedRecording == False):
+                self.startCamera()
+                self.camera.start_recording(self.output, format='mjpeg')
+                self.startedRecording = True
         print("StartedRecording")
         print(self.startedRecording)
-        if(self.startedRecording == False):
-            self.startCamera()
-            self.camera.start_recording(self.output, format='mjpeg')
-            self.startedRecording = True
-            self.streaming = True
+
 
     def stopRecording(self,userID = 0, stopPreviewAllUsers = False):
         if(stopPreviewAllUsers == True):
@@ -171,15 +184,13 @@ class Streaming():
                 self.client_address, str(e))
         finally:
             print("____Block finally___")
-            if self.startedRecording == True:
-                print("_______Finally camera started was started recording ")
-                self.camera.stop_recording(splitter_port=2)
             print("____Stopping camera___")
             self.camera.stop_recording()
             print("___Stopped recording_____")
             self.camera.close()
             print("_____camera was closed_____")
             os.killpg(os.getpgid(self.stream_pipe.pid), signal.SIGTERM)
+            self.startedStream = False
             # self.stream_pipe.stdin.kill()
             # os.kill(self.stream_pipe, signal.SIGKILL)
 #             pid = self.stream_pipe.pid
@@ -200,7 +211,7 @@ class Streaming():
             # print("___waiting to close pipe____")
             print("Done")
 
-    def startStream(self):
+    def startStream(self, userID = 0):
         stream_cmd = 'ffmpeg -f h264 -r 25 -i - -itsoffset 5.5 -fflags nobuffer -f lavfi -i anullsrc -c:v copy -c:a aac -strict experimental -f flv ' + YOUTUBE + KEY
         self.stream_pipe = subprocess.Popen(stream_cmd, shell=True, stdin=subprocess.PIPE, preexec_fn=os.setsid)
         print("_____setting pipe_____")
@@ -211,9 +222,12 @@ class Streaming():
         self.camera.hflip = True
         print("______After Settingup___")
         self.camera.start_recording(self.stream_pipe.stdin, format='h264', bitrate = 20000000)
+
         print("__________AfterStartRecording")
         self.startedStream = True
         self.startRecordingStream()
+
+        # self.startPreview(selfed, userID)
 
     def stopStream(self):
         print("___________StopStream_______________")

@@ -1,4 +1,4 @@
-document.getElementById("TextBlock").innerHTML = 100;
+// document.getElementById("TextBlock").innerHTML = 100;
 
 
 loadDoc();
@@ -80,6 +80,21 @@ function loadDoc(){
   xhttp.send();
 }
 
+function test(){
+  console.log("_____test______");
+  userId = getUrlParam('id', 'Empty')
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+      if(this.readyState == 4) {
+        console.log("TEST");
+        // console.log(this.responseText);
+      }
+    }
+    xhttp.open("POST","/test?id=" + userId, true);
+    xhttp.send(12);
+}
+
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -96,7 +111,9 @@ function getUrlParam(parameter, defaultvalue){
     return urlparameter;
 }
 
-function StopPreview(){
+// -------preview---------
+
+function stopPreview(){
 userId = getUrlParam('id', 'Empty')
   var xhttp = new XMLHttpRequest();
 
@@ -110,43 +127,7 @@ userId = getUrlParam('id', 'Empty')
   xhttp.send(12);
 }
 
-function StartStream(){
-  userId = getUrlParam('id', 'Empty')
-  var xhttp = new XMLHttpRequest();
-
-  xhttp.onreadystatechange
-  = function() {
-    if(this.readyState == 4) {
-
-      console.log("POST");
-      console.log(this.responseText);
-
-    }
-  }
-  xhttp.open("POST","/start_stream?id=" + userId, true);
-  xhttp.send(12);
-
-}
-
-function StopStream(){
-  userId = getUrlParam('id', 'Empty')
-  var xhttp = new XMLHttpRequest();
-
-  xhttp.onreadystatechange
-  = function() {
-    if(this.readyState == 4) {
-
-      console.log("POST");
-      console.log(this.responseText);
-
-    }
-  }
-  xhttp.open("POST","/stop_stream?id=" + userId, true);
-  xhttp.send(12);
-
-}
-
-function StartPreview(){
+function startPreview(){
   userId = getUrlParam('id', 'Empty')
   var xhttp = new XMLHttpRequest();
   streamUrl =location.protocol + "//" + location.host + "/stream.mjpg?id=" + userId;
@@ -155,9 +136,8 @@ function StartPreview(){
   xhttp.onreadystatechange = function() {
     if(this.readyState == 4) {
 
-      console.log("POST");
+      console.log("POST /start _____");
       console.log(this.responseText);
-      console.log(document.getElementById('badge').src)
       document.getElementById('badge').src = streamUrl;
     }
   }
@@ -165,3 +145,57 @@ function StartPreview(){
   xhttp.send(12);
 
 }
+
+// -------------------
+
+// ----------stream-------------
+function startStream(){
+  userId = getUrlParam('id', 'Empty')
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange
+  = function() {
+    if(this.readyState == 4) {
+      console.log("POST /start_stream");
+      console.log(this.responseText);
+    }
+  }
+  xhttp.open("POST","/start_stream?id=" + userId, true);
+  xhttp.send(33);
+  waitStartPreview()
+}
+
+function stopStream(){
+  userId = getUrlParam('id', 'Empty')
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange
+  = function() {
+    if(this.readyState == 4) {
+      console.log("POST /stop_stream");
+      console.log(this.responseText);
+    }
+  }
+  xhttp.open("POST","/stop_stream?id=" + userId, true);
+  xhttp.send(12);
+
+}
+
+function waitStartPreview(){
+  userId = getUrlParam('id', 'Empty')
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange
+  = function() {
+    if(this.readyState == 4) {
+      console.log("POST /wait_start_preview");
+      console.log(this.responseText);
+      startPreview()
+    }
+  }
+  xhttp.open("POST","/wait_start_preview?id=" + userId, true);
+  xhttp.send(22);
+}
+
+
+// ---------------------

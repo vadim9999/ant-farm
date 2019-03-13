@@ -2,8 +2,7 @@
 <html>
    <head>
       <title>Мурашина ферма</title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=${WIDTH}, initial-scale=1"/>
+      <meta charset="utf-8" name="viewport" content="width=${WIDTH}, initial-scale=1"/>
       <link rel="stylesheet" type="text/css" href="static/css/waterLevel.css">
       <link rel="stylesheet" type="text/css" href="static/css/main.css">
       <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
@@ -115,16 +114,17 @@
  	<p >2</p>
  	</div>
      <input type="button" >Click</input>
+
      <form name=test_form>
  sqr(
  <input type="text" name="test_text" value="0" size="4">
  ) =
  <span id="test_result">0</span>
- <input type=button onClick="StartPreview();" value="startPreview" title="Почати перегляд">
- <input type=button onClick="StopPreview();" value="stopPreview" title="Зупинити перегляд">
- <input type=button onClick="StartStream();" value="Почати трансляцію" title="Почати трансляцію">
- <input type=button onClick="StopStream();" value="stopStream" title="Зупинити трансляцію">
-
+ <input type=button onClick="startPreview();" value="startPreview" title="Почати перегляд" />
+ <input type=button onClick="stopPreview();" value="stopPreview" title="Зупинити перегляд">
+ <input type=button onClick="startStream();" value="Почати трансляцію" title="Почати трансляцію">
+ <input type=button onClick="stopStream();" value="stopStream" title="Зупинити трансляцію">
+ <input type=button onClick="test();" value="test" title="test">
  </form>
 </div>
 <!-- second row -->

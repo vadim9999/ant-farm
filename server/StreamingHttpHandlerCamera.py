@@ -52,6 +52,11 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
         if len(query) != 0:
             userId = int(query["id"])
             print(query["id"])
+        if self.path == '/test':
+            # self.send_response(200)
+            # self.end_headers()
+            print(self.rfile.read(int(self.headers['Content-Length'])))
+            self.wfile.write("hello".encode('utf-8'))
 
         if self.path == "/start":
             self.send_response(200)
@@ -87,20 +92,37 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             print(self.rfile.read(int(self.headers['Content-Length'])))
             self.wfile.write("hello".encode('utf-8'))
 
-        if self.path == '/start_stream':
-            print("_______start_stream")
-            print("UserId")
-            print(userId)
-            self.stream.stopRecording(stopPreviewAllUsers = True)
-            print("_________After Stopping recording_________")
-            self.stream.startStream()
+        if self.path == '/wait_start_preview':
+            self.send_response(200)
+            self.end_headers()
+            while True:
+                if self.stream.startedStream == True:
+                    break
+                sleep(1)
             print(self.rfile.read(int(self.headers['Content-Length'])))
             self.wfile.write("hello".encode('utf-8'))
 
-        if self.path == "/stop_stream":
-            print("_________________Stop stream____")
-            self.stream.stopStream()
+        if self.path == '/start_stream':
+            self.send_response(200)
+            self.end_headers()
+            print("_______start_stream")
+            print("UserId")
+            print(userId)
+            print(self.rfile.read(int(self.headers['Content-Length'])))
+            self.wfile.write("hello".encode('utf-8'))
+            self.stream.stopRecording(stopPreviewAllUsers = True)
+            print("_________After Stopping recording_________")
+            self.stream.startStream(userID = userId)
 
+
+        if self.path == "/stop_stream":
+            self.send_response(200)
+            self.end_headers()
+            print("_________________Stop stream____")
+            self.stream.stopRecording(stopPreviewAllUsers = True)
+            self.stream.stopStream()
+            print(self.rfile.read(int(self.headers['Content-Length'])))
+            self.wfile.write("hello".encode('utf-8'))
 
 
 
@@ -153,7 +175,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     print("*************/stream.mjpg")
                     if userId != 0:
                         print("UserId in stream/mjpg")
-                        self.stream.streamPreview(self, userId)
+                        self.stream.startPreview(self, userId)
 
 
 
