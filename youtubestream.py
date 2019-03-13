@@ -1,8 +1,8 @@
 import subprocess
 import picamera
 import time
-YOUTUBE="rtmp://b.rtmp.youtube.com/live2/"
-KEY= "gv72-kf7z-ga1g-caqu"
+YOUTUBE="rtmp://a.rtmp.youtube.com/live2/"
+KEY= "6kbh-kq1m-zbty-e4rt"
 stream_cmd = 'ffmpeg -f h264 -r 25 -i - -itsoffset 5.5 -fflags nobuffer -f lavfi -i anullsrc -c:v copy -c:a aac -strict experimental -f flv ' + YOUTUBE + KEY
 
 stream_pipe = subprocess.Popen(stream_cmd, shell=True, stdin=subprocess.PIPE)

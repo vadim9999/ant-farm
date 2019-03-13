@@ -14,6 +14,7 @@ from time import sleep, time
 import http.cookies
 import urllib.parse as urlparse
 from urllib.parse import urlencode
+from .Streaming import Streaming
 
 WIDTH = 640
 HEIGHT = 480
@@ -23,113 +24,10 @@ WS_PORT = 8084
 COLOR = u'#444'
 BGCOLOR = u'#FFFFFF'
 
-class StreamingOutput(object):
-    def __init__(self):
-        self.frame = None
-        self.buffer = io.BytesIO()
-        self.condition = Condition()
 
-    def write(self, buf):
-        if buf.startswith(b'\xff\xd8'):
-            # New frame, copy the existing buffer's content and notify all
-            # clients it's available
-            self.buffer.truncate()
-            with self.condition:
-                self.frame = self.buffer.getvalue()
-                self.condition.notify_all()
-            self.buffer.seek(0)
-        return self.buffer.write(buf)
 
 # streaming = False
 # connectedClients = 0
-class Streaming():
-    streaming = False
-    connectedClients = 0
-    startedRecording = False
-    counter = 0
-    users = []
-    stoppedUserId = 0
-    def stopRecording(self,userID):
-        self.stoppedUserId = userID
-
-    def sendFromStream(self, selfed):
-        selfed.send_response(304)
-
-    def startRecording(self):
-        print("StartedRecording")
-        print(self.startedRecording)
-        if(self.startedRecording == False):
-            self.camera = picamera.PiCamera(resolution='640x480', framerate=24)
-            self.output = StreamingOutput()
-            self.camera.start_recording(self.output, format='mjpeg')
-            self.startedRecording = True
-            self.streaming = True
-
-    def streamPreview(self,selfed):
-        C = http.cookies.SimpleCookie(selfed.headers["Cookie"])
-        userId = C['user_id'].value
-        print(userId)
-        # global connectedClients
-        if(self.startedRecording == True):
-            selfed.send_response(200)
-            selfed.send_header('Age', 0)
-            selfed.send_header('Cache-Control', 'no-cache, private')
-            selfed.send_header('Pragma', 'no-cache')
-            selfed.send_header('Content-Type', 'multipart/x-mixed-replace; boundary=FRAME')
-            selfed.end_headers()
-            sleep(1)
-            self.camera.wait_recording(1)
-
-            self.connectedClients = self.connectedClients + 1
-            print("users")
-            print(str(self.connectedClients))
-
-            # global streaming
-            # streaming = True
-            self.streaming = True
-            try:
-                print("try and below while")
-                while (userId != self.stoppedUserId):
-                    try:
-                        with self.output.condition:
-                            self.output.condition.wait()
-                            frame = self.output.frame
-                    except Exception as e:
-                        print("!!!!exception " + str(e))
-
-                    selfed.wfile.write(b'--FRAME\r\n')
-                    selfed.send_header('Content-Type', 'image/jpeg')
-                    selfed.send_header('Content-Length', len(frame))
-                    selfed.end_headers()
-                    selfed.wfile.write(frame)
-                    selfed.wfile.write(b'\r\n')
-                self.stoppedUserId = 0
-                self.connectedClients = self.connectedClients - 1
-
-                print("******continue execute code")
-                selfed.wfile.write(b'--FRAME\r\n')
-                selfed.send_header('Content-Type', 'image/jpeg')
-                selfed.send_header('Content-Length', len(b''))
-                selfed.end_headers()
-                selfed.wfile.write(b'')
-                selfed.wfile.write(b'\r\n')
-
-            except Exception as e:
-                self.connectedClients = self.connectedClients - 1
-                logging.warning(
-                    'Removed streaming client %s: %s',
-                    selfed.client_address, str(e))
-            finally:
-                print("Stopping camera")
-                if (self.connectedClients == 0):
-                    print("O users")
-                    print(str(self.connectedClients))
-                    self.startedRecording = False
-                    self.camera.stop_recording()
-                    self.camera.close()
-        else:
-            selfed.send_response(200)
-            selfed.end_headers()
 
 
 class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
@@ -147,6 +45,14 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
         self.do_GET()
 
     def do_POST(self):
+        url_parts = list(urlparse.urlparse(self.path))
+        self.path = url_parts[2]
+        query = dict(urlparse.parse_qsl(url_parts[4]))
+        userId = 0
+        if len(query) != 0:
+            userId = int(query["id"])
+            print(query["id"])
+
         if self.path == "/start":
             self.send_response(200)
             self.end_headers()
@@ -156,7 +62,9 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             # self.stopStreaming()
 
             # uncoment this code
-            # self.stream.startRecording()
+            # @TODO add video resolution
+
+            self.stream.startRecording()
 
             print(self.rfile.read(int(self.headers['Content-Length'])))
             self.wfile.write("hello".encode('utf-8'))
@@ -168,29 +76,63 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             # if(connectedClients == 0):
             # self.stream.startRecording()
             # self.stopStreaming()
-
-            C = http.cookies.SimpleCookie(self.headers["Cookie"])
-            print(C['user_id'].value)
-            self.stream.stopRecording(C['user_id'].value)
-            
+            # -------------------------------
+            # cookies
+            # C = http.cookies.SimpleCookie(self.headers["Cookie"])
+            # print(C['user_id'].value)
+            # self.stream.stopRecording(C['user_id'].value)
+            # --------------------------------
+            if(userId != 0):
+                self.stream.stopRecording(userID = userId)
             print(self.rfile.read(int(self.headers['Content-Length'])))
             self.wfile.write("hello".encode('utf-8'))
+
+        if self.path == '/start_stream':
+            print("_______start_stream")
+            print("UserId")
+            print(userId)
+            self.stream.stopRecording(stopPreviewAllUsers = True)
+            print("_________After Stopping recording_________")
+            self.stream.startStream()
+            print(self.rfile.read(int(self.headers['Content-Length'])))
+            self.wfile.write("hello".encode('utf-8'))
+
+        if self.path == "/stop_stream":
+            print("_________________Stop stream____")
+            self.stream.stopStream()
+
+
+
 
 
     #Handler for the GET requests
     def do_GET(self):
             if self.path == '/':
                 self.send_response(301)
-                # self.stream.counter = self.stream.counter + 1
-
-                self.send_header('Location', '/index.html?id=3')
+                self.stream.counter = self.stream.counter + 1
+                print("_________counter_____________")
+                print(self.stream.counter)
+                self.send_header('Location', '/index.html?id='+str(self.stream.counter))
                 self.end_headers()
                 return
+            elif self.path == '/sensors':
+                content_type = 'text/html; charset=utf-8'
+                content = str([[21,60],[22,70],[20,85],2])
+                content = content.encode('utf-8')
+
+                self.send_response(200)
+                self.send_header('Content-Type', content_type)
+                self.send_header('Content-Length', len(content))
+                # @TODO add last modified
+                self.end_headers()
+                self.wfile.write(content)
             else:
                 url_parts = list(urlparse.urlparse(self.path))
                 self.path = url_parts[2]
                 query = dict(urlparse.parse_qsl(url_parts[4]))
+                userId = 0
                 if len(query) != 0:
+                    userId = int(query["id"])
                     print(query["id"])
 
                 if self.path == "/index.html":
@@ -203,24 +145,17 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     self.send_response(200)
                     self.streaming = False
 
-                if self.path == '/sensors':
-                    content_type = 'text/html; charset=utf-8'
-                    content = str([[21,60],[22,70],[20,85],2])
-                    content = content.encode('utf-8')
 
-                    self.send_response(200)
-                    self.send_header('Content-Type', content_type)
-                    self.send_header('Content-Length', len(content))
-                    # @TODO add last modified
-                    self.end_headers()
-                    self.wfile.write(content)
                 if self.path == '/test':
                     self.stream.sendFromStream(self)
 
                 if self.path == '/stream.mjpg':
                     print("*************/stream.mjpg")
+                    if userId != 0:
+                        print("UserId in stream/mjpg")
+                        self.stream.streamPreview(self, userId)
 
-                    # self.stream.streamPreview(self)
+
 
                     # self.wfile.write(b'--FRAME\r\n')
                     # self.send_header('Content-Type', 'image/jpeg')

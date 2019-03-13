@@ -80,9 +80,77 @@ function loadDoc(){
   xhttp.send();
 }
 
-function makePOSTStart(){
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
 
+function getUrlParam(parameter, defaultvalue){
+    var urlparameter = defaultvalue;
+    if(window.location.href.indexOf(parameter) > -1){
+        urlparameter = getUrlVars()[parameter];
+        }
+    return urlparameter;
+}
+
+function StopPreview(){
+userId = getUrlParam('id', 'Empty')
   var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() {
+    if(this.readyState == 4) {
+      console.log("POST");
+      console.log(this.responseText);
+    }
+  }
+  xhttp.open("POST","/stop?id=" + userId, true);
+  xhttp.send(12);
+}
+
+function StartStream(){
+  userId = getUrlParam('id', 'Empty')
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange
+  = function() {
+    if(this.readyState == 4) {
+
+      console.log("POST");
+      console.log(this.responseText);
+
+    }
+  }
+  xhttp.open("POST","/start_stream?id=" + userId, true);
+  xhttp.send(12);
+
+}
+
+function StopStream(){
+  userId = getUrlParam('id', 'Empty')
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange
+  = function() {
+    if(this.readyState == 4) {
+
+      console.log("POST");
+      console.log(this.responseText);
+
+    }
+  }
+  xhttp.open("POST","/stop_stream?id=" + userId, true);
+  xhttp.send(12);
+
+}
+
+function StartPreview(){
+  userId = getUrlParam('id', 'Empty')
+  var xhttp = new XMLHttpRequest();
+  streamUrl =location.protocol + "//" + location.host + "/stream.mjpg?id=" + userId;
+  console.log(streamUrl);
 
   xhttp.onreadystatechange = function() {
     if(this.readyState == 4) {
@@ -90,24 +158,10 @@ function makePOSTStart(){
       console.log("POST");
       console.log(this.responseText);
       console.log(document.getElementById('badge').src)
-      document.getElementById('badge').src = "http://192.168.1.37:8002/stream.mjpg";
+      document.getElementById('badge').src = streamUrl;
     }
   }
-  xhttp.open("POST","/start", true);
+  xhttp.open("POST","/start?id=" + userId, true);
   xhttp.send(12);
 
-}
-
-function makePOSTStop(){
-
-  var xhttp = new XMLHttpRequest();
-
-  xhttp.onreadystatechange = function() {
-    if(this.readyState == 4) {
-      console.log("POST");
-      console.log(this.responseText);
-    }
-  }
-  xhttp.open("POST","/stop", true);
-  xhttp.send(12);
 }
