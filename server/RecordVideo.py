@@ -21,9 +21,17 @@ import signal
 class RecordVideo():
     height 480
     width 640
-
+    startedRecord = False
     def setVideoResolution(self, height, width):
         self.height = height
         self.width = width
 
-    def startRecord(self, filename = "video"):
+    def startRecord(self, filename, startedRecording, camera):
+        if startedRecording == True:
+            try:
+                print("_________start_recording video")
+                camera.start_recording(filename + ".h264", splitter_port=2)
+                while self.startedRecord == True:
+                    camera.wait_recording(1)
+                print("____Executing after record")
+                    
