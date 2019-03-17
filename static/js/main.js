@@ -197,5 +197,41 @@ function waitStartPreview(){
   xhttp.send(22);
 }
 
-
 // ---------------------
+// ---------Record----------
+function startRecord(){
+  console.log("starting recording");
+  document.getElementById("stop-record").removeAttribute("disabled")
+  document.getElementById("start-record").disabled = "true"
+  console.log(document.getElementById("start-record-input").value)
+  userId = getUrlParam('id', 'Empty')
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange
+  = function() {
+    if(this.readyState == 4) {
+      console.log("POST /start_record");
+      console.log(this.responseText);
+    }
+  }
+  xhttp.open("POST","/start_record?id=" + userId, true);
+  xhttp.send(33);
+}
+
+function stopRecord(){
+  document.getElementById("start-record").removeAttribute("disabled")
+  document.getElementById("stop-record").disabled = "true"
+  userId = getUrlParam('id', 'Empty')
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange
+  = function() {
+    if(this.readyState == 4) {
+      console.log("POST /stop_record");
+      console.log(this.responseText);
+    }
+  }
+  xhttp.open("POST","/stop_record?id=" + userId, true);
+  xhttp.send(33);
+}
+// -----------------------

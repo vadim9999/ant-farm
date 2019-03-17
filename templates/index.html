@@ -126,6 +126,13 @@
  <input type=button onClick="stopStream();" value="stopStream" title="Зупинити трансляцію">
  <input type=button onClick="test();" value="test" title="test">
  </form>
+
+ <div class="input-group">
+ <input id=start-record-input type="text" class="form-control" placeholder="Ім'я файлу"  aria-describedby="button-addon4">
+ <div class="input-group-append" id="button-addon4">
+   <button id="start-record"  class="btn btn-outline-primary" type="button" onclick="startRecord()">Почати запис</button>
+   <button id="stop-record" class="btn btn-outline-primary" type="button" onclick="stopRecord()">Зупинити запис</button>
+ </div>
 </div>
 <!-- second row -->
 <div class = "col-md-4">

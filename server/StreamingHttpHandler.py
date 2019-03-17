@@ -9,7 +9,11 @@ from string import Template
 from wsgiref.simple_server import make_server
 from threading import Thread
 from ws4py.websocket import WebSocket
-import Cookie
+from time import sleep, time
+import http.cookies
+import urllib.parse as urlparse
+from urllib.parse import urlencode
+
 
 WIDTH = 640
 HEIGHT = 480
@@ -20,25 +24,104 @@ COLOR = u'#444'
 BGCOLOR = u'#FFFFFF'
 
 
+
+# streaming = False
+# connectedClients = 0
+
+counter = 0
 class StreamingHttpHandler(BaseHTTPRequestHandler):
+
+    # def startRecording(self):
+    #     print("Start Recording")
+    #     self.camera = picamera.PiCamera(resolution='640x480', framerate=24)
+
+    # def stopStreaming(self):
+    #     global streaming
+    #     streaming = False
 
     def do_HEAD(self):
         self.do_GET()
 
     def do_POST(self):
-        self.send_response(200)
-        self.end_headers()
-        print(self.rfile.read(int(self.headers['Content-Length'])))
-        self.wfile.write("hello".encode('utf-8'))
+        url_parts = list(urlparse.urlparse(self.path))
+        self.path = url_parts[2]
+        query = dict(urlparse.parse_qsl(url_parts[4]))
+        userId = 0
+        if len(query) != 0:
+            userId = int(query["id"])
+            print(query["id"])
+        if self.path == '/test':
+            # self.send_response(200)
+            # self.end_headers()
+            print(self.rfile.read(int(self.headers['Content-Length'])))
+            self.wfile.write("hello".encode('utf-8'))
+
+        if self.path == "/start":
+            self.send_response(200)
+            self.end_headers()
+            # global connectedClients
+            # if(connectedClients == 0):
+            # self.stream.startRecording()
+            # self.stopStreaming()
+
+            # uncoment this code
+            # @TODO add video resolution
+
+            print(self.rfile.read(int(self.headers['Content-Length'])))
+            self.wfile.write("hello".encode('utf-8'))
+
+        if self.path == "/stop":
+            self.send_response(200)
+            self.end_headers()
+            # global connectedClients
+            # if(connectedClients == 0):
+            # self.stream.startRecording()
+            # self.stopStreaming()
+            # -------------------------------
+            # cookies
+            # C = http.cookies.SimpleCookie(self.headers["Cookie"])
+            # print(C['user_id'].value)
+            # self.stream.stopRecording(C['user_id'].value)
+            # --------------------------------
+            print(self.rfile.read(int(self.headers['Content-Length'])))
+            self.wfile.write("hello".encode('utf-8'))
+
+        if self.path == '/wait_start_preview':
+            self.send_response(200)
+            self.end_headers()
+
+            print(self.rfile.read(int(self.headers['Content-Length'])))
+            self.wfile.write("hello".encode('utf-8'))
+
+        if self.path == '/start_stream':
+            self.send_response(200)
+            self.end_headers()
+            print("_______start_stream")
+            print("UserId")
+            print(userId)
+            print(self.rfile.read(int(self.headers['Content-Length'])))
+            self.wfile.write("hello".encode('utf-8'))
+            print("_________After Stopping recording_________")
+
+
+        if self.path == "/stop_stream":
+            self.send_response(200)
+            self.end_headers()
+            print("_________________Stop stream____")
+            print(self.rfile.read(int(self.headers['Content-Length'])))
+            self.wfile.write("hello".encode('utf-8'))
 
     #Handler for the GET requests
     def do_GET(self):
-            print(self.path)
-            if self.path == "/":
-
-                self.path = 'templates/index.html'
-
-            if self.path == '/sensors':
+            if self.path == '/':
+                self.send_response(301)
+                global counter
+                counter = counter + 1
+                print("_________counter_____________")
+                self.send_header('Location', '/index.html?id='+str(counter))
+                self.end_headers()
+                return
+            elif self.path == '/sensors':
                 content_type = 'text/html; charset=utf-8'
                 content = str([[21,60],[22,70],[20,85],2])
                 content = content.encode('utf-8')
@@ -49,69 +132,115 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 # @TODO add last modified
                 self.end_headers()
                 self.wfile.write(content)
+            else:
+                url_parts = list(urlparse.urlparse(self.path))
+                self.path = url_parts[2]
+                query = dict(urlparse.parse_qsl(url_parts[4]))
+                userId = 0
+                if len(query) != 0:
+                    userId = int(query["id"])
+                    print(query["id"])
 
-            try:
-                #Check the file extension required and
-                #set the right mime type
-                print("block try")
-                sendReply = False
-                if self.path.endswith(".html"):
-                    print('it is html ')
-                    mimetype='text/html'
-                    content_type = 'text/html; charset=utf-8'
-                    with io.open(self.path, 'r') as f:
-                        index_template = f.read()
+                if self.path == "/index.html":
+                    self.path = 'templates/index.html'
 
-                    tpl = Template(index_template)
-                    sotHum = 60
+                if self.path == "/ok":
+                    self.path = 'templates/ok.html'
 
-                    values = ("0 200; {0:0} 180; {1} 150; {2} 135; {2} 135;".format(int(sotHum/3), int(sotHum/2), sotHum))
-                    print(values)
-                    content = tpl.safe_substitute(dict(
-                        WS_PORT=WS_PORT, WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR,
-                        BGCOLOR=BGCOLOR, animationValues = values))
-
-                    content = content.encode('utf-8')
+                if self.path == "/stop":
                     self.send_response(200)
-                    self.send_header('Content-Type', content_type)
-                    self.send_header('Content-Length', len(content))
-                    # self.send_header('Last-Modified', self.date_time_string(time()))
-                    self.end_headers()
-                    self.wfile.write(content)
 
-                if self.path.endswith(".jpg"):
-                    mimetype='image/jpg'
-                    sendReply = True
-                if self.path.endswith(".gif"):
-                    mimetype='image/gif'
-                    sendReply = True
-                if self.path.endswith(".js"):
-                    mimetype='application/javascript'
-                    sendReply = True
-                if self.path.endswith("min.js.map"):
-                    mimetype='application/javascript'
-                    sendReply = True
-                if self.path.endswith(".css"):
-                    mimetype='text/css'
-                    sendReply = True
-                if self.path.endswith("min.css.map"):
-                    mimetype='text/css'
-                    sendReply = True
-                if self.path.endswith(".png"):
-                        mimetype='text/png'
+
+                if self.path == '/stream.mjpg':
+                    print("*************/stream.mjpg")
+                    if userId != 0:
+                        print("UserId in stream/mjpg")
+
+
+
+
+                    # self.wfile.write(b'--FRAME\r\n')
+                    # self.send_header('Content-Type', 'image/jpeg')
+                    # self.send_header('Content-Length', len(b'12'))
+                    # self.end_headers()
+                    # self.wfile.write(b'12')
+                    # self.wfile.write(b'\r\n')
+
+                        # if (self.connectedClients == 0 ):
+
+                            # self.camera.start_recording(self.output, format='mjpeg')
+                try:
+                    #Check the file extension required and
+                    #set the right mime type
+                    sendReply = False
+                    if self.path.endswith(".html"):
+                        print('it is html ')
+                        mimetype='text/html'
+                        content_type = 'text/html; charset=utf-8'
+                        with io.open(self.path, 'r') as f:
+                            index_template = f.read()
+
+                        tpl = Template(index_template)
+                        sotHum = 60
+
+                        values = ("0 200; {0:0} 180; {1} 150; {2} 135; {2} 135;".format(int(sotHum/3), int(sotHum/2), sotHum))
+                        print(values)
+                        content = tpl.safe_substitute(dict(
+                            WS_PORT=WS_PORT, WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR,
+                            BGCOLOR=BGCOLOR, animationValues = values))
+
+                        content = content.encode('utf-8')
+                        self.send_response(200)
+                        self.send_header('Content-Type', content_type)
+                        self.send_header('Content-Length', len(content))
+                        # -------------------------------
+                        # cookies
+                        # cookie = http.cookies.SimpleCookie()
+                        # self.stream.counter = self.stream.counter + 1
+                        # # users.append(stream.counter)
+                        # cookie['user_id'] = str(self.stream.counter)
+                        #
+                        # self.send_header("Set-Cookie", cookie.output(header='', sep=''))
+                        # --------------------------------------------------------
+                        # self.send_header('Last-Modified', self.date_time_string(time()))
+                        self.end_headers()
+                        self.wfile.write(content)
+
+                    if self.path.endswith(".jpg"):
+                        mimetype='image/jpg'
                         sendReply = True
+                    if self.path.endswith(".gif"):
+                        mimetype='image/gif'
+                        sendReply = True
+                    if self.path.endswith(".js"):
+                        mimetype='application/javascript'
+                        sendReply = True
+                    if self.path.endswith("min.js.map"):
+                        mimetype='application/javascript'
+                        sendReply = True
+                    if self.path.endswith(".css"):
+                        mimetype='text/css'
+                        sendReply = True
+                    if self.path.endswith("min.css.map"):
+                        mimetype='text/css'
+                        sendReply = True
+                    if self.path.endswith(".png"):
+                            mimetype='text/png'
+                            sendReply = True
 
-                if sendReply == True:
-                    f = open(curdir + sep + self.path, 'rb')
-                    self.send_response(200)
-                    self.send_header('Content-type',mimetype)
-                    self.end_headers()
-                    self.wfile.write(f.read())
-                    f.close()
-                return
+                    if sendReply == True:
+                        f = open(curdir + sep + self.path, 'rb')
+                        self.send_response(200)
+                        self.send_header('Content-type',mimetype)
+                        self.end_headers()
+                        self.wfile.write(f.read())
+                        f.close()
+                    return
 
-            except IOError as ex:
-                self.send_error(404,'File Not Found: %s' % self.path)
+                except IOError as ex:
+                    self.send_error(404,'File Not Found: %s' % self.path)
+
+
 
 # class StreamingHttpServer():
 #     def startServer(self):
