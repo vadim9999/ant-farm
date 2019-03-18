@@ -50,8 +50,12 @@ class Streaming():
     splitter_port = False
 
     # getters and setters
-    def isStartedPreview():
+    def isStartedPreview(self):
         return self.startedPreview
+    def test(self):
+        return "In test streaming"
+    def getCamera(self):
+        return self.camera
     # ------------------
     def startCamera(self):
         self.camera = picamera.PiCamera(resolution=(self.width, self.height), framerate=24)

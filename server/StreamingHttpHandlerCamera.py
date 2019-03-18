@@ -15,6 +15,7 @@ import http.cookies
 import urllib.parse as urlparse
 from urllib.parse import urlencode
 from .Streaming import Streaming
+from .RecordVideo import RecordVideo
 
 WIDTH = 640
 HEIGHT = 480
@@ -32,7 +33,7 @@ BGCOLOR = u'#FFFFFF'
 
 class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
     stream = Streaming()
-
+    recordVideo = RecordVideo()
     # def startRecording(self):
     #     print("Start Recording")
     #     self.camera = picamera.PiCamera(resolution='640x480', framerate=24)
@@ -129,9 +130,15 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             self.send_response(200)
             self.end_headers()
             print("_____start_recording_video____")
-            print(self.rfile.read(int(self.headers['Content-Length'])))
+
+            # self.recordVideo.test()
+
+            # print(self.rfile.read(int(self.headers['Content-Length'])))
             filename = self.rfile.read(int(self.headers['Content-Length']))
-            self.recordVideo.startRecord(filename,True,self.camera)
+            # print(self.stream.test())
+            camera = self.stream.getCamera()
+            print(str(filename))
+            self.recordVideo.startRecording(str(filename), True, camera)
             self.wfile.write("ok".encode('utf-8'))
 
         if self.path == "/stop_record":
@@ -139,7 +146,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             self.end_headers()
             print("_____stop_recording_video____")
             print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.recordVideo.stopRecord()
+            self.recordVideo.stopRecording()
             self.wfile.write("ok".encode('utf-8'))
         # -------------------------------------
 
@@ -178,8 +185,8 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                 if self.path == "/index.html":
                     self.path = 'templates/index.html'
 
-                if self.path == "/ok":
-                    self.path = 'templates/ok.html'
+                if self.path == "/video":
+                    self.path = '/video.h264'
 
                 if self.path == "/stop":
                     self.send_response(200)
@@ -263,6 +270,9 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                         mimetype='text/css'
                         sendReply = True
                     if self.path.endswith(".png"):
+                            mimetype='text/png'
+                            sendReply = True
+                    if self.path.endswith(".h264"):
                             mimetype='text/png'
                             sendReply = True
 

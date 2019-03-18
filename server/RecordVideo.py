@@ -19,20 +19,25 @@ import os
 import signal
 
 class RecordVideo():
-    height 480
-    width 640
+    height = 480
+    width = 640
     startedRecording = False
 
     def setVideoResolution(self, height, width):
         self.height = height
         self.width = width
+    def test(self):
+        print("_________int_test____")
+        return ("In test Video record ")
 
-    def startRecord(self, filename, startedPreview, camera):
+    def startRecording(self, filename, startedPreview, camera):
+        print("_____in_start_Record____")
         if startedPreview == True:
             try:
                 print("_________start_recording video")
                 self.startedRecording = True
-                camera.start_recording(filename + ".h264", splitter_port=2)
+                filename1 = filename + ".h264"
+                camera.start_recording(filename1,format='h264', splitter_port=2)
                 while self.startedRecording == True:
                     camera.wait_recording(1)
                 print("____Executing after record")
@@ -42,7 +47,7 @@ class RecordVideo():
             finally:
                 print("____Block finally___")
                 print("____Stopping_splitter_port")
-                self.camera.stop_recording(splitter_port = 2)
+                camera.stop_recording(splitter_port = 2)
                 self.startedRecording = False
 
     def stopRecording(self):
