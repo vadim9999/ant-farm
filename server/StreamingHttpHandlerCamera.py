@@ -124,6 +124,24 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             print(self.rfile.read(int(self.headers['Content-Length'])))
             self.wfile.write("hello".encode('utf-8'))
 
+        # -------------------------------------
+        if self.path == "/start_record":
+            self.send_response(200)
+            self.end_headers()
+            print("_____start_recording_video____")
+            print(self.rfile.read(int(self.headers['Content-Length'])))
+            filename = self.rfile.read(int(self.headers['Content-Length']))
+            self.recordVideo.startRecord(filename,True,self.camera)
+            self.wfile.write("ok".encode('utf-8'))
+
+        if self.path == "/stop_record":
+            self.send_response(200)
+            self.end_headers()
+            print("_____stop_recording_video____")
+            print(self.rfile.read(int(self.headers['Content-Length'])))
+            self.recordVideo.stopRecord()
+            self.wfile.write("ok".encode('utf-8'))
+        # -------------------------------------
 
 
 
