@@ -6,6 +6,7 @@ window.setInterval(function(){
 //  loadDoc()
 }, 5000)
 
+// ***********************Socket*****************
 // console.log("Executing")
 // var socket = new WebSocket('ws://' + window.location.hostname + ':8084/');
 //
@@ -28,6 +29,7 @@ window.setInterval(function(){
 // }
 // console.log('Code ' + event.code + ' reason '+ event.reason)
 // }
+// *********************************************
 
 function loadDoc(){
 
@@ -68,10 +70,6 @@ function loadDoc(){
         document.getElementById('sky').style.height = '20%';
         break;
       }
-
-
-
-
       console.log("Response");
       console.log(JSON.parse(this.responseText));
     }
@@ -198,15 +196,16 @@ function waitStartPreview(){
 }
 
 // ---------------------
-// ---------Record----------
+// ---------Video-Record----------
 function startRecord(){
   console.log("starting recording");
   document.getElementById("stop-record").removeAttribute("disabled")
   document.getElementById("start-record").disabled = "true"
   console.log(document.getElementById("start-record-input").value)
+  var filename = document.getElementById("start-record-input").value
   userId = getUrlParam('id', 'Empty')
-  var xhttp = new XMLHttpRequest();
 
+  var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange
   = function() {
     if(this.readyState == 4) {
@@ -215,7 +214,7 @@ function startRecord(){
     }
   }
   xhttp.open("POST","/start_record?id=" + userId, true);
-  xhttp.send(33);
+  xhttp.send(filename);
 }
 
 function stopRecord(){

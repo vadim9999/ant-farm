@@ -39,7 +39,7 @@ KEY= "6kbh-kq1m-zbty-e4rt"
 
 class Streaming():
     connectedClients = 0
-    startedRecording = False
+    startedPreview = False
     startedStream = False
     counter = 0
     users = []
@@ -49,6 +49,10 @@ class Streaming():
     deleteUsers = False
     splitter_port = False
 
+    # getters and setters
+    def isStartedPreview():
+        return self.startedPreview
+    # ------------------
     def startCamera(self):
         self.camera = picamera.PiCamera(resolution=(self.width, self.height), framerate=24)
         self.output = StreamingOutput()
@@ -63,7 +67,7 @@ class Streaming():
         # -------------------
 
         # global connectedClients
-        if(self.startedRecording == True):
+        if(self.startedPreview == True):
             selfed.send_response(200)
             selfed.send_header('Age', 0)
             selfed.send_header('Cache-Control', 'no-cache, private')
@@ -118,7 +122,7 @@ class Streaming():
                 if (self.connectedClients == 0):
                     print("O users")
                     print(str(self.connectedClients))
-                    self.startedRecording = False
+                    self.startedPreview = False
                     if self.splitter_port == True:
                         self.camera.stop_recording(splitter_port=2)
                         self.splitter_port = False
@@ -133,19 +137,19 @@ class Streaming():
     def startRecording(self):
         if self.startedStream == True:
             self.splitter_port = True
-            
+
         if self.splitter_port == True:
             print("______splitter_port = true_____")
             self.camera.start_recording(self.output, splitter_port=2, format = 'mjpeg')
             print("________started recording_______")
-            self.startedRecording = True
+            self.startedPreview = True
         else:
-            if(self.startedRecording == False):
+            if(self.startedPreview == False):
                 self.startCamera()
                 self.camera.start_recording(self.output, format='mjpeg')
-                self.startedRecording = True
-        print("StartedRecording")
-        print(self.startedRecording)
+                self.startedPreview = True
+        print("startedPreview")
+        print(self.startedPreview)
 
 
     def stopRecording(self,userID = 0, stopPreviewAllUsers = False):
@@ -236,8 +240,8 @@ class Streaming():
         # self.camera.close()
         # self.startCamera()
 
-        # if self.startedRecording == True and self.startedStream == False:
-        #     self.startedRecording = False
+        # if self.startedPreview == True and self.startedStream == False:
+        #     self.startedPreview = False
         #     self.camera.stop_recording()
         #     self.camera.close()
         #     self.startCamera()
