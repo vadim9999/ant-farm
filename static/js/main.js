@@ -132,15 +132,15 @@ function startPreview(){
   console.log(streamUrl);
 
   xhttp.onreadystatechange = function() {
-    if(this.readyState == 4) {
+    if(this.readyState == 4 && this.status == 200) {
 
-      console.log("POST /start _____");
+      console.log("GET /start _____");
       console.log(this.responseText);
       document.getElementById('badge').src = streamUrl;
     }
   }
-  xhttp.open("POST","/start?id=" + userId, true);
-  xhttp.send(12);
+  xhttp.open("GET","/start?id=" + userId, true);
+  xhttp.send();
 
 }
 
