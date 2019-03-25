@@ -93,6 +93,16 @@ function test(){
     xhttp.send(12);
 }
 
+function buildFiles(){
+  // <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+  var a = document.createElement('a');
+  a.className = "list-group-item list-group-item-action";
+  a.innerHTML = "OKOK";
+  console.log(a);
+  document.getElementById("fileList").innerHTML = "";
+  document.getElementById("fileList").appendChild(a);
+}
+
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
