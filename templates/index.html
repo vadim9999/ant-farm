@@ -23,6 +23,7 @@
 
    </head>
    <body>
+      
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
         <a class="navbar-brand" href="index.html">
@@ -125,6 +126,7 @@
  <input type=button onClick="startStream();" value="Почати трансляцію" title="Почати трансляцію">
  <input type=button onClick="stopStream();" value="stopStream" title="Зупинити трансляцію">
  <input type=button onClick="test();" value="test" title="test">
+ 
  </form>
 
  <div class="input-group">
@@ -143,7 +145,8 @@
   <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
   <a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>
 </ul>
-<input type=button onClick="buildFiles();" value="test" title="test">
+<input type=button onClick="getVideoFiles();" value="test" title="test">
+<video src="http://localhost:8002/video.h264" controls="controls" width="500"></video>
 <!-- second row -->
 <div class = "col-md-4">
  <main>
@@ -232,7 +235,8 @@
 <!-- </div> -->
    <!--<script type="text/javascript" src="jsmpg.js"></script>-->
    <script src="static/bootstrap/js/bootstrap.min.js" ></script>
-
+   <script src="static/jquery/jquery-3.3.1.slim.min.js" ></script>
+   <script src="static/jquery/popper.min.js" ></script>
 	<script src="static/js/main.js" ></script>
    </body>
 </html>

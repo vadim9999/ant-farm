@@ -92,7 +92,44 @@ function test(){
     xhttp.open("POST","/test?id=" + userId, true);
     xhttp.send(12);
 }
+// --------------video files
+function getVideoFiles(){
+	userId = getUrlParam('id', 'Empty')
+    var xhttp = new XMLHttpRequest();
 
+    xhttp.onreadystatechange = function() {
+      if(this.readyState == 4 && this.status == 200) {
+        console.log("get video files");
+        var response = this.responseText; 
+        var data = response.substring(2,response.length-2)
+        var fileNames = data.split("', '");
+        console.log(fileNames)
+        console.log(data)
+        document.getElementById("fileList").innerHTML = "";
+        
+        fileNames.forEach(video => {
+          var a = document.createElement('a');
+          a.className = "list-group-item list-group-item-action";
+          a.innerHTML = video;
+          a.href="#";
+          console.log(a);
+          
+          document.getElementById("fileList").appendChild(a);
+        });
+        // var a = document.createElement('a');
+        // a.className = "list-group-item list-group-item-action";
+        // a.innerHTML = "OKOK";
+        // console.log(a);
+        // document.getElementById("fileList").innerHTML = "";
+        // document.getElementById("fileList").appendChild(a);
+        // var videoFiles = JSON.parse(this.responseText)
+        // console.log(videoFiles)
+        console.log(this.responseText);
+      }
+    }
+    xhttp.open("GET","/videos?id=" + userId, true);
+    xhttp.send();
+}
 function buildFiles(){
   // <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
   var a = document.createElement('a');
@@ -102,7 +139,7 @@ function buildFiles(){
   document.getElementById("fileList").innerHTML = "";
   document.getElementById("fileList").appendChild(a);
 }
-
+// ----------------------------------------
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {

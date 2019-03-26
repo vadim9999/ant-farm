@@ -9,6 +9,6 @@ from os.path import isfile, join
 # }
 #
 # print(data["sot"]["hum"])
-mypath = "./"
+mypath = "./videos/"
 fileNames = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 print(str(fileNames))

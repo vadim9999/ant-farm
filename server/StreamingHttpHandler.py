@@ -13,7 +13,8 @@ from time import sleep, time
 import http.cookies
 import urllib.parse as urlparse
 from urllib.parse import urlencode
-
+from os import listdir
+from os.path import isfile, join
 
 WIDTH = 640
 HEIGHT = 480
@@ -111,15 +112,13 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             self.wfile.write("hello".encode('utf-8'))
 
         # -----------------record--------------------
-        recordVideo = RecordVideo()
-
         if self.path == "/start_record":
             self.send_response(200)
             self.end_headers()
             print("_____start_recording_video____")
             print(self.rfile.read(int(self.headers['Content-Length'])))
             filename = self.rfile.read(int(self.headers['Content-Length']))
-            self.recordVideo.startRecord(filename,True,self.camera)
+            # self.recordVideo.startRecord(filename,True,self.camera)
             self.wfile.write("ok".encode('utf-8'))
 
         if self.path == "/stop_record":
@@ -127,8 +126,8 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             self.end_headers()
             print("_____stop_recording_video____")
             print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.recordVideo.stopRecord()
             self.wfile.write("ok".encode('utf-8'))
+        
 
         # ------------------------------------------
 
@@ -166,12 +165,30 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 if self.path == "/index.html":
                     self.path = 'templates/index.html'
 
+                if self.path == "/video.h264":
+                    self.path = 'videos/video.h264'
+                
                 if self.path == "/ok":
                     self.path = 'templates/ok.html'
 
                 if self.path == "/stop":
                     self.send_response(200)
-
+                
+                #-----------finding video files
+                if self.path == "/videos":
+                    print("In videos")
+                    content_type = 'text/html; charset=utf-8'
+                    mypath = "./videos/"
+                    fileNames = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+                    fileNames = str(fileNames)
+                    content = fileNames.encode("utf-8")
+                    self.send_response(200)
+                    self.send_header('Content-Type', content_type)
+                    self.send_header('Content-Length', len(content))
+                    # @TODO add last modified
+                    self.end_headers()
+                    self.wfile.write(content)
+                # --------------------------------
 
                 if self.path == '/stream.mjpg':
                     print("*************/stream.mjpg")
@@ -246,7 +263,13 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                     if self.path.endswith("min.css.map"):
                         mimetype='text/css'
                         sendReply = True
+                    if self.path.endswith("slim.min.js"):
+                        mimetype='application/javascript'
+                        sendReply = True
                     if self.path.endswith(".png"):
+                            mimetype='text/png'
+                            sendReply = True
+                    if self.path.endswith(".h264"):
                             mimetype='text/png'
                             sendReply = True
 
