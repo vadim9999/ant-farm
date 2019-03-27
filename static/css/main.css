@@ -4,6 +4,41 @@
 body {
   padding-top: 5rem;
 }
+.Blink {
+  /* animation: blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;   */
+}
+#stopWatch{
+  display: inline-block;
+}
+@keyframes blinker {  
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+/* blinkng circle */
+/* @keyframes up-right {
+  0% {
+      transform: scale(1);
+      opacity: .25
+  }
+  50% {
+      transform: scale (1, 5);
+      opacity: 1;
+  }
+  100% {
+      transform: scale(1);
+      opacity: .25;
+  }
+} */
+#blinkingCircle {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  opacity: .25;
+  display: inline-block;
+  background-color: red;
+}
+
+/* -------------- */
 div.textbook{
   margin-top:100px;
 }

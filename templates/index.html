@@ -58,23 +58,26 @@
 
     <div class="mainpage"> -->
     <div class="row">
-      <div class="col-5">
-    <div class="gauge-chart">
-    	<svg viewBox="0 0 80 40" class="gauge">
-    		<circle  class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4" stroke-width="15"></circle>
-    		<circle id = "humidityCircle" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135" stroke-dashoffset="-100">
-    			<animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray' values= "${animationValues}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
-    		</circle>
-
-    		<text id="sotHum" x="25" y="39.5" >65</text>
-    	</svg>
-    	<p>super gauge chart 2</p>
-    </div>
-    </div>
-    <div class="col-1">
+      
+    <div class="col-8">
 
       <img id="badge" width="640" height="480" />
     </div>
+    
+    <div class="col-2">
+      <div class="gauge-chart">
+        <svg viewBox="0 0 80 40" class="gauge">
+          <circle  class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4" stroke-width="15"></circle>
+          <circle id = "humidityCircle" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135" stroke-dashoffset="-100">
+            <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray' values= "${animationValues}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
+          </circle>
+  
+          <text id="sotHum" x="25" y="39.5" >65</text>
+        </svg>
+        <p>super gauge chart 2</p>
+      </div>
+      </div>
+    <!-- here -->
     </div>
 
    <div class="row">
@@ -136,6 +139,20 @@
    <button id="stop-record" class="btn btn-outline-primary" type="button" onclick="stopRecord()">Зупинити запис</button>
  </div>
 </div>
+
+<!-- --------stopWatch -------->
+<div>
+<div id="blinkingCircle"></div>
+<!-- <div id="blinkingCircle" class="circle red"></div> -->
+<div id="stopWatch"><time>00:00:00</time></div>
+<div>
+<button id="start">start</button>
+<button id="stop">stop</button>
+<button id="clear">clear</button>
+</div>
+</div>
+<!-- ----------------- -->
+
 <ul id = "fileList" class="list-group">
   <a href="#" class="list-group-item list-group-item-action active">
     Cras justo odio
@@ -146,7 +163,7 @@
   <a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>
 </ul>
 <input type=button onClick="getVideoFiles();" value="test" title="test">
-<video src="http://localhost:8002/video.h264" controls="controls" width="500"></video>
+<!-- <video src="http://localhost:8002/video.h264" controls="controls" width="500"></video> -->
 <!-- second row -->
 <div class = "col-md-4">
  <main>
@@ -225,6 +242,16 @@
     </div>
   </div>
 </div>
+
+  
+  <div id="stopWatch">
+    <p id="blinkingCircle" 
+    style="margin-right: 0px;"class="circle red"></p>
+    <time>00:00:00</time></div>
+  
+  <button id="start">start</button>
+  <button id="stop">stop</button>
+  <button id="clear">clear</button>
 
 
 <!--
