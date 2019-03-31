@@ -130,11 +130,11 @@
               <form>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Youtube Link</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Youtube link">
+                    <input id= "streamLink" type="text" class="form-control" id="exampleInputEmail1"  placeholder="Youtube link">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Key</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Key">
+                    <input id = "streamKey" type="text" class="form-control" id="exampleInputPassword1" placeholder="Key">
                   </div>
               </form>
             </div>
@@ -170,7 +170,7 @@
               Зупинити трансляцію
           </button>
 
-          <button type="button" onClick="stopStream();" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
+          <button type="button" class="btn btn-outline-primary" onClick="getStreamSettings();" data-toggle="modal" data-target="#exampleModalCenter">
               Налаштування
           </button>
         </div>

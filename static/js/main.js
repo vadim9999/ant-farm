@@ -362,3 +362,26 @@ function stopRecord(){
   xhttp.send();
 }
 // -----------------------
+// --------settings-------
+function getStreamSettings(){
+  console.log("In settings");
+  var xhttp = new XMLHttpRequest();
+  var userId = getUrlParam('id', 'Empty')
+  console.log(userId);
+  xhttp.onreadystatechange = function() {
+    if(this.readyState == 4 && this.status == 200) {
+      var str = this.responseText;
+      var replacedStr = str.replace(/'/g, "\"")
+      var data = JSON.parse(replacedStr)
+      console.log(data);
+      
+      document.getElementById("streamLink").value = data["youtube"];
+      document.getElementById("streamKey").value = data["key"];
+
+      // console.log(this.responseText);
+    }
+  }
+  xhttp.open("GET","/stream_settings?id=" + userId, true);
+  xhttp.send();
+}
+// --------------------------

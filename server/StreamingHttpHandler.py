@@ -107,7 +107,7 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                     self.send_response(200)
                     self.end_headers()
                     print(self.rfile.read(int(self.headers['Content-Length'])))
-
+                
                 if self.path == "/stop":
                     self.send_response(200)
                     self.end_headers()
@@ -119,6 +119,19 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
 
                     print(self.rfile.read(int(self.headers['Content-Length'])))
                     self.wfile.write("hello".encode('utf-8'))
+                # ---- getSettings-------
+                if self.path == '/stream_settings':
+                    self.send_response(200)
+                    self.end_headers()
+                    YOUTUBE="rtmp://a.rtmp.youtube.com/live2/"
+                    KEY= "6kbh-kq1m-zbty-e4rt"
+                    data = {
+                        "youtube": YOUTUBE,
+                        "key": KEY
+                    }
+                    data = str(data)
+                    self.wfile.write(data.encode('utf-8'))
+                # -----------------------
         # --------------stream---------------------
                 if self.path == '/start_stream':
                     self.send_response(200)
