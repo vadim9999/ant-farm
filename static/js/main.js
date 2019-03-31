@@ -53,28 +53,52 @@ function add() {
     timer();
 }
 function timer() {
-    document.getElementById("blinkingCircle").style.backgroundColor = "red";
-    document.getElementById("blinkingCircle").style.animation = "blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate"
     t = setTimeout(add, 1000);
 }
 // timer();
 
+function startStopWatch(){
+  h1.innerHTML = "00:00:00";
+  seconds = 0; minutes = 0; hours = 0;
+  timer();
+}
 
+function stopStopWatch(id) {
+  
+  clearTimeout(t);
+}
+function startBlinking(id){
+  document.getElementById(id).style.backgroundColor = "red";
+  document.getElementById(id).style.animation = "blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate"
+}
+
+function stopBlinking(id){
+  document.getElementById(id).style.backgroundColor = "";
+  document.getElementById(id).style.animation = ""
+}
+
+function enableButtonStop(id){
+  document.getElementById("stop-" + id).removeAttribute("disabled")
+  document.getElementById("start-" + id).disabled = "true"
+}
+
+function enableButtonStart(id){
+  document.getElementById("start-" + id).removeAttribute("disabled")
+  document.getElementById("stop-" + id).disabled = "true"
+}
 /* Start button */
-start.onclick = timer;
+// start.onclick = timer;
 
 /* Stop button */
-stop.onclick = function() {
-    clearTimeout(t);
-    document.getElementById("blinkingCircle").style.backgroundColor = "";
-    document.getElementById("blinkingCircle").style.animation = ""
-}
+// stop.onclick = function() {
+    
+// }
 
 /* Clear button */
-clear.onclick = function() {
-    h1.innerHTML = "00:00:00";
-    seconds = 0; minutes = 0; hours = 0;
-}
+// clear.onclick = function() {
+//     h1.innerHTML = "00:00:00";
+//     seconds = 0; minutes = 0; hours = 0;
+// }
 
 
 
@@ -84,10 +108,10 @@ clear.onclick = function() {
 
   xhttp.onreadystatechange = function() {
     if(this.readyState == 4 && this.status == 200) {
-      var data = document.test_form.test_text.value;
+      // var data = document.test_form.test_text.value;
         sensors = JSON.parse(this.responseText)
-      console.log(data);
-      document.getElementById("TextBlock").innerHTML = this.responseText ;
+      // console.log(data);
+      // document.getElementById("TextBlock").innerHTML = this.responseText ;
       document.getElementById("sotTemp").innerHTML = sensors[0][0] ;
       document.getElementById("sotHum").innerHTML = sensors[0][1] + "%";
       document.getElementById("humidityCircle").setAttribute("stroke-dasharray",(sensors[0][1] + " 135"));
@@ -136,8 +160,8 @@ function test(){
         // console.log(this.responseText);
       }
     }
-    xhttp.open("POST","/test?id=" + userId, true);
-    xhttp.send(12);
+    xhttp.open("GET","/test?id=" + userId, true);
+    xhttp.send();
 }
 // --------------video files
 function getVideoFiles(){
@@ -205,22 +229,24 @@ function getUrlParam(parameter, defaultvalue){
 
 // -------preview---------
 
-function stopPreview(){
-userId = getUrlParam('id', 'Empty')
+function stopPreview() {
+  userId = getUrlParam('id', 'Empty')
+  enableButtonStart("preview")
   var xhttp = new XMLHttpRequest();
 
-  xhttp.onreadystatechange = function() {
-    if(this.readyState == 4) {
-      console.log("POST");
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      console.log("GET");
       console.log(this.responseText);
     }
   }
-  xhttp.open("POST","/stop?id=" + userId, true);
-  xhttp.send(12);
+  xhttp.open("GET", "/stop?id=" + userId, true);
+  xhttp.send();
 }
 
 function startPreview(){
   userId = getUrlParam('id', 'Empty')
+  enableButtonStop('preview')
   var xhttp = new XMLHttpRequest();
   streamUrl =location.protocol + "//" + location.host + "/stream.mjpg?id=" + userId;
   console.log(streamUrl);
@@ -243,33 +269,37 @@ function startPreview(){
 // ----------stream-------------
 function startStream(){
   userId = getUrlParam('id', 'Empty')
+  startBlinking("blinkingStream")
+  enableButtonStop("stream")
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange
   = function() {
     if(this.readyState == 4) {
-      console.log("POST /start_stream");
+      console.log("GET /start_stream");
       console.log(this.responseText);
     }
   }
-  xhttp.open("POST","/start_stream?id=" + userId, true);
+  xhttp.open("GET","/start_stream?id=" + userId, true);
   xhttp.send(33);
   waitStartPreview()
 }
 
 function stopStream(){
   userId = getUrlParam('id', 'Empty')
+  stopBlinking("blinkingStream")
+  enableButtonStart("stream")
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange
   = function() {
     if(this.readyState == 4) {
-      console.log("POST /stop_stream");
+      console.log("GET /stop_stream");
       console.log(this.responseText);
     }
   }
-  xhttp.open("POST","/stop_stream?id=" + userId, true);
-  xhttp.send(12);
+  xhttp.open("GET","/stop_stream?id=" + userId, true);
+  xhttp.send();
 
 }
 
@@ -280,21 +310,23 @@ function waitStartPreview(){
   xhttp.onreadystatechange
   = function() {
     if(this.readyState == 4) {
-      console.log("POST /wait_start_preview");
+      console.log("GET /wait_start_preview");
       console.log(this.responseText);
       startPreview()
     }
   }
-  xhttp.open("POST","/wait_start_preview?id=" + userId, true);
-  xhttp.send(22);
+  xhttp.open("GET","/wait_start_preview?id=" + userId, true);
+  xhttp.send();
 }
 
 // ---------------------
 // ---------Video-Record----------
 function startRecord(){
+  startBlinking("blinkingRecord")
+  enableButtonStop("record")
+  startStopWatch();
   console.log("starting recording");
-  document.getElementById("stop-record").removeAttribute("disabled")
-  document.getElementById("start-record").disabled = "true"
+  
   console.log(document.getElementById("start-record-input").value)
   var filename = document.getElementById("start-record-input").value
   userId = getUrlParam('id', 'Empty')
@@ -312,19 +344,21 @@ function startRecord(){
 }
 
 function stopRecord(){
-  document.getElementById("start-record").removeAttribute("disabled")
-  document.getElementById("stop-record").disabled = "true"
+  stopBlinking("blinkingRecord");
+  stopStopWatch();
+  
+  enableButtonStart("record")
   userId = getUrlParam('id', 'Empty')
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange
   = function() {
     if(this.readyState == 4) {
-      console.log("POST /stop_record");
+      console.log("GET /stop_record");
       console.log(this.responseText);
     }
   }
-  xhttp.open("POST","/stop_record?id=" + userId, true);
-  xhttp.send(33);
+  xhttp.open("GET","/stop_record?id=" + userId, true);
+  xhttp.send();
 }
 // -----------------------

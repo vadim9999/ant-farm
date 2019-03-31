@@ -53,64 +53,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
         if len(query) != 0:
             userId = int(query["id"])
             print(query["id"])
-        if self.path == '/test':
-            # self.send_response(200)
-            # self.end_headers()
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.wfile.write("hello".encode('utf-8'))
 
-
-        if self.path == "/stop":
-            self.send_response(200)
-            self.end_headers()
-            # global connectedClients
-            # if(connectedClients == 0):
-            # self.stream.startRecording()
-            # self.stopStreaming()
-            # -------------------------------
-            # cookies
-            # C = http.cookies.SimpleCookie(self.headers["Cookie"])
-            # print(C['user_id'].value)
-            # self.stream.stopRecording(C['user_id'].value)
-            # --------------------------------
-            if(userId != 0):
-                self.stream.stopRecording(userID = userId)
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.wfile.write("hello".encode('utf-8'))
-
-        if self.path == '/wait_start_preview':
-            self.send_response(200)
-            self.end_headers()
-            while True:
-                if self.stream.startedStream == True:
-                    break
-                sleep(1)
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.wfile.write("hello".encode('utf-8'))
-
-        if self.path == '/start_stream':
-            self.send_response(200)
-            self.end_headers()
-            print("_______start_stream")
-            print("UserId")
-            print(userId)
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.wfile.write("hello".encode('utf-8'))
-            self.stream.stopRecording(stopPreviewAllUsers = True)
-            print("_________After Stopping recording_________")
-            self.stream.startStream(userID = userId)
-
-
-        if self.path == "/stop_stream":
-            self.send_response(200)
-            self.end_headers()
-            print("_________________Stop stream____")
-            self.stream.stopRecording(stopPreviewAllUsers = True)
-            self.stream.stopStream()
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.wfile.write("hello".encode('utf-8'))
-
-        # -------------------------------------
         if self.path == "/start_record":
             self.send_response(200)
             self.end_headers()
@@ -126,14 +69,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             self.recordVideo.startRecording(str(filename), True, camera)
             self.wfile.write("ok".encode('utf-8'))
 
-        if self.path == "/stop_record":
-            self.send_response(200)
-            self.end_headers()
-            print("_____stop_recording_video____")
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.recordVideo.stopRecording()
-            self.wfile.write("ok".encode('utf-8'))
-        # -------------------------------------
+        
 
 
 
@@ -180,6 +116,90 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
 
                 if self.path == "/video":
                     self.path = '/video.h264'
+                # migrate from post
+                if self.path == '/test':
+                    self.path = "templates/test.html"
+                # self.send_response(200)
+                # self.end_headers()
+                    # print(self.rfile.read(int(self.headers['Content-Length'])))
+                    # self.wfile.write("hello".encode('utf-8'))
+
+                if self.path == "/stop_record":
+                    self.send_response(200)
+                    self.end_headers()
+                    print("_____stop_recording_video____")
+                    print(self.rfile.read(int(self.headers['Content-Length'])))
+                    self.recordVideo.stopRecording()
+                    self.wfile.write("ok".encode('utf-8'))
+        # -------------------------------------
+                if self.path == "/stop":
+                    self.send_response(200)
+                    self.end_headers()
+                    # global connectedClients
+                    # if(connectedClients == 0):
+                    # self.stream.startRecording()
+                    # self.stopStreaming()
+                    # -------------------------------
+                    # cookies
+                    # C = http.cookies.SimpleCookie(self.headers["Cookie"])
+                    # print(C['user_id'].value)
+                    # self.stream.stopRecording(C['user_id'].value)
+                # --------------------------------
+                    if(userId != 0):
+                        self.stream.stopRecording(userID = userId)
+                        print(self.rfile.read(int(self.headers['Content-Length'])))
+                        self.wfile.write("hello".encode('utf-8'))
+
+                if self.path == '/wait_start_preview':
+                    self.send_response(200)
+                    self.end_headers()
+                    while True:
+                        if self.stream.startedStream == True:
+                            break
+                        sleep(1)
+                    print(self.rfile.read(int(self.headers['Content-Length'])))
+                    self.wfile.write("hello".encode('utf-8'))
+
+                if self.path == '/start_stream':
+                    self.send_response(200)
+                    self.end_headers()
+                    print("_______start_stream")
+                    print("UserId")
+                    print(userId)
+                    print(self.rfile.read(int(self.headers['Content-Length'])))
+                    self.wfile.write("hello".encode('utf-8'))
+                    self.stream.stopRecording(stopPreviewAllUsers = True)
+                    print("_________After Stopping recording_________")
+                    self.stream.startStream(userID = userId)
+
+
+                if self.path == "/stop_stream":
+                    self.send_response(200)
+                    self.end_headers()
+                    print("_________________Stop stream____")
+                    self.stream.stopRecording(stopPreviewAllUsers = True)
+                    self.stream.stopStream()
+                    print(self.rfile.read(int(self.headers['Content-Length'])))
+                    self.wfile.write("hello".encode('utf-8'))
+
+        # -------------------------------------
+                # -------
+
+                #-----------finding video files
+                if self.path == "/videos":
+                    print("In videos")
+                    content_type = 'text/html; charset=utf-8'
+                    mypath = "./videos/"
+                    fileNames = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+                    fileNames = str(fileNames)
+                    content = fileNames.encode("utf-8")
+                    self.send_response(200)
+                    self.send_header('Content-Type', content_type)
+                    self.send_header('Content-Length', len(content))
+                    # @TODO add last modified
+                    self.end_headers()
+                    self.wfile.write(content)
+                # --------------------------------
 
                 if self.path == "/stop":
                     self.send_response(200)

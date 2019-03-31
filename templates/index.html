@@ -1,13 +1,19 @@
 <!doctype html>
 <html>
-   <head>
-      <title>Мурашина ферма</title>
-      <meta charset="utf-8" name="viewport" content="width=${WIDTH}, initial-scale=1"/>
-      <link rel="stylesheet" type="text/css" href="static/css/waterLevel.css">
-      <link rel="stylesheet" type="text/css" href="static/css/main.css">
-      <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
-      <link rel="stylesheet" type="text/css" href="static/css/humiditySensor.css">
-	<!-- <style type="text/css">
+
+<head>
+  <title>Мурашина ферма</title>
+  <meta charset="utf-8" name="viewport" content="width=${WIDTH}, initial-scale=1" />
+  <link rel="stylesheet" type="text/css" href="static/css/waterLevel.css">
+  <link rel="stylesheet" type="text/css" href="static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="static/css/humiditySensor.css">
+  <script src="static/jquery/jquery-3.3.1.slim.min.js"></script>
+  <script src="static/jquery/popper.min.js"></script>
+  <script src="static/bootstrap/js/bootstrap.min.js"></script>
+  
+  
+  <!-- <style type="text/css">
 		body {
 			background: ${BGCOLOR};
 			text-align: center;
@@ -21,16 +27,18 @@
 		}
 	</style> -->
 
-   </head>
-   <body>
-      
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="index.html">
-          <img src="images/logo1.png" width="100" height="30" alt="">
-        </a>
-        <div class="pos-f-t">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="images/logo1.png" width="100" height="30" alt="">
+      </a>
+      <div class="pos-f-t">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+          aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -41,7 +49,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="main.html">Глава 22
-             </a>
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="avtor.html">Автор</a>
@@ -50,39 +58,42 @@
           </ul>
         </div>
       </div>
-    </nav>
-<!-- <div class="jumbotron"> -->
-<div class="container">
+  </nav>
+  <!-- <div class="jumbotron"> -->
+  <div class="container">
 
-<!-- <div id="wrapper">
+    <!-- <div id="wrapper">
 
     <div class="mainpage"> -->
     <div class="row">
-      
-    <div class="col-8">
 
-      <img id="badge" width="640" height="480" />
-    </div>
-    
-    <div class="col-2">
-      <div class="gauge-chart">
-        <svg viewBox="0 0 80 40" class="gauge">
-          <circle  class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4" stroke-width="15"></circle>
-          <circle id = "humidityCircle" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135" stroke-dashoffset="-100">
-            <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray' values= "${animationValues}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
-          </circle>
-  
-          <text id="sotHum" x="25" y="39.5" >65</text>
-        </svg>
-        <p>super gauge chart 2</p>
+      <div class="col-8">
+
+        <img id="badge" width="640" height="480" />
       </div>
+
+      <div class="col-2">
+        <div class="gauge-chart">
+          <svg viewBox="0 0 80 40" class="gauge">
+            <circle class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4"
+              stroke-width="15"></circle>
+            <circle id="humidityCircle" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent"
+              stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135" stroke-dashoffset="-100">
+              <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray'
+                values="${animationValues}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
+            </circle>
+
+            <text id="sotHum" x="25" y="39.5">65</text>
+          </svg>
+          <p>super gauge chart 2</p>
+        </div>
       </div>
-    <!-- here -->
+      <!-- here -->
     </div>
 
-   <div class="row">
-    <div class="col-md-4">
-      <!-- <div id="sidebar-wrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <!-- <div id="sidebar-wrapper">
           <ul class="sidebar-nav">
               <li>
                   <a href="index.html">Home</a>
@@ -96,98 +107,139 @@
           </ul>
       </div>
     </div> -->
-    <!-- Default switch --> -->
-    <label class="switch">
-    <input type="checkbox">
-    <span class="slider round"></span>
-    </label>
+        <!-- Default switch -->
 
-    <label class="switch">
-    <input type="checkbox" checked>
-    <span class="slider round"></span>
-    </label>
-  </div>
+      </div>
 
 
 
 
+      
+      
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Youtube Link</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Youtube link">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Key</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Key">
+                  </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <img src="stream.mjpg" width="640" height="480" /> -->
+      <div class="col-md-8">
+        <!-- <div id="TextBlock">
+          <p>2</p>
+        </div> -->
+    
+        <div>
+          <button id = "start-preview" type="button" onClick="startPreview();" class="btn btn-outline-primary">
+            <span class="glyphicon glyphicon-play-circle"></span> Почати перегляд
+          </button>
+          <button id = "stop-preview" type="button" onClick="stopPreview();" class="btn btn-outline-primary" disabled>
+            Зупинити перегляд
+          </button>
+        </div>
 
-       <!-- <img src="stream.mjpg" width="640" height="480" /> -->
-       <div class="col-md-4">
-     <div id="TextBlock">
- 	<p>2</p>
- 	</div>
-     <input type="button" >Click</input>
+        <div>
+          <button id="start-stream" type="button" onClick="startStream();" class="btn btn-outline-primary">
+            Почати трансляцію
+          </button>
 
-     <form name=test_form>
- sqr(
- <input type="text" name="test_text" value="0" size="4">
- ) =
- <span id="test_result">0</span>
- <input type=button onClick="startPreview();" value="startPreview" title="Почати перегляд" />
- <input type=button onClick="stopPreview();" value="stopPreview" title="Зупинити перегляд">
- <input type=button onClick="startStream();" value="Почати трансляцію" title="Почати трансляцію">
- <input type=button onClick="stopStream();" value="stopStream" title="Зупинити трансляцію">
- <input type=button onClick="test();" value="test" title="test">
- 
- </form>
+          <button id="stop-stream" type="button" onClick="stopStream();" class="btn btn-outline-danger" disabled>
+              <div id="blinkingStream"></div>
+              Зупинити трансляцію
+          </button>
 
- <div class="input-group">
- <input id=start-record-input type="text" class="form-control" placeholder="Ім'я файлу"  aria-describedby="button-addon4">
- <div class="input-group-append" id="button-addon4">
-   <button id="start-record"  class="btn btn-outline-primary" type="button" onclick="startRecord()">Почати запис</button>
-   <button id="stop-record" class="btn btn-outline-primary" type="button" onclick="stopRecord()">Зупинити запис</button>
- </div>
-</div>
+          <button type="button" onClick="stopStream();" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
+              Налаштування
+          </button>
+        </div>
+        <!-- <button type="button" class="btn btn-primary" >
+            Launch demo modal
+          </button> -->
+        <div class="input-group">
+          <input id="start-record-input" type="text" class="form-control" placeholder="Ім'я файлу"
+            aria-describedby="button-addon4">
+          <div class="input-group-append" id="button-addon4">
+            <button id="start-record" class="btn btn-outline-primary" type="button" onclick="startRecord()">
+              Почати запис
+            </button>
+            
+            <button id="stop-record" class="btn btn-outline-danger" type="button" onclick="stopRecord()" disabled> 
+                <div id="blinkingRecord"></div>
+                <div id="stopWatch"><time>00:00:00</time></div>
+              Зупинити запис
+            </button>
+          </div>
+        </div>
+        <div class="input-group">
+          <input id=capture-input type="text" class="form-control" placeholder="Ім'я зображення"
+            aria-describedby="button-addon4">
+          <div class="input-group-append" id="button-addon4">
+            <button id="capture-image" class="btn btn-outline-primary" type="button">
+              Створити зображення
+            </button>
+          </div>
+        </div>
 
-<!-- --------stopWatch -------->
-<div>
-<div id="blinkingCircle"></div>
-<!-- <div id="blinkingCircle" class="circle red"></div> -->
-<div id="stopWatch"><time>00:00:00</time></div>
-<div>
-<button id="start">start</button>
-<button id="stop">stop</button>
-<button id="clear">clear</button>
-</div>
-</div>
-<!-- ----------------- -->
+      
+        <!-- ----------------- -->
 
-<ul id = "fileList" class="list-group">
-  <a href="#" class="list-group-item list-group-item-action active">
-    Cras justo odio
-  </a>
-  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-  <a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>
-</ul>
-<input type=button onClick="getVideoFiles();" value="test" title="test">
-<!-- <video src="http://localhost:8002/video.h264" controls="controls" width="500"></video> -->
-<!-- second row -->
-<div class = "col-md-4">
- <main>
-   <div id="sky">
-     <div class="sun"></div>
-     <div class="sunset"></div>
-     <div class="sunset_1"></div>
-   </div>
-   <div id="water">
-     <div id="topWater" class="top"></div>
-     <div id="rays">
-       <div class="ray1"></div>
-       <div class="ray2"></div>
-       <div class="ray3"></div>
-     </div>
-   </div>
-   <div class="bubl"></div>
- </main>
-</div>
+        <ul id="fileList" class="list-group">
+          <a href="#" class="list-group-item list-group-item-action active">
+            Cras justo odio
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+          <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+          <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+          <a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>
+        </ul>
+        <input type=button onClick="getVideoFiles();" value="test" title="test">
+        <!-- <video src="http://localhost:8002/video.h264" controls="controls" width="500"></video> -->
+        <!-- second row -->
+        <div class="col-md-4">
+          <main>
+            <div id="sky">
+              <div class="sun"></div>
+              <div class="sunset"></div>
+              <div class="sunset_1"></div>
+            </div>
+            <div id="water">
+              <div id="topWater" class="top"></div>
+              <div id="rays">
+                <div class="ray1"></div>
+                <div class="ray2"></div>
+                <div class="ray3"></div>
+              </div>
+            </div>
+            <div class="bubl"></div>
+          </main>
+        </div>
 
-<div class="row">
-  <div class="col">
-    <div>
-    <!-- <canvas id="videoCanvas" width="640" height="480">
+        <div class="row">
+          <div class="col">
+            <div>
+              <!-- <canvas id="videoCanvas" width="640" height="480">
     <p>
       Please use a browser that supports the Canvas Element, like
       <a href="http://www.google.com/chrome">Chrome</a>,
@@ -195,75 +247,74 @@
       <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
     </p>
     </canvas> -->
-    </div>
-  </div>
-  <div class="col">
-    <div id="Humidity">
- 	   <table style="width:50%">
-   <tr>
- 	  <th></th>
-     <th>Температура повітря</th>
-     <th>Вологість %</th>
-   </tr>
-   <tr>
-     <td>Сотах</td>
-     <td id="sotTemp">0</td>
-     <td>0</td>
-   </tr>
-   <tr>
-     <td>Арена</td>
-     <td id="arenaTemp">0</td>
-     <td id="arenaHum">0</td>
-   </tr>
- 	<tr>
-     <td>Кімната</td>
-     <td id="roomTemp">0</td>
-     <td id="roomHum">0</td>
-   </tr>
- </table>
-        <table style="width:50%">
-   <tr>
- 	  <th></th>
-     <th>Рівень води</th>
-   </tr>
-   <tr>
-     <td>Повна ємність</td>
-     <td id="waterLvlHigh">0</td>
-   </tr>
-   <tr>
-     <td>Напівзаповнена</td>
-     <td id="waterLvlMiddle">0</td>
-   </tr>
- 	<tr>
-     <td>Вода майже закінчилася</td>
-     <td id="waterLvlLow">0</td>
-   </tr>
- </table>
-    </div>
-  </div>
-</div>
-
-  
-  <div id="stopWatch">
-    <p id="blinkingCircle" 
-    style="margin-right: 0px;"class="circle red"></p>
-    <time>00:00:00</time></div>
-  
-  <button id="start">start</button>
-  <button id="stop">stop</button>
-  <button id="clear">clear</button>
+            </div>
+          </div>
+          <div class="col">
+            <div id="Humidity">
+              <table style="width:50%">
+                <tr>
+                  <th></th>
+                  <th>Температура повітря</th>
+                  <th>Вологість %</th>
+                </tr>
+                <tr>
+                  <td>Сотах</td>
+                  <td id="sotTemp">0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>Арена</td>
+                  <td id="arenaTemp">0</td>
+                  <td id="arenaHum">0</td>
+                </tr>
+                <tr>
+                  <td>Кімната</td>
+                  <td id="roomTemp">0</td>
+                  <td id="roomHum">0</td>
+                </tr>
+              </table>
+              <table style="width:50%">
+                <tr>
+                  <th></th>
+                  <th>Рівень води</th>
+                </tr>
+                <tr>
+                  <td>Повна ємність</td>
+                  <td id="waterLvlHigh">0</td>
+                </tr>
+                <tr>
+                  <td>Напівзаповнена</td>
+                  <td id="waterLvlMiddle">0</td>
+                </tr>
+                <tr>
+                  <td>Вода майже закінчилася</td>
+                  <td id="waterLvlLow">0</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
 
 
-<!--
+        <div id="stopWatch">
+          <p id="blinkingCircle" style="margin-right: 0px;" class="circle red"></p>
+          <time>00:00:00</time>
+        </div>
+
+        <button id="start">start</button>
+        <button id="stop">stop</button>
+        <button id="clear">clear</button>
+
+
+        <!--
     </div>
     </div> -->
-<!-- </div>
+        <!-- </div>
 </div> -->
-<!-- </div> -->
-   <!--<script type="text/javascript" src="jsmpg.js"></script>-->
-   <script src="static/bootstrap/js/bootstrap.min.js" ></script>
-   <script src="static/jquery/jquery-3.3.1.slim.min.js" ></script>
-   <script src="static/jquery/popper.min.js" ></script>
-	<script src="static/js/main.js" ></script>
-   </body>
+        <!-- </div> -->
+        <!--<script type="text/javascript" src="jsmpg.js"></script>-->
+        
+        <script src="static/js/main.js"></script>
+</body>
+
 </html>

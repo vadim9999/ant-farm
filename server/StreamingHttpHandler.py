@@ -51,66 +51,7 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
         if len(query) != 0:
             userId = int(query["id"])
             print(query["id"])
-        if self.path == '/test':
-            # self.send_response(200)
-            # self.end_headers()
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.wfile.write("hello".encode('utf-8'))
-
-        if self.path == "/start":
-            self.send_response(200)
-            self.end_headers()
-            # global connectedClients
-            # if(connectedClients == 0):
-            # self.stream.startRecording()
-            # self.stopStreaming()
-
-            # uncoment this code
-            # @TODO add video resolution
-
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.wfile.write("hello".encode('utf-8'))
-
-        if self.path == "/stop":
-            self.send_response(200)
-            self.end_headers()
-            # global connectedClients
-            # if(connectedClients == 0):
-            # self.stream.startRecording()
-            # self.stopStreaming()
-            # -------------------------------
-            # cookies
-            # C = http.cookies.SimpleCookie(self.headers["Cookie"])
-            # print(C['user_id'].value)
-            # self.stream.stopRecording(C['user_id'].value)
-            # --------------------------------
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.wfile.write("hello".encode('utf-8'))
-
-        if self.path == '/wait_start_preview':
-            self.send_response(200)
-            self.end_headers()
-
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.wfile.write("hello".encode('utf-8'))
-        # --------------stream---------------------
-        if self.path == '/start_stream':
-            self.send_response(200)
-            self.end_headers()
-            print("_______start_stream")
-            print("UserId")
-            print(userId)
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.wfile.write("hello".encode('utf-8'))
-            print("_________After Stopping recording_________")
-
-        if self.path == "/stop_stream":
-            self.send_response(200)
-            self.end_headers()
-            print("_________________Stop stream____")
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.wfile.write("hello".encode('utf-8'))
-
+        
         # -----------------record--------------------
         if self.path == "/start_record":
             self.send_response(200)
@@ -121,12 +62,6 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             # self.recordVideo.startRecord(filename,True,self.camera)
             self.wfile.write("ok".encode('utf-8'))
 
-        if self.path == "/stop_record":
-            self.send_response(200)
-            self.end_headers()
-            print("_____stop_recording_video____")
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            self.wfile.write("ok".encode('utf-8'))
         
 
         # ------------------------------------------
@@ -162,6 +97,46 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                     userId = int(query["id"])
                     print(query["id"])
 
+                # migrated code from post
+                if self.path == '/test':
+            # self.send_response(200)
+            # self.end_headers()
+                    self.path = "templates/test.html"
+
+                if self.path == "/start":
+                    self.send_response(200)
+                    self.end_headers()
+                    print(self.rfile.read(int(self.headers['Content-Length'])))
+
+                if self.path == "/stop":
+                    self.send_response(200)
+                    self.end_headers()
+                    print(self.rfile.read(int(self.headers['Content-Length'])))
+
+                if self.path == '/wait_start_preview':
+                    self.send_response(200)
+                    self.end_headers()
+
+                    print(self.rfile.read(int(self.headers['Content-Length'])))
+                    self.wfile.write("hello".encode('utf-8'))
+        # --------------stream---------------------
+                if self.path == '/start_stream':
+                    self.send_response(200)
+                    self.end_headers()
+                    print("_______start_stream")
+                    print("UserId")
+                    print(userId)
+                    print(self.rfile.read(int(self.headers['Content-Length'])))
+                    self.wfile.write("hello".encode('utf-8'))
+                    print("_________After Stopping recording_________")
+
+                if self.path == "/stop_stream":
+                    self.send_response(200)
+                    self.end_headers()
+                    print("_________________Stop stream____")
+                    print(self.rfile.read(int(self.headers['Content-Length'])))
+                    self.wfile.write("hello".encode('utf-8'))
+
                 if self.path == "/index.html":
                     self.path = 'templates/index.html'
 
@@ -170,6 +145,9 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 
                 if self.path == "/ok":
                     self.path = 'templates/ok.html'
+
+                if self.path == "/test":
+                    self.path = 'templates/test.html'
 
                 if self.path == "/stop":
                     self.send_response(200)
@@ -188,6 +166,14 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                     # @TODO add last modified
                     self.end_headers()
                     self.wfile.write(content)
+                
+                if self.path == "/stop_record":
+                    self.send_response(200)
+                    self.end_headers()
+                    print("_____stop_recording_video____")
+                    # print(self.rfile.read(int(self.headers['Content-Length'])))
+                    # self.wfile.write("ok".encode('utf-8'))
+        # -------------------------
                 # --------------------------------
 
                 if self.path == '/stream.mjpg':

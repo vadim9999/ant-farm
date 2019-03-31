@@ -29,15 +29,23 @@ body {
       opacity: .25;
   }
 } */
-#blinkingCircle {
+#blinkingStream {
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 15px;
+  height: 15px;
   opacity: .25;
   display: inline-block;
   background-color: red;
 }
 
+#blinkingRecord {
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  opacity: .25;
+  display: inline-block;
+  background-color: red;
+}
 /* -------------- */
 div.textbook{
   margin-top:100px;
