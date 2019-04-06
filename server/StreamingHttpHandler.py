@@ -15,6 +15,9 @@ import urllib.parse as urlparse
 from urllib.parse import urlencode
 from os import listdir
 from os.path import isfile, join
+import os
+import shutil
+import sys
 
 WIDTH = 640
 HEIGHT = 480
@@ -28,7 +31,7 @@ BGCOLOR = u'#FFFFFF'
 
 # streaming = False
 # connectedClients = 0
-
+FILEPATH = "videos/file.h264"
 counter = 0
 class StreamingHttpHandler(BaseHTTPRequestHandler):
 
@@ -123,8 +126,10 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 if self.path == '/stream_settings':
                     self.send_response(200)
                     self.end_headers()
+                    # @TODO change it
                     YOUTUBE="rtmp://a.rtmp.youtube.com/live2/"
                     KEY= "6kbh-kq1m-zbty-e4rt"
+                    # ------
                     data = {
                         "youtube": YOUTUBE,
                         "key": KEY
@@ -153,9 +158,18 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 if self.path == "/index.html":
                     self.path = 'templates/index.html'
 
-                if self.path == "/video.h264":
-                    self.path = 'videos/video.h264'
-                
+                if self.path == "/file.h264":
+                    with open(FILEPATH, 'rb') as f:
+                        self.send_response(200)
+                        self.send_header("Content-Type", 'application/octet-stream')
+                        self.send_header(
+                            "Content-Disposition", 'attachment; filename="{}"'.format(os.path.basename(FILEPATH)))
+                        fs = os.fstat(f.fileno())
+                        self.send_header("Content-Length", str(fs.st_size))
+                        self.end_headers()
+                        shutil.copyfileobj(f, self.wfile)
+                        self.path = 'videos/file.h264'
+
                 if self.path == "/ok":
                     self.path = 'templates/ok.html'
 

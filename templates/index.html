@@ -11,8 +11,8 @@
   <script src="static/jquery/jquery-3.3.1.slim.min.js"></script>
   <script src="static/jquery/popper.min.js"></script>
   <script src="static/bootstrap/js/bootstrap.min.js"></script>
-  
-  
+
+
   <!-- <style type="text/css">
 		body {
 			background: ${BGCOLOR};
@@ -114,10 +114,11 @@
 
 
 
-      
-      
+
+
       <!-- Modal -->
-      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -129,15 +130,57 @@
             <div class="modal-body">
               <form>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Youtube Link</label>
-                    <input id= "streamLink" type="text" class="form-control" id="exampleInputEmail1"  placeholder="Youtube link">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Key</label>
-                    <input id = "streamKey" type="text" class="form-control" id="exampleInputPassword1" placeholder="Key">
-                  </div>
+                  <label for="exampleInputEmail1">Youtube Link</label>
+                  <input id="streamLink" type="text" class="form-control" id="exampleInputEmail1"
+                    placeholder="Youtube link">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Key</label>
+                  <input id="streamKey" type="text" class="form-control" id="exampleInputPassword1" placeholder="Key">
+                </div>
               </form>
             </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="displayListVideos" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <ul id="fileList" class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action active">
+                      Cras justo odio
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                    <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                    <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                    <a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>
+                    <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                    <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                    <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                    <a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>
+                    <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                    <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                    <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                    <a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>
+                    <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                    <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                    <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                    <a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>
+                  </ul>
+              </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary">Save changes</button>
@@ -150,12 +193,12 @@
         <!-- <div id="TextBlock">
           <p>2</p>
         </div> -->
-    
+
         <div>
-          <button id = "start-preview" type="button" onClick="startPreview();" class="btn btn-outline-primary">
+          <button id="start-preview" type="button" onClick="startPreview();" class="btn btn-outline-primary">
             <span class="glyphicon glyphicon-play-circle"></span> Почати перегляд
           </button>
-          <button id = "stop-preview" type="button" onClick="stopPreview();" class="btn btn-outline-primary" disabled>
+          <button id="stop-preview" type="button" onClick="stopPreview();" class="btn btn-outline-primary" disabled>
             Зупинити перегляд
           </button>
         </div>
@@ -166,12 +209,13 @@
           </button>
 
           <button id="stop-stream" type="button" onClick="stopStream();" class="btn btn-outline-danger" disabled>
-              <div id="blinkingStream"></div>
-              Зупинити трансляцію
+            <div id="blinkingStream"></div>
+            Зупинити трансляцію
           </button>
 
-          <button type="button" class="btn btn-outline-primary" onClick="getStreamSettings();" data-toggle="modal" data-target="#exampleModalCenter">
-              Налаштування
+          <button type="button" class="btn btn-outline-primary" onClick="getStreamSettings();" data-toggle="modal"
+            data-target="#exampleModalCenter">
+            Налаштування
           </button>
         </div>
         <!-- <button type="button" class="btn btn-primary" >
@@ -184,10 +228,10 @@
             <button id="start-record" class="btn btn-outline-primary" type="button" onclick="startRecord()">
               Почати запис
             </button>
-            
-            <button id="stop-record" class="btn btn-outline-danger" type="button" onclick="stopRecord()" disabled> 
-                <div id="blinkingRecord"></div>
-                <div id="stopWatch"><time>00:00:00</time></div>
+
+            <button id="stop-record" class="btn btn-outline-danger" type="button" onclick="stopRecord()" disabled>
+              <div id="blinkingRecord"></div>
+              <div id="stopWatch"><time>00:00:00</time></div>
               Зупинити запис
             </button>
           </div>
@@ -202,19 +246,12 @@
           </div>
         </div>
 
-      
-        <!-- ----------------- -->
 
-        <ul id="fileList" class="list-group">
-          <a href="#" class="list-group-item list-group-item-action active">
-            Cras justo odio
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-          <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-          <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-          <a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>
-        </ul>
-        <input type=button onClick="getVideoFiles();" value="test" title="test">
+        <!-- ----------------- -->
+        <button type="button" onClick="getVideoFiles();" class="btn btn-primary" data-toggle="modal" data-target="#displayListVideos">
+          Відкрити список медіафайлів
+        </button>
+        
         <!-- <video src="http://localhost:8002/video.h264" controls="controls" width="500"></video> -->
         <!-- second row -->
         <div class="col-md-4">
@@ -313,7 +350,7 @@
 </div> -->
         <!-- </div> -->
         <!--<script type="text/javascript" src="jsmpg.js"></script>-->
-        
+
         <script src="static/js/main.js"></script>
 </body>
 
