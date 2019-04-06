@@ -229,6 +229,29 @@ function getUrlParam(parameter, defaultvalue){
 
 // -------preview---------
 
+function captureImage() {
+  userId = getUrlParam('id', 'Empty')
+  // enableButtonStart("preview")
+  var xhttp = new XMLHttpRequest();
+  var filename = document.getElementById("capture-input").value;
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      console.log("GET");
+      var a = document.createElement('a');
+      a.className = "alerts alert alert-success alert-dismissible fade show";
+      a.setAttribute("role", "alert")
+      a.innerHTML="okok"
+      document.getElementById("alertBlock").innerHTML = ""
+      document.getElementById("alertBlock").appendChild(a)
+      
+      console.log(this.responseText);
+    }
+  }
+  xhttp.open("POST", "/capture_image?id=" + userId, true);
+  xhttp.send(filename);
+}
+
 function stopPreview() {
   userId = getUrlParam('id', 'Empty')
   enableButtonStart("preview")

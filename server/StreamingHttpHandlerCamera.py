@@ -16,6 +16,7 @@ import urllib.parse as urlparse
 from urllib.parse import urlencode
 from .Streaming import Streaming
 from .RecordVideo import RecordVideo
+from .CaptureImage import CaptureImage
 
 WIDTH = 640
 HEIGHT = 480
@@ -34,6 +35,7 @@ BGCOLOR = u'#FFFFFF'
 class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
     stream = Streaming()
     recordVideo = RecordVideo()
+    captureImage = CaptureImage()
     # def startRecording(self):
     #     print("Start Recording")
     #     self.camera = picamera.PiCamera(resolution='640x480', framerate=24)
@@ -68,6 +70,14 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             print(str(filename))
             self.recordVideo.startRecording(str(filename), True, camera)
             self.wfile.write("ok".encode('utf-8'))
+
+        if self.path == "/capture_image":
+            self.send_response(200)
+            self.end_headers()
+            camera = self.stream.getCamera()
+            filename = self.rfile.read(int(self.headers['Content-Length']))
+            print(str(filename.decode("utf-8")))
+            self.captureImage.takeImage(str(filename.decode("utf-8")), camera, True)
 
         
 
@@ -132,6 +142,8 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     self.recordVideo.stopRecording()
                     self.wfile.write("ok".encode('utf-8'))
         # -------------------------------------
+                
+
                 if self.path == "/stop":
                     self.send_response(200)
                     self.end_headers()
@@ -147,8 +159,8 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                 # --------------------------------
                     if(userId != 0):
                         self.stream.stopRecording(userID = userId)
-                        print(self.rfile.read(int(self.headers['Content-Length'])))
-                        self.wfile.write("hello".encode('utf-8'))
+                        # print(self.rfile.read(int(self.headers['Content-Length'])))
+                        # self.wfile.write("hello".encode('utf-8'))
 
                 if self.path == '/wait_start_preview':
                     self.send_response(200)
@@ -201,9 +213,9 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     self.wfile.write(content)
                 # --------------------------------
 
-                if self.path == "/stop":
-                    self.send_response(200)
-                    self.streaming = False
+                # if self.path == "/stop":
+                #     self.send_response(200)
+                #     self.streaming = False
 
                 if self.path == "/start":
 
@@ -216,14 +228,14 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     # uncoment this code
                     # @TODO add video resolution
 
-                    self.stream.startRecording()
+                    
 
                     self.send_response(200)
-                    self.send_header('Content-Type', content_type)
+                    # self.send_header('Content-Type', content_type)
                     # self.send_header('Content-Length', len(content))
                     # @TODO add last modified
                     self.end_headers()
-
+                    self.stream.startRecording()
                     # print(self.rfile.read(int(self.headers['Content-Length'])))
                     # self.wfile.write("hello".encode('utf-8'))
 

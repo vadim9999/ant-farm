@@ -51,6 +51,11 @@ body {
   background-color: red;
 }
 /* -------------- */
+.alerts{
+  position: fixed !important;
+  z-index: 2;
+  right: 1px;
+}
 div.textbook{
   margin-top:100px;
 }

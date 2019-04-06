@@ -59,9 +59,18 @@
         </div>
       </div>
   </nav>
+  
+
   <!-- <div class="jumbotron"> -->
   <div class="container">
-
+   
+    <div id= "alertBlock">
+      <div class="alerts alert alert-success alert-dismissible fade show" role="alert">
+        A simple success alert—check it out!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </div>
+    </div>
     <!-- <div id="wrapper">
 
     <div class="mainpage"> -->
@@ -237,10 +246,10 @@
           </div>
         </div>
         <div class="input-group">
-          <input id=capture-input type="text" class="form-control" placeholder="Ім'я зображення"
+          <input id="capture-input" type="text" class="form-control" placeholder="Ім'я зображення"
             aria-describedby="button-addon4">
           <div class="input-group-append" id="button-addon4">
-            <button id="capture-image" class="btn btn-outline-primary" type="button">
+            <button id="capture-image" onClick = "captureImage()" class="btn btn-outline-primary" type="button">
               Створити зображення
             </button>
           </div>
