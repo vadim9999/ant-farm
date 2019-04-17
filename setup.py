@@ -9,8 +9,12 @@ from string import Template
 from wsgiref.simple_server import make_server
 from threading import Thread
 from ws4py.websocket import WebSocket
+import sys 
 # from server.StreamingHttpHandler import StreamingHttpHandler
 from server.StreamingHttpHandlerCamera import StreamingHttpHandlerCamera
+from server.BluetoothServer import BluetoothServer
+from server.thread_with_trace import thread_with_trace
+
 import picamera
 from time import sleep, time
 
@@ -30,12 +34,44 @@ class StreamingServer(socketserver.ThreadingMixIn, HTTPServer):
 
 def main():
     try:
-        server = StreamingServer(('', HTTP_PORT), StreamingHttpHandlerCamera)
+        # http_server = StreamingServer(('', HTTP_PORT), StreamingHttpHandlerCamera)
+        # http_thread = Thread(target=http_server.serve_forever)
+        http_server = StreamingServer(('', HTTP_PORT), StreamingHttpHandlerCamera)
+        # http_thread = Thread(target=http_server.serve_forever)
+        bluetooth = BluetoothServer()
+        bluetooth_thread = Thread(target = bluetooth.run_server)
+        # bluetooth_thread = thread_with_trace(target = bluetooth.run_server) 
+        bluetooth_thread.daemon = True
+        print("Starting Bluetooth server")
+        bluetooth_thread.start()
+
         print ('Started httpserver on port ' , HTTP_PORT)#
-        server.serve_forever()
+        # http_thread.start()
+        http_server.serve_forever()
+        
+    except KeyboardInterrupt:
+        print("keyBoard from setup")
+        
+        # server.serve_forever()
     finally:
+        print("finnaly")
+        print("shutdown http_server")
+        http_server.socket.close()
+
+        print("wait bluetooth")
+        # bluetooth_thread.kill()
+        print("StartedKill")
+        # bluetooth.shutdown()
+        # bluetooth_thread.join()
+        # print("join")
+        sys.exit() 
+        if not bluetooth_thread.isAlive(): 
+            print('thread killed') 
+        # print("wait http_server")
+        # http_thread.join()
         #camera.stop_recording()
-        server.socket.close()
+
+        
 
     # with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
     #     output = StreamingOutput()
