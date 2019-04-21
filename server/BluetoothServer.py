@@ -6,6 +6,8 @@ import trace
 import threading 
 
 from socket import error as socket_error
+from .WIFIConnector import WIFIConnector
+
 class BluetoothServer():
     
     def run_server(self):
@@ -41,17 +43,25 @@ class BluetoothServer():
                     while True:
 
                         data = self.client_sock.recv(1024)
-        # if len(data) == 0: break
                         print("received [%s]" % data)
-                        print(data.decode("utf-8"))
                         decodedData = str(data.decode("utf-8"))
                         receivedData = decodedData.split("_")
-                        print(receivedData)
                         print(decodedData == "getWIFIData")
 
                         if receivedData[0] == "getWIFIData":
                             print("write response wifi")
-                            self.client_sock.send(("{\"name\": \"getWIFIData\", \"router\":\"" + router + "\",\"password\":\"" +  password +"\"}\n").encode("utf-8"))
+                            wifiConnector = WIFIConnector()
+                            networks = wifiConnector.getWIFINetworks()
+
+                            if router != "" and password != "":
+                                self.client_sock.send(("{\"name\": \"getWIFIData\", \"router\":\"" +
+                                     router + "\",\"password\":\"" + 
+                                     password + "\"," + 
+                                     "\"data\":" +     
+                                         networks + 
+                                          "}\n").encode("utf-8"))
+                            
+                        
                         if receivedData[0] == "setWIFIData":
                             router = receivedData[1]
                             password = receivedData[2]
