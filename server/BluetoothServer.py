@@ -4,6 +4,8 @@ import subprocess
 import sys 
 import trace 
 import threading 
+import os
+import time
 
 from socket import error as socket_error
 from .WIFIConnector import WIFIConnector
@@ -37,8 +39,8 @@ class BluetoothServer():
                 
                 self.connected = True
                 print("Accepted connection from ", client_info)
-                router = "router"
-                password = "password"
+                wifiConnector = WIFIConnector()
+                
                 try:
                     while True:
 
@@ -50,31 +52,55 @@ class BluetoothServer():
 
                         if receivedData[0] == "getWIFIData":
                             print("write response wifi")
-                            wifiConnector = WIFIConnector()
+                            
                             networks = wifiConnector.getWIFINetworks()
+                            print("GetNetworks")
+                            print(networks)
+                            
+                            p = subprocess.Popen(['iwgetid', '-r'], stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE)
 
-                            if router != "" and password != "":
-                                self.client_sock.send(("{\"name\": \"getWIFIData\", \"router\":\"" +
-                                     router + "\",\"password\":\"" + 
-                                     password + "\"," + 
+                            out, err = p.communicate()
+                            time.sleep(1)
+
+                            router = out.split(b'\n')[0].decode("utf-8")
+                            print("Router")
+                            print(router)
+                            self.client_sock.send(("{\"name\": \"getWIFIData\", \"router\":\"" +
+                                     router + 
+                                     "\","
+                                        #  \"password\":\"" + 
+                                    #  password + "\"," + 
                                      "\"data\":" +     
                                          networks + 
                                           "}\n").encode("utf-8"))
-                            
+                            print("sended")
                         
                         if receivedData[0] == "setWIFIData":
                             router = receivedData[1]
                             password = receivedData[2]
+                            ip_address = wifiConnector.wifi_connect(router,password)
+                            
                             print(router) 
                             print(password)
+                            print(ip_address)
+                            self.client_sock.send(("{\"name\": \"setWIFIData\"," +
+                                "\"ipAddress\":\"" + ip_address + "\""
+                                 + "}\n").encode("utf-8"))
+                        if receivedData[0] == "getIP":
+                            ip = wifiConnector.getIP()
+                            self.client_sock.send(("{\"name\": \"getIP\"," +
+                                "\"ip\":\"" + ip + "\""
+                                 + "}\n").encode("utf-8"))
         # if decodedData == "setWIFIData\n"
         # client_sock.send("Received data!\n".encode("utf-8"))
                 except IOError:
                     print("Exception _")
                     
         
-        except (KeyboardInterrupt, BluetoothError) as e:
+        except Exception as e:
             print("Exception Bluetooth")
+            print(e)
         finally:
             print("disconnected")
             if self.connected == True:

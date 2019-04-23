@@ -36,9 +36,12 @@ def main():
     try:
         # http_server = StreamingServer(('', HTTP_PORT), StreamingHttpHandlerCamera)
         # http_thread = Thread(target=http_server.serve_forever)
+
         http_server = StreamingServer(('', HTTP_PORT), StreamingHttpHandlerCamera)
+        
         # http_thread = Thread(target=http_server.serve_forever)
         bluetooth = BluetoothServer()
+        
         bluetooth_thread = Thread(target = bluetooth.run_server)
         # bluetooth_thread = thread_with_trace(target = bluetooth.run_server) 
         bluetooth_thread.daemon = True
@@ -46,7 +49,7 @@ def main():
         bluetooth_thread.start()
 
         print ('Started httpserver on port ' , HTTP_PORT)#
-        # http_thread.start()
+        
         http_server.serve_forever()
         
     except KeyboardInterrupt:
