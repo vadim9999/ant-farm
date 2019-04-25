@@ -285,6 +285,15 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                     if self.path.endswith(".h264"):
                             mimetype='text/png'
                             sendReply = True
+                    if self.path.endswith(".woff2"):
+                            mimetype='text/png'
+                            sendReply = True
+                    if self.path.endswith(".woff"):
+                            mimetype='text/png'
+                            sendReply = True
+                    if self.path.endswith(".ttf"):
+                            mimetype='text/png'
+                            sendReply = True
 
                     if sendReply == True:
                         f = open(curdir + sep + self.path, 'rb')

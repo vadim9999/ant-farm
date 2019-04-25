@@ -56,7 +56,25 @@ function timer() {
     t = setTimeout(add, 1000);
 }
 // timer();
+function onFullScreen(){
+ var fullScreen =  document.getElementById("fullScreen");
+ console.log(fullScreen.webkitRequestFullscreen);
+ fullScreen.webkitRequestFullScreen()
+ if(document.webkitFullscreenElement) {
+  document.webkitCancelFullScreen();
+  var image = document.getElementById("badge");
+image.width="640";
+image.height = "480";
+}
+else {
+  fullScreen.webkitRequestFullScreen();
+  var image = document.getElementById("badge");
+image.width="auto";
+image.height = "auto";
+};
 
+//  fullScreen.webkitRequestFullScreen()
+}
 function startStopWatch(){
   h1.innerHTML = "00:00:00";
   seconds = 0; minutes = 0; hours = 0;
@@ -238,13 +256,30 @@ function captureImage() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
       console.log("GET");
-      var a = document.createElement('a');
+      var a = document.createElement('div');
       a.className = "alerts alert alert-success alert-dismissible fade show";
       a.setAttribute("role", "alert")
-      a.innerHTML="okok"
+      a.innerHTML="Зображення створено успішно!"
+    
+      var button = document.createElement('button');
+      button.className = "close";
+      button.type="button"
+      button.setAttribute("data-dismiss","alert")
+      button.setAttribute("aria-label","Close")
+      a.appendChild(button)
+
+      var span = document.createElement("span");
+      span.setAttribute("aria-hidden","true")
+      span.innerHTML= "&times;"
+      button.appendChild(span)
+
       document.getElementById("alertBlock").innerHTML = ""
       document.getElementById("alertBlock").appendChild(a)
+      // document.getElementById("alertBlock").innerHTML = ""
       
+      setTimeout(function(){ 
+        document.getElementById("alertBlock").innerHTML = "";
+      }, 5000);
       console.log(this.responseText);
     }
   }
