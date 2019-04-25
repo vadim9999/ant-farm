@@ -17,6 +17,11 @@ from urllib.parse import urlencode
 from .Streaming import Streaming
 from .RecordVideo import RecordVideo
 from .CaptureImage import CaptureImage
+from os import listdir
+from os.path import isfile, join
+import os
+import shutil
+import sys
 
 WIDTH = 640
 HEIGHT = 480
@@ -67,8 +72,8 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             filename = self.rfile.read(int(self.headers['Content-Length']))
             # print(self.stream.test())
             camera = self.stream.getCamera()
-            print(str(filename))
-            self.recordVideo.startRecording(str(filename), True, camera)
+            print(str(filename.decode("utf-8")))
+            self.recordVideo.startRecording(str(filename.decode("utf-8")), True, camera)
             self.wfile.write("ok".encode('utf-8'))
 
         if self.path == "/capture_image":
@@ -138,7 +143,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     self.send_response(200)
                     self.end_headers()
                     print("_____stop_recording_video____")
-                    print(self.rfile.read(int(self.headers['Content-Length'])))
+                    # print(self.rfile.read(int(self.headers['Content-Length'])))
                     self.recordVideo.stopRecording()
                     self.wfile.write("ok".encode('utf-8'))
         # -------------------------------------
@@ -169,7 +174,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                         if self.stream.startedStream == True:
                             break
                         sleep(1)
-                    print(self.rfile.read(int(self.headers['Content-Length'])))
+                    # print(self.rfile.read(int(self.headers['Content-Length'])))
                     self.wfile.write("hello".encode('utf-8'))
 
                 if self.path == '/start_stream':
@@ -319,6 +324,15 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                             mimetype='text/png'
                             sendReply = True
                     if self.path.endswith(".h264"):
+                            mimetype='text/png'
+                            sendReply = True
+                    if self.path.endswith(".woff2"):
+                            mimetype='text/png'
+                            sendReply = True
+                    if self.path.endswith(".woff"):
+                            mimetype='text/png'
+                            sendReply = True
+                    if self.path.endswith(".ttf"):
                             mimetype='text/png'
                             sendReply = True
 

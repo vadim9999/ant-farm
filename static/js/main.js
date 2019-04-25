@@ -63,14 +63,19 @@ function onFullScreen(){
  if(document.webkitFullscreenElement) {
   document.webkitCancelFullScreen();
   var image = document.getElementById("badge");
-image.width="640";
-image.height = "480";
+  // image.style = "width:640; height:480"
+  image.setAttribute("width","640")
+  image.setAttribute("height","480")
+// image.width="640";
+// image.height = "480";
 }
 else {
   fullScreen.webkitRequestFullScreen();
   var image = document.getElementById("badge");
-image.width="auto";
-image.height = "auto";
+  // image.style = "width:100%; height:100%"
+  image.setAttribute("width","100%")
+  image.setAttribute("height","100%")
+
 };
 
 //  fullScreen.webkitRequestFullScreen()
@@ -200,7 +205,7 @@ function getVideoFiles(){
           var a = document.createElement('a');
           a.className = "list-group-item list-group-item-action";
           a.innerHTML = video;
-          a.href="#";
+          a.href="/" + video;
           console.log(a);
           
           document.getElementById("fileList").appendChild(a);
