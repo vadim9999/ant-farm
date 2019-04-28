@@ -73,7 +73,16 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             resolution = str(self.rfile.read(int(self.headers['Content-Length'])).decode("utf-8"))
             print("resolution")
             print(resolution)
-            
+        
+        if self.path == '/start_stream':
+            self.send_response(200)
+            self.end_headers()
+            print("_______start_stream")
+            print("UserId")
+            print(userId)
+            print(str(self.rfile.read(int(self.headers['Content-Length'])).decode("utf-8")))
+            self.wfile.write("hello".encode('utf-8'))
+            print("_________After Stopping recording_________")
         
 
         # ------------------------------------------
@@ -173,15 +182,7 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                     self.wfile.write(data.encode('utf-8'))
                 # -----------------------
         # --------------stream---------------------
-                if self.path == '/start_stream':
-                    self.send_response(200)
-                    self.end_headers()
-                    print("_______start_stream")
-                    print("UserId")
-                    print(userId)
-                    print(self.rfile.read(int(self.headers['Content-Length'])))
-                    self.wfile.write("hello".encode('utf-8'))
-                    print("_________After Stopping recording_________")
+                
 
                 if self.path == "/stop_stream":
                     self.send_response(200)

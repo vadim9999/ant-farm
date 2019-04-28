@@ -69,7 +69,7 @@ function onFullScreen() {
     // image.width="640";
     // image.height = "480";
   }
-  
+
   else {
     fullScreen.webkitRequestFullScreen();
     var image = document.getElementById("badge");
@@ -191,21 +191,21 @@ function test() {
 // function onDeleteFile(){
 //   console.log("inFunctiononDeleteFile")
 // }
-function onRefreshList(){
+function onRefreshList() {
   console.log("inFunction")
   setTimeout(function () {
     getVideoFiles();
-}
-  , 2000);
+  }
+    , 2000);
 }
 
-function getExtensionFile(filename){
-  return filename.substring(filename.lastIndexOf('.')+1, filename.length) || filename;
+function getExtensionFile(filename) {
+  return filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename;
 }
 
 function getVideoFiles() {
   console.log("Call this function__________");
-  
+
   userId = getUrlParam('id', 'Empty')
   var xhttp = new XMLHttpRequest();
 
@@ -217,13 +217,13 @@ function getVideoFiles() {
       var fileNames = data.split("', '");
       console.log("fileNames");
       console.log(fileNames)
-      
+
       console.log(data)
       document.getElementById("fileList").innerHTML = "";
-      
-      
-      
-      if(fileNames != undefined && fileNames.length > 0 && fileNames[0] != ""){
+
+
+
+      if (fileNames != undefined && fileNames.length > 0 && fileNames[0] != "") {
         fileNames.forEach(file => {
           var a = document.createElement('a');
           a.className = "list-group-item list-group-item-action";
@@ -232,40 +232,40 @@ function getVideoFiles() {
           // console.log(a);
           console.log(getExtensionFile(file));
           var mediaIcon = document.createElement("i");
-  
-          if (getExtensionFile(file) == "h264"){
+
+          if (getExtensionFile(file) == "h264") {
             mediaIcon.className = "videoIcon fas fa-film"
-          }else if (getExtensionFile(file) == "jpg"){
+          } else if (getExtensionFile(file) == "jpg") {
             mediaIcon.className = "videoIcon fas fa-image"
           }
-          
-          
-  
+
+
+
           var trash = document.createElement("i");
           trash.className = "glyphicon fas fa-trash-alt"
           trash.setAttribute("onclick", "onRefreshList()")
-  
+
           var trashHref = document.createElement("a")
-          trashHref.href = "/delete/"+ file
+          trashHref.href = "/delete/" + file
           // trashHref.setAttribute("id", "refreshFiles")
           trashHref.appendChild(trash);
-  
+
           var downloadHref = document.createElement("a");
-          downloadHref.href = "/download/"+file;
-  
+          downloadHref.href = "/download/" + file;
+
           var download = document.createElement("i");
           download.className = "glyphicon fas fa-download"
           downloadHref.appendChild(download)
-  
-          
+
+
           a.appendChild(downloadHref)
           a.appendChild(trashHref)
           a.appendChild(mediaIcon);
           document.getElementById("fileList").appendChild(a);
-      
+
         });
       }
-      
+
       // var a = document.createElement('a');
       // a.className = "list-group-item list-group-item-action";
       // a.innerHTML = "OKOK";
@@ -349,43 +349,52 @@ function captureImage() {
   xhttp.send(filename);
 }
 
-function stopPreview() {
-  userId = getUrlParam('id', 'Empty')
-  enableButtonStart("preview")
-  document.getElementById("capture-image").disabled = true;
-  document.getElementById("start-record").disabled = true;
-  var xhttp = new XMLHttpRequest();
 
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4) {
-      console.log("GET");
-      console.log(this.responseText);
-    }
-  }
-  xhttp.open("GET", "/stop?id=" + userId, true);
-  xhttp.send();
-}
 
 
 
 // -------------------
+function getResolution(resolution){
+  switch (resolution) {
+    case "720":
+      return "1024x768"
+      break;
 
+    case "480":
+      return "640x480"
+      break;
+
+    case "240":
+      return "320x240"
+      break;
+    default:
+      break;
+  }
+}
 // ----------stream-------------
 function startStream() {
   userId = getUrlParam('id', 'Empty')
   startBlinking("blinkingStream")
   enableButtonStop("stream")
+  var e = document.getElementById("resolutionStream")
+  var resolution = e.options[e.selectedIndex].value;
+  
+  console.log("resolution");
+  
+  console.log(resolution);
+  console.log(getResolution(resolution));
+
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange
     = function () {
       if (this.readyState == 4) {
-        console.log("GET /start_stream");
+        console.log("POST /start_stream");
         console.log(this.responseText);
       }
     }
-  xhttp.open("GET", "/start_stream?id=" + userId, true);
-  xhttp.send(33);
+  xhttp.open("POST", "/start_stream?id=" + userId, true);
+  xhttp.send(getResolution(resolution));
   waitStartPreview()
 }
 
@@ -430,8 +439,16 @@ function startRecord() {
   enableButtonStop("record")
   startStopWatch();
   document.getElementById("info").setAttribute("title", "Зупиніть запис відео")
-  document.getElementById("videoResolution").setAttribute("disabled","true")
+  document.getElementById("videoResolution").setAttribute("disabled", "true")
   console.log("starting recording");
+
+  var e = document.getElementById("resolutionRecord")
+  var resolution = e.options[e.selectedIndex].value;
+  
+  console.log("resolution");
+  
+  console.log(resolution);
+  console.log(getResolution(resolution));
 
   console.log(document.getElementById("start-record-input").value)
   var filename = document.getElementById("start-record-input").value

@@ -234,7 +234,7 @@
             <i class="fas fa-play-circle"></i> Почати трансляцію
           </button>
 
-          <select style="width:15%; display:inline-block" class="custom-select " id="inputGroupSelect03"
+          <select style="width:15%; display:inline-block" class="custom-select " id="resolutionStream"
             aria-label="Example select with button addon">
 
             <option value="720">720 HD</option>
@@ -259,9 +259,8 @@
           <input id="start-record-input" type="text" class="form-control" placeholder="Ім'я файлу"
             aria-describedby="button-addon4">
           <div class="input-group-append" id="button-addon4">
-            <select style=" display:inline-block" class="custom-select " id="inputGroupSelect03"
+            <select style=" display:inline-block" class="custom-select " id="resolutionRecord"
               aria-label="Example select with button addon">
-
               <option value="720">720 HD</option>
               <option value="480" selected>480</option>
               <option value="240">240</option>
@@ -285,9 +284,9 @@
             <select style=" display:inline-block" class="custom-select " id="inputGroupSelect03"
               aria-label="Example select with button addon">
 
-              <option value="720">720 HD</option>
-              <option value="480" selected>480</option>
-              <option value="360">360</option>
+              <option value="720">1024x768</option>
+              <option value="480" selected>640x480</option>
+              <option value="240">320x240</option>
             </select>
             <button id="capture-image" onClick="captureImage()" class="btn btn-outline-primary" type="button" disabled>
               <i class="fas fa-camera"></i> Створити зображення
