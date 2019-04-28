@@ -69,6 +69,7 @@ function onFullScreen() {
     // image.width="640";
     // image.height = "480";
   }
+  
   else {
     fullScreen.webkitRequestFullScreen();
     var image = document.getElementById("badge");
@@ -122,7 +123,6 @@ function enableButtonStart(id) {
 //     h1.innerHTML = "00:00:00";
 //     seconds = 0; minutes = 0; hours = 0;
 // }
-
 
 
 function loadDoc() {
@@ -187,7 +187,25 @@ function test() {
   xhttp.send();
 }
 // --------------video files
+
+// function onDeleteFile(){
+//   console.log("inFunctiononDeleteFile")
+// }
+function onRefreshList(){
+  console.log("inFunction")
+  setTimeout(function () {
+    getVideoFiles();
+}
+  , 2000);
+}
+
+function getExtensionFile(filename){
+  return filename.substring(filename.lastIndexOf('.')+1, filename.length) || filename;
+}
+
 function getVideoFiles() {
+  console.log("Call this function__________");
+  
   userId = getUrlParam('id', 'Empty')
   var xhttp = new XMLHttpRequest();
 
@@ -197,19 +215,57 @@ function getVideoFiles() {
       var response = this.responseText;
       var data = response.substring(2, response.length - 2)
       var fileNames = data.split("', '");
+      console.log("fileNames");
       console.log(fileNames)
+      
       console.log(data)
       document.getElementById("fileList").innerHTML = "";
-
-      fileNames.forEach(video => {
-        var a = document.createElement('a');
-        a.className = "list-group-item list-group-item-action";
-        a.innerHTML = video;
-        a.href = "/" + video;
-        console.log(a);
-
-        document.getElementById("fileList").appendChild(a);
-      });
+      
+      
+      
+      if(fileNames != undefined && fileNames.length > 0 && fileNames[0] != ""){
+        fileNames.forEach(file => {
+          var a = document.createElement('a');
+          a.className = "list-group-item list-group-item-action";
+          a.innerHTML = file;
+          // a.href = "/" + video;
+          // console.log(a);
+          console.log(getExtensionFile(file));
+          var mediaIcon = document.createElement("i");
+  
+          if (getExtensionFile(file) == "h264"){
+            mediaIcon.className = "videoIcon fas fa-film"
+          }else if (getExtensionFile(file) == "jpg"){
+            mediaIcon.className = "videoIcon fas fa-image"
+          }
+          
+          
+  
+          var trash = document.createElement("i");
+          trash.className = "glyphicon fas fa-trash-alt"
+          trash.setAttribute("onclick", "onRefreshList()")
+  
+          var trashHref = document.createElement("a")
+          trashHref.href = "/delete/"+ file
+          // trashHref.setAttribute("id", "refreshFiles")
+          trashHref.appendChild(trash);
+  
+          var downloadHref = document.createElement("a");
+          downloadHref.href = "/download/"+file;
+  
+          var download = document.createElement("i");
+          download.className = "glyphicon fas fa-download"
+          downloadHref.appendChild(download)
+  
+          
+          a.appendChild(downloadHref)
+          a.appendChild(trashHref)
+          a.appendChild(mediaIcon);
+          document.getElementById("fileList").appendChild(a);
+      
+        });
+      }
+      
       // var a = document.createElement('a');
       // a.className = "list-group-item list-group-item-action";
       // a.innerHTML = "OKOK";
@@ -221,9 +277,10 @@ function getVideoFiles() {
       console.log(this.responseText);
     }
   }
-  xhttp.open("GET", "/videos?id=" + userId, true);
+  xhttp.open("GET", "/media?id=" + userId, true);
   xhttp.send();
 }
+
 function buildFiles() {
   // <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
   var a = document.createElement('a');
@@ -295,6 +352,8 @@ function captureImage() {
 function stopPreview() {
   userId = getUrlParam('id', 'Empty')
   enableButtonStart("preview")
+  document.getElementById("capture-image").disabled = true;
+  document.getElementById("start-record").disabled = true;
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange = function () {
@@ -307,25 +366,7 @@ function stopPreview() {
   xhttp.send();
 }
 
-function startPreview() {
-  userId = getUrlParam('id', 'Empty')
-  enableButtonStop('preview')
-  var xhttp = new XMLHttpRequest();
-  streamUrl = location.protocol + "//" + location.host + "/stream.mjpg?id=" + userId;
-  console.log(streamUrl);
 
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-
-      console.log("GET /start _____");
-      console.log(this.responseText);
-      document.getElementById('badge').src = streamUrl;
-    }
-  }
-  xhttp.open("GET", "/start?id=" + userId, true);
-  xhttp.send();
-
-}
 
 // -------------------
 
@@ -388,6 +429,8 @@ function startRecord() {
   startBlinking("blinkingRecord")
   enableButtonStop("record")
   startStopWatch();
+  document.getElementById("info").setAttribute("title", "Зупиніть запис відео")
+  document.getElementById("videoResolution").setAttribute("disabled","true")
   console.log("starting recording");
 
   console.log(document.getElementById("start-record-input").value)
@@ -409,7 +452,8 @@ function startRecord() {
 function stopRecord() {
   stopBlinking("blinkingRecord");
   stopStopWatch();
-
+  document.getElementById("info").removeAttribute("title")
+  document.getElementById("videoResolution").removeAttribute("disabled")
   enableButtonStart("record")
   userId = getUrlParam('id', 'Empty')
   var xhttp = new XMLHttpRequest();

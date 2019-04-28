@@ -37,7 +37,7 @@ class RecordVideo():
                 print("_________start_recording video")
                 self.startedRecording = True
                 filename1 = filename + ".h264"
-                camera.start_recording("videos/" + filename1,format='h264', splitter_port=2)
+                camera.start_recording("media/" + filename1,format='h264', splitter_port=2)
                 while self.startedRecording == True:
                     camera.wait_recording(1)
                 print("____Executing after record")

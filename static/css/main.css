@@ -74,6 +74,19 @@ canvas {
   float:right;
 }
 
+.glyphicon{
+  float:right;
+  padding-left:30px;
+  font-size: 20px;
+}
+.videoIcon{
+  float: left;
+  padding-right:10px;
+  font-size:20px;
+}
+.cursorQ{
+  cursor:pointer;
+}
 /* .list-group{
     max-height: 150px;
     margin-bottom: 10px;

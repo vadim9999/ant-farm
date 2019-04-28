@@ -122,6 +122,33 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                 self.path = url_parts[2]
                 query = dict(urlparse.parse_qsl(url_parts[4]))
                 userId = 0
+                print(url_parts)
+                if url_parts[2].startswith('/download') == True:
+                    urls = url_parts[2].split("/")
+                    print(urls[2])
+                    filepath = "media/" + urls[2]
+                    with open(filepath, 'rb') as f:
+                        self.send_response(200)
+                        self.send_header("Content-Type", 'application/octet-stream')
+                        self.send_header(
+                            "Content-Disposition", 'attachment; filename="{}"'.format(os.path.basename(filepath)))
+                        fs = os.fstat(f.fileno())
+                        self.send_header("Content-Length", str(fs.st_size))
+                        self.end_headers()
+                        shutil.copyfileobj(f, self.wfile)
+                        # self.path = 'videos/file.h264'
+                if url_parts[2].startswith('/delete') == True:
+                    self.send_response(204)
+                    self.end_headers()
+                    urls = url_parts[2].split("/")
+                    print(urls[2])
+                    filepath = "media/" + urls[2]
+                    
+                    if os.path.exists(filepath):
+                        os.remove(filepath)
+                    else:
+                        print("The file does not exist")
+                
                 if len(query) != 0:
                     userId = int(query["id"])
                     print(query["id"])
@@ -147,7 +174,24 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     self.recordVideo.stopRecording()
                     self.wfile.write("ok".encode('utf-8'))
         # -------------------------------------
-                
+                if self.path == "/media":
+                    print("In videos")
+                    content_type = 'text/html; charset=utf-8'
+                    mypath = "./media/"
+                    fileNames = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+                    print()
+                    if len(fileNames) > 0:
+                        fileNames = str(fileNames)
+                    else :
+                        fileNames = ""
+                    
+                    content = fileNames.encode("utf-8")
+                    self.send_response(200)
+                    self.send_header('Content-Type', content_type)
+                    self.send_header('Content-Length', len(content))
+                    # @TODO add last modified
+                    self.end_headers()
+                    self.wfile.write(content)
 
                 if self.path == "/stop":
                     self.send_response(200)
@@ -183,7 +227,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     print("_______start_stream")
                     print("UserId")
                     print(userId)
-                    print(self.rfile.read(int(self.headers['Content-Length'])))
+                    # print(self.rfile.read(int(self.headers['Content-Length'])))
                     self.wfile.write("hello".encode('utf-8'))
                     self.stream.stopRecording(stopPreviewAllUsers = True)
                     print("_________After Stopping recording_________")
@@ -196,27 +240,12 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     print("_________________Stop stream____")
                     self.stream.stopRecording(stopPreviewAllUsers = True)
                     self.stream.stopStream()
-                    print(self.rfile.read(int(self.headers['Content-Length'])))
+                    # print(self.rfile.read(int(self.headers['Content-Length'])))
                     self.wfile.write("hello".encode('utf-8'))
 
         # -------------------------------------
                 # -------
 
-                #-----------finding video files
-                if self.path == "/videos":
-                    print("In videos")
-                    content_type = 'text/html; charset=utf-8'
-                    mypath = "./videos/"
-                    fileNames = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-                    fileNames = str(fileNames)
-                    content = fileNames.encode("utf-8")
-                    self.send_response(200)
-                    self.send_header('Content-Type', content_type)
-                    self.send_header('Content-Length', len(content))
-                    # @TODO add last modified
-                    self.end_headers()
-                    self.wfile.write(content)
-                # --------------------------------
 
                 # if self.path == "/stop":
                 #     self.send_response(200)
@@ -323,9 +352,9 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     if self.path.endswith(".png"):
                             mimetype='text/png'
                             sendReply = True
-                    if self.path.endswith(".h264"):
-                            mimetype='text/png'
-                            sendReply = True
+                    # if self.path.endswith(".h264"):
+                    #         mimetype='text/png'
+                    #         sendReply = True
                     if self.path.endswith(".woff2"):
                             mimetype='text/png'
                             sendReply = True

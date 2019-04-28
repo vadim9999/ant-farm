@@ -30,6 +30,6 @@ class CaptureImage():
         print("CaptureImage")
         print(filename)
         if startedRecording == True:
-            camera.capture('images/'+ filename + ".jpg",use_video_port=True)
+            camera.capture('media/'+ filename + ".jpg",use_video_port=True)
             print("image Captured!")
         
