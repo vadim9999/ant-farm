@@ -84,6 +84,16 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             print(str(filename.decode("utf-8")))
             self.captureImage.takeImage(str(filename.decode("utf-8")), camera, True)
 
+        if self.path == "/start":
+            self.send_response(200)
+            self.end_headers()
+
+            # print(self.rfile.read(int(self.headers['Content-Length'])))
+            resolution = str(self.rfile.read(int(self.headers['Content-Length'])).decode("utf-8"))
+            print("resolution")
+            print(resolution)
+            self.stream.startRecording(resolution)
+
         
 
 
@@ -251,27 +261,27 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                 #     self.send_response(200)
                 #     self.streaming = False
 
-                if self.path == "/start":
+                # if self.path == "/start":
 
 
-                    # global connectedClients
-                    # if(connectedClients == 0):
-                    # self.stream.startRecording()
-                    # self.stopStreaming()
+                #     # global connectedClients
+                #     # if(connectedClients == 0):
+                #     # self.stream.startRecording()
+                #     # self.stopStreaming()
 
-                    # uncoment this code
-                    # @TODO add video resolution
+                #     # uncoment this code
+                #     # @TODO add video resolution
 
                     
 
-                    self.send_response(200)
-                    # self.send_header('Content-Type', content_type)
-                    # self.send_header('Content-Length', len(content))
-                    # @TODO add last modified
-                    self.end_headers()
-                    self.stream.startRecording()
-                    # print(self.rfile.read(int(self.headers['Content-Length'])))
-                    # self.wfile.write("hello".encode('utf-8'))
+                #     self.send_response(200)
+                #     # self.send_header('Content-Type', content_type)
+                #     # self.send_header('Content-Length', len(content))
+                #     # @TODO add last modified
+                #     self.end_headers()
+                #     self.stream.startRecording()
+                #     # print(self.rfile.read(int(self.headers['Content-Length'])))
+                #     # self.wfile.write("hello".encode('utf-8'))
 
                 if self.path == '/test':
                     self.stream.sendFromStream(self)

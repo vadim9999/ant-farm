@@ -57,8 +57,8 @@ class Streaming():
     def getCamera(self):
         return self.camera
     # ------------------
-    def startCamera(self):
-        self.camera = picamera.PiCamera(resolution=(self.width, self.height), framerate=24)
+    def startCamera(self, resolution1):
+        self.camera = picamera.PiCamera(resolution=resolution1, framerate=24)
         self.output = StreamingOutput()
 
 # *********Preview***********
@@ -138,18 +138,19 @@ class Streaming():
             selfed.send_response(200)
             selfed.end_headers()
 
-    def startRecording(self):
+    def startRecording(self, resolution):
         if self.startedStream == True:
             self.splitter_port = True
 
         if self.splitter_port == True:
             print("______splitter_port = true_____")
-            self.camera.start_recording(self.output, splitter_port=2, format = 'mjpeg')
+            self.camera.start_recording(self.output, splitter_port=2, format = 'mjpeg', resize=resolution)
             print("________started recording_______")
+            print(resolution)
             self.startedPreview = True
         else:
             if(self.startedPreview == False):
-                self.startCamera()
+                self.startCamera(resolution)
                 self.camera.start_recording(self.output, format='mjpeg')
                 self.startedPreview = True
         print("startedPreview")
