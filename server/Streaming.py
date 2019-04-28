@@ -220,7 +220,7 @@ class Streaming():
             # print("___waiting to close pipe____")
             print("Done")
 
-    def startStream(self, userID = 0, resolution = "640x480"):
+    def startStream(self, userID = 0, resolution1 = "640x480"):
         stream_cmd = 'ffmpeg -f h264 -r 25 -i - -itsoffset 5.5 -fflags nobuffer -f lavfi -i anullsrc -c:v copy -c:a aac -strict experimental -f flv ' + YOUTUBE + KEY
         self.stream_pipe = subprocess.Popen(stream_cmd, shell=True, stdin=subprocess.PIPE, preexec_fn=os.setsid)
         print("_____setting pipe_____")
@@ -230,7 +230,7 @@ class Streaming():
         self.camera.vflip = True
         self.camera.hflip = True
         print("______After Settingup___")
-        self.camera.start_recording(self.stream_pipe.stdin, format='h264', bitrate = 20000000)
+        self.camera.start_recording(self.stream_pipe.stdin, format='h264', bitrate = 20000000, resolution = resolution1)
 
         print("__________AfterStartRecording")
         self.startedStream = True

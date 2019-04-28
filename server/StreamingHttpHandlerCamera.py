@@ -105,7 +105,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             self.stream.stopRecording(stopPreviewAllUsers = True)
             print("_________After Stopping recording_________")
             resolution = str(self.rfile.read(int(self.headers['Content-Length'])).decode("utf-8"))
-            self.stream.startStream(userID = userId, resolution = resolution)
+            self.stream.startStream(userID = userId, resolution1 = resolution)
         
 
 
