@@ -30,14 +30,14 @@ class RecordVideo():
         print("_________int_test____")
         return ("In test Video record ")
 
-    def startRecording(self, filename, startedPreview, camera):
+    def startRecording(self, filename,resolution, startedPreview, camera):
         print("_____in_start_Record____")
         if startedPreview == True:
             try:
                 print("_________start_recording video")
                 self.startedRecording = True
                 filename1 = filename + ".h264"
-                camera.start_recording("media/" + filename1,format='h264', splitter_port=2)
+                camera.start_recording("media/" + filename1,format='h264', splitter_port=2, resize = resolution)
                 while self.startedRecording == True:
                     camera.wait_recording(1)
                 print("____Executing after record")

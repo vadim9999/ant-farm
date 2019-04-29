@@ -60,9 +60,12 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.end_headers()
             print("_____start_recording_video____")
-            print(self.rfile.read(int(self.headers['Content-Length'])))
-            filename = self.rfile.read(int(self.headers['Content-Length']))
+            # print(self.rfile.read(int(self.headers['Content-Length'])))
+            data = self.rfile.read(int(self.headers['Content-Length']))
+            data = str(data.decode("utf-8"))
+            data = data.split("//")
             # self.recordVideo.startRecord(filename,True,self.camera)
+            print(data)
             self.wfile.write("ok".encode('utf-8'))
 
         if self.path == "/start":
@@ -84,8 +87,17 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             self.wfile.write("hello".encode('utf-8'))
             print("_________After Stopping recording_________")
         
+        if self.path == "/capture_image":
+            self.send_response(200)
+            self.end_headers()
+            
+            data = self.rfile.read(int(self.headers['Content-Length']))
+            data = str(data.decode("utf-8"))
+            data = data.split("//")
+            print(data)
+        # ------------------------------------
 
-        # ------------------------------------------
+        
 
 
     #Handler for the GET requests
@@ -98,6 +110,7 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 self.send_header('Location', '/index.html?id='+str(counter))
                 self.end_headers()
                 return
+
             elif self.path == '/sensors':
                 content_type = 'text/html; charset=utf-8'
                 content = str([[21,60],[22,70],[20,85],2])
@@ -109,12 +122,14 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 # @TODO add last modified
                 self.end_headers()
                 self.wfile.write(content)
+
             else:
                 url_parts = list(urlparse.urlparse(self.path))
                 self.path = url_parts[2]
                 query = dict(urlparse.parse_qsl(url_parts[4]))
                 userId = 0
-                print(url_parts[2])
+                
+
                 if url_parts[2].startswith('/download') == True:
                     urls = url_parts[2].split("/")
                     print(urls[2])
@@ -129,13 +144,13 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                         self.end_headers()
                         shutil.copyfileobj(f, self.wfile)
                         # self.path = 'videos/file.h264'
+
                 if url_parts[2].startswith('/delete') == True:
                     self.send_response(204)
                     self.end_headers()
                     urls = url_parts[2].split("/")
                     print(urls[2])
                     filepath = "media/" + urls[2]
-                    
                     if os.path.exists(filepath):
                         os.remove(filepath)
                     else:
@@ -146,14 +161,6 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                     userId = int(query["id"])
                     print(query["id"])
 
-                # migrated code from post
-                if self.path == '/test':
-            # self.send_response(200)
-            # self.end_headers()
-                    self.path = "templates/test.html"
-
-                
-                    # print(self.rfile.read(int(self.headers['Content-Length'])))
                 # Note delete all print(self.rfile.read(int(self.headers['Content-Length'])))
                 if self.path == "/stop":
                     self.send_response(200)
@@ -163,9 +170,9 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 if self.path == '/wait_start_preview':
                     self.send_response(200)
                     self.end_headers()
-
                     print(self.rfile.read(int(self.headers['Content-Length'])))
                     self.wfile.write("hello".encode('utf-8'))
+
                 # ---- getSettings-------
                 if self.path == '/stream_settings':
                     self.send_response(200)
@@ -206,11 +213,8 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 #         shutil.copyfileobj(f, self.wfile)
                         # self.path = 'videos/file.h264'
 
-                if self.path == "/ok":
-                    self.path = 'templates/ok.html'
-
-                if self.path == "/test":
-                    self.path = 'templates/test.html'
+                # capture_image
+                
 
                 if self.path == "/stop":
                     self.send_response(200)

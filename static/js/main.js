@@ -314,6 +314,12 @@ function captureImage() {
   // enableButtonStart("preview")
   var xhttp = new XMLHttpRequest();
   var filename = document.getElementById("capture-input").value;
+  var e = document.getElementById("resolutionImage")
+  var resolution = e.options[e.selectedIndex].value;
+
+  console.log("resolution");
+
+  console.log(resolution);
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
@@ -346,7 +352,7 @@ function captureImage() {
     }
   }
   xhttp.open("POST", "/capture_image?id=" + userId, true);
-  xhttp.send(filename);
+  xhttp.send(filename + "//"+getResolution(resolution));
 }
 
 
@@ -354,7 +360,7 @@ function captureImage() {
 
 
 // -------------------
-function getResolution(resolution){
+function getResolution(resolution) {
   switch (resolution) {
     case "720":
       return "1024x768"
@@ -378,9 +384,9 @@ function startStream() {
   enableButtonStop("stream")
   var e = document.getElementById("resolutionStream")
   var resolution = e.options[e.selectedIndex].value;
-  
+
   console.log("resolution");
-  
+
   console.log(resolution);
   console.log(getResolution(resolution));
 
@@ -444,9 +450,9 @@ function startRecord() {
 
   var e = document.getElementById("resolutionRecord")
   var resolution = e.options[e.selectedIndex].value;
-  
+
   console.log("resolution");
-  
+
   console.log(resolution);
   console.log(getResolution(resolution));
 
@@ -463,7 +469,7 @@ function startRecord() {
       }
     }
   xhttp.open("POST", "/start_record?id=" + userId, true);
-  xhttp.send(filename);
+  xhttp.send(filename + "//" + getResolution(resolution));
 }
 
 function stopRecord() {

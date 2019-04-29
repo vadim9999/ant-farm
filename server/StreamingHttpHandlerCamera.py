@@ -69,20 +69,24 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             # self.recordVideo.test()
 
             # print(self.rfile.read(int(self.headers['Content-Length'])))
-            filename = self.rfile.read(int(self.headers['Content-Length']))
+            # filename = self.rfile.read(int(self.headers['Content-Length']))
+            data = self.rfile.read(int(self.headers['Content-Length']))
+            data = str(data.decode("utf-8"))
+            data = data.split("//")
             # print(self.stream.test())
             camera = self.stream.getCamera()
-            print(str(filename.decode("utf-8")))
-            self.recordVideo.startRecording(str(filename.decode("utf-8")), True, camera)
+            # print(str(filename.decode("utf-8")))
+            self.recordVideo.startRecording(data[0], data[1],True, camera)
             self.wfile.write("ok".encode('utf-8'))
 
         if self.path == "/capture_image":
             self.send_response(200)
             self.end_headers()
             camera = self.stream.getCamera()
-            filename = self.rfile.read(int(self.headers['Content-Length']))
-            print(str(filename.decode("utf-8")))
-            self.captureImage.takeImage(str(filename.decode("utf-8")), camera, True)
+            data = self.rfile.read(int(self.headers['Content-Length']))
+            data = str(data.decode("utf-8"))
+            data = data.split("//")
+            self.captureImage.takeImage(data[0],data[1], camera, True)
 
         if self.path == "/start":
             self.send_response(200)

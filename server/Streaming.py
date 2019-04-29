@@ -230,7 +230,7 @@ class Streaming():
         self.camera.vflip = True
         self.camera.hflip = True
         print("______After Settingup___")
-        self.camera.start_recording(self.stream_pipe.stdin, format='h264', bitrate = 20000000, resolution = resolution1)
+        self.camera.start_recording(self.stream_pipe.stdin, format='h264', bitrate = 20000000, resize = resolution1)
 
         print("__________AfterStartRecording")
         self.startedStream = True
