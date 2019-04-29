@@ -172,34 +172,31 @@ class Streaming():
             print("userID")
             print(userID)
             self.stoppedUserId = userID
-
-
-
-
-
-
-
-
+    
+    def isStartedStream():
+        return self.startedStream
+    
 # *************Stream***************
     def startRecordingStream(self):
-        try:
-            print("_______start recording stream__________")
-            while self.startedStream == True:
-               self.camera.wait_recording(1)
-            print("____Executing after while____")
-        except Exception as e:
-            logging.warning(
-                'Stop streaming %s: %s',
-                self.client_address, str(e))
-        finally:
-            print("____Block finally___")
-            print("____Stopping camera___")
-            self.camera.stop_recording()
-            print("___Stopped recording_____")
-            self.camera.close()
-            print("_____camera was closed_____")
-            os.killpg(os.getpgid(self.stream_pipe.pid), signal.SIGTERM)
-            self.startedStream = False
+        if self.startedStream != True:
+            try:
+                print("_______start recording stream__________")
+                while self.startedStream == True:
+                    self.camera.wait_recording(1)
+                print("____Executing after while____")
+            except Exception as e:
+                logging.warning(
+                    'Stop streaming %s: %s',
+                    self.client_address, str(e))
+            finally:
+                print("____Block finally___")
+                print("____Stopping camera___")
+                self.camera.stop_recording()
+                print("___Stopped recording_____")
+                self.camera.close()
+                print("_____camera was closed_____")
+                os.killpg(os.getpgid(self.stream_pipe.pid), signal.SIGTERM)
+                self.startedStream = False
             # self.stream_pipe.stdin.kill()
             # os.kill(self.stream_pipe, signal.SIGKILL)
 #             pid = self.stream_pipe.pid
@@ -219,6 +216,8 @@ class Streaming():
             # self.stream_pipe.wait()
             # print("___waiting to close pipe____")
             print("Done")
+
+        
 
     def startStream(self, userID = 0, resolution1 = "640x480"):
         stream_cmd = 'ffmpeg -f h264 -r 25 -i - -itsoffset 5.5 -fflags nobuffer -f lavfi -i anullsrc -c:v copy -c:a aac -strict experimental -f flv ' + YOUTUBE + KEY

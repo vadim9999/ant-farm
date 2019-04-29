@@ -32,7 +32,7 @@ class RecordVideo():
 
     def startRecording(self, filename,resolution, startedPreview, camera):
         print("_____in_start_Record____")
-        if startedPreview == True:
+        if startedPreview == True and self.startedRecording == False:
             try:
                 print("_________start_recording video")
                 self.startedRecording = True
