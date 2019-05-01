@@ -134,6 +134,9 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                 }
                 # data["sot"]["temp"]
                 #
+                
+                print("isStartedPreview")
+                print(self.stream.isStartedPreview())
                 content = str([[21,60],[22,70],[20,85],2])
                 content = content.encode('utf-8')
 

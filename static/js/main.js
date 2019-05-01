@@ -3,7 +3,7 @@
 
 loadDoc();
 window.setInterval(function () {
-  //  loadDoc()
+   loadDoc()
 }, 5000)
 
 // ***********************Socket*****************
@@ -352,7 +352,7 @@ function captureImage() {
     }
   }
   xhttp.open("POST", "/capture_image?id=" + userId, true);
-  xhttp.send(filename + "//"+getResolution(resolution));
+  xhttp.send(filename + "//" + getResolution(resolution));
 }
 
 

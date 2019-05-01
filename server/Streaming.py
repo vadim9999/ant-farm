@@ -48,7 +48,7 @@ class Streaming():
     height = 480
     deleteUsers = False
     splitter_port = False
-
+    connectedUserId = 0
     # getters and setters
     def isStartedPreview(self):
         return self.startedPreview
@@ -173,21 +173,20 @@ class Streaming():
             print(userID)
             self.stoppedUserId = userID
     
-    def isStartedStream():
+    def isStartedStream(self):
         return self.startedStream
     
 # *************Stream***************
     def startRecordingStream(self):
-        if self.startedStream != True:
+        
+            self.connectedUserId = userID
             try:
                 print("_______start recording stream__________")
                 while self.startedStream == True:
                     self.camera.wait_recording(1)
                 print("____Executing after while____")
             except Exception as e:
-                logging.warning(
-                    'Stop streaming %s: %s',
-                    self.client_address, str(e))
+                print("Exception")
             finally:
                 print("____Block finally___")
                 print("____Stopping camera___")
@@ -220,20 +219,24 @@ class Streaming():
         
 
     def startStream(self, userID = 0, resolution1 = "640x480"):
-        stream_cmd = 'ffmpeg -f h264 -r 25 -i - -itsoffset 5.5 -fflags nobuffer -f lavfi -i anullsrc -c:v copy -c:a aac -strict experimental -f flv ' + YOUTUBE + KEY
-        self.stream_pipe = subprocess.Popen(stream_cmd, shell=True, stdin=subprocess.PIPE, preexec_fn=os.setsid)
-        print("_____setting pipe_____")
-        self.startCamera()
-        print("___________Started Camera_______")
-        self.camera.framerate = 25
-        self.camera.vflip = True
-        self.camera.hflip = True
-        print("______After Settingup___")
-        self.camera.start_recording(self.stream_pipe.stdin, format='h264', bitrate = 20000000, resize = resolution1)
+        if self.startedStream != True and userID != 0:
+            self.connectedUserId = userID
+            stream_cmd = 'ffmpeg -f h264 -r 25 -i - -itsoffset 5.5 -fflags nobuffer -f lavfi -i anullsrc -c:v copy -c:a aac -strict experimental -f flv ' + YOUTUBE + KEY
+            self.stream_pipe = subprocess.Popen(stream_cmd, shell=True, stdin=subprocess.PIPE, preexec_fn=os.setsid)
+            print("_____setting pipe_____")
+            self.startCamera()
+            print("___________Started Camera_______")
+            self.camera.framerate = 25
+            self.camera.vflip = True
+            self.camera.hflip = True
+            print("______After Settingup___")
+            self.camera.start_recording(self.stream_pipe.stdin, format='h264', bitrate = 20000000, resize = resolution1)
 
-        print("__________AfterStartRecording")
-        self.startedStream = True
-        self.startRecordingStream()
+            print("__________AfterStartRecording")
+            self.startedStream = True
+            self.startRecordingStream()
+
+        
 
         # self.startPreview(selfed, userID)
 
