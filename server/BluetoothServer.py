@@ -6,6 +6,7 @@ import trace
 import threading 
 import os
 import time
+import json
 
 from socket import error as socket_error
 from .WIFIConnector import WIFIConnector
@@ -47,6 +48,9 @@ class BluetoothServer():
                         data = self.client_sock.recv(1024)
                         print("received [%s]" % data)
                         decodedData = str(data.decode("utf-8"))
+                        jsonStr1 = json.loads(decodedData)
+                        print("jsonStr1")
+                        print(jsonStr1)
                         receivedData = decodedData.split("_")
                         print(decodedData == "getWIFIData")
 
@@ -68,16 +72,19 @@ class BluetoothServer():
                             print(router)
                             data = {
                                 "request": "getWIFIData",
-                                "router": router
+                                "router": router,
+                                "data": networks
                             }
-                            self.client_sock.send(("{\"name\": \"getWIFIData\", \"router\":\"" +
-                                     router + 
-                                     "\","
-                                        #  \"password\":\"" + 
-                                    #  password + "\"," + 
-                                     "\"data\":" +     
-                                         networks + 
-                                          "}\n").encode("utf-8"))
+                            jsonStr = json.dumps(data) + "\n"
+                            self.client_sock.send(jsonStr.encode("utf-8"))
+                            # self.client_sock.send(("{\"name\": \"getWIFIData\", \"router\":\"" +
+                            #          router + 
+                            #          "\","
+                            #             #  \"password\":\"" + 
+                            #         #  password + "\"," + 
+                            #          "\"data\":" +     
+                            #              networks + 
+                            #               "}\n").encode("utf-8"))
                             print("sended")
                         
                         if receivedData[0] == "setWIFIData":
