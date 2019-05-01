@@ -18,6 +18,7 @@ from os.path import isfile, join
 import os
 import shutil
 import sys
+import json
 
 WIDTH = 640
 HEIGHT = 480
@@ -113,9 +114,25 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
 
             elif self.path == '/sensors':
                 content_type = 'text/html; charset=utf-8'
-                content = str([[21,60],[22,70],[20,85],2])
-                content = content.encode('utf-8')
+                connectedId = 0
+                preview = True
+                stream = False
+                recording = False
+                if preview == True:
+                    if stream == True:
+                        connectedId = 2
+                    elif recording == True:
+                        connectedId = 2
 
+                data = {
+                    "sot":{
+                        "temp":26,
+                        "hum":70,
+                    },
+                    "connectedId" : connectedId
+                }
+            
+                content = (json.dumps(data)).encode('utf-8')
                 self.send_response(200)
                 self.send_header('Content-Type', content_type)
                 self.send_header('Content-Length', len(content))

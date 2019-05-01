@@ -145,19 +145,30 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                 return
             elif self.path == '/sensors':
                 content_type = 'text/html; charset=utf-8'
+                
+                # data["sot"]["temp"]
+                #
+                connectedId = 0
+                if self.stream.isStartedPreview() == True:
+                    if self.stream.isStartedStream() == True:
+                        connectedId = self.stream.getConnectedUserId()
+                    elif self.recordVideo.isStartedRecording() == True:
+                        connectedId = self.recordVideo.getConnectedUserId()
+
                 data = {
                     "sot":{
                         "temp":26,
                         "hum":70,
-                    }
+                    },
+                    "connectedId" : connectedId
                 }
-                # data["sot"]["temp"]
-                #
                 
+                    
+
                 print("isStartedPreview")
-                print(self.stream.isStartedPreview())
-                content = str([[21,60],[22,70],[20,85],2])
-                content = content.encode('utf-8')
+                print(self.stream.isStartedStream())
+                # content = str([[21,60],[22,70],[20,85],2])
+                content = (json.dumps(data)).encode('utf-8')
 
                 self.send_response(200)
                 self.send_header('Content-Type', content_type)

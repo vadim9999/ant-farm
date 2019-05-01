@@ -1,6 +1,6 @@
 var item = "cursorQ dropdown-item";
 var resolution = "640x480";
-var isPreviewStart = false;
+
 
 function onQ720() {
     
@@ -76,6 +76,7 @@ function startPreview() {
     userId = getUrlParam('id', 'Empty')
     enableButtonStart("preview")
     isPreviewStart = false
+    isBlocked = false
     document.getElementById("capture-image").disabled = true;
     document.getElementById("start-record").disabled = true;
     var xhttp = new XMLHttpRequest();
@@ -94,14 +95,14 @@ function startPreview() {
 function startStream() {
   userId = getUrlParam('id', 'Empty')
   startBlinking("blinkingStream")
+  // document.getElementById("stop-" + id).removeAttribute("disabled")
+  // document.getElementById("start-" + id).disabled = "true"
+  
   enableButtonStop("stream")
   var e = document.getElementById("resolutionStream")
   var resolution = e.options[e.selectedIndex].value;
 
   console.log("resolution");
-
-  console.log(resolution);
-  console.log(getResolution(resolution));
 
   var xhttp = new XMLHttpRequest();
 
@@ -121,6 +122,8 @@ function stopStream() {
   userId = getUrlParam('id', 'Empty')
   stopBlinking("blinkingStream")
   enableButtonStart("stream")
+  enableButtonStart("preview")
+  isPreviewStart = false
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange
@@ -145,6 +148,8 @@ function waitStartPreview() {
         console.log("GET /wait_start_preview");
         console.log(this.responseText);
         startPreview()
+        document.getElementById("capture-image").disabled = true;
+    document.getElementById("start-record").disabled = true;
       }
     }
   xhttp.open("GET", "/wait_start_preview?id=" + userId, true);

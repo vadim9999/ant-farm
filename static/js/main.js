@@ -3,7 +3,7 @@
 
 loadDoc();
 window.setInterval(function () {
-  //  loadDoc()
+   loadDoc()
 }, 5000)
 
 // ***********************Socket*****************
@@ -36,7 +36,7 @@ var h1 = document.getElementById('stopWatch'),
   clear = document.getElementById('clear'),
   seconds = 0, minutes = 0, hours = 0,
   t;
-
+  var isPreviewStart = false;
 function add() {
   seconds++;
   if (seconds >= 60) {
@@ -124,48 +124,73 @@ function enableButtonStart(id) {
 //     seconds = 0; minutes = 0; hours = 0;
 // }
 
-
+var isBlocked = false;
 function loadDoc() {
-
+  userId = getUrlParam('id', 'Empty')
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       // var data = document.test_form.test_text.value;
-      sensors = JSON.parse(this.responseText)
-      // console.log(data);
-      // document.getElementById("TextBlock").innerHTML = this.responseText ;
-      document.getElementById("sotTemp").innerHTML = sensors[0][0];
-      document.getElementById("sotHum").innerHTML = sensors[0][1] + "%";
-      document.getElementById("humidityCircle").setAttribute("stroke-dasharray", (sensors[0][1] + " 135"));
-      let sotHum = sensors[0][1];
-      // document.getElementById("humAnimation").setAttribute("values",
-      // ("0 200; " + ((sotHum/6) + " 180; ") + ((sotHum/4) + " 150; ") + ((sotHum/7) + " 135; ") + (sensors[0][1] + " 135; ")+(sensors[0][1] + " 135; ")));
+      // sensors = JSON.parse(this.responseText)
+      // // console.log(data);
+      // // document.getElementById("TextBlock").innerHTML = this.responseText ;
+      // document.getElementById("sotTemp").innerHTML = sensors[0][0];
+      // document.getElementById("sotHum").innerHTML = sensors[0][1] + "%";
+      // document.getElementById("humidityCircle").setAttribute("stroke-dasharray", (sensors[0][1] + " 135"));
+      // let sotHum = sensors[0][1];
+      // // document.getElementById("humAnimation").setAttribute("values",
+      // // ("0 200; " + ((sotHum/6) + " 180; ") + ((sotHum/4) + " 150; ") + ((sotHum/7) + " 135; ") + (sensors[0][1] + " 135; ")+(sensors[0][1] + " 135; ")));
 
-      document.getElementById("arenaTemp").innerHTML = sensors[1][0];
-      document.getElementById("arenaHum").innerHTML = sensors[1][1];
-      document.getElementById("roomTemp").innerHTML = sensors[2][0];
-      document.getElementById("roomHum").innerHTML = sensors[2][1];
-      // Water level
-      switch (sensors[3]) {
-        case 1:
-          document.getElementById("waterLvlLow").innerHTML = 1;
-          document.getElementById('topWater').style.background = "red";
-          document.getElementById('sky').style.height = '80%';
-          break;
-        case 2:
-          document.getElementById("waterLvlMiddle").innerHTML = 1;
-          document.getElementById('topWater').style.background = "orange";
-          document.getElementById('sky').style.height = '50%';
-          break;
-        case 3:
-          document.getElementById("waterLvlHigh").innerHTML = 1;
-          document.getElementById('topWater').style.background = "green";
-          document.getElementById('sky').style.height = '20%';
-          break;
-      }
-      console.log("Response");
+      // document.getElementById("arenaTemp").innerHTML = sensors[1][0];
+      // document.getElementById("arenaHum").innerHTML = sensors[1][1];
+      // document.getElementById("roomTemp").innerHTML = sensors[2][0];
+      // document.getElementById("roomHum").innerHTML = sensors[2][1];
+      // // Water level
+      // switch (sensors[3]) {
+      //   case 1:
+      //     document.getElementById("waterLvlLow").innerHTML = 1;
+      //     document.getElementById('topWater').style.background = "red";
+      //     document.getElementById('sky').style.height = '80%';
+      //     break;
+      //   case 2:
+      //     document.getElementById("waterLvlMiddle").innerHTML = 1;
+      //     document.getElementById('topWater').style.background = "orange";
+      //     document.getElementById('sky').style.height = '50%';
+      //     break;
+      //   case 3:
+      //     document.getElementById("waterLvlHigh").innerHTML = 1;
+      //     document.getElementById('topWater').style.background = "green";
+      //     document.getElementById('sky').style.height = '20%';
+      //     break;
+      // }
+      // console.log("Response");
       console.log(JSON.parse(this.responseText));
+      var data = JSON.parse(this.responseText);
+
+      if(data["connectedId"] != "0"){
+        console.log("Not zero");
+        
+        if (isBlocked == false && data["connectedId"] != userId && isPreviewStart == true){
+          console.log("block buttons");
+          
+          document.getElementById("start-stream").disabled = true;
+          document.getElementById("capture-image").disabled = true;
+          document.getElementById("start-record").disabled = true;
+          isBlocked = true
+        }
+      }else {
+        
+        if (isPreviewStart == true && isBlocked == true) {
+          console.log("Iin section remove disable");
+          
+          isBlocked = false
+          document.getElementById("start-stream").removeAttribute("disabled")
+          document.getElementById("capture-image").removeAttribute("disabled")
+          document.getElementById("start-record").removeAttribute("disabled")
+        }
+      }
+      
     }
   }
   xhttp.open("GET", "/sensors", true);

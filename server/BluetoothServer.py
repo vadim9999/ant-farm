@@ -66,6 +66,10 @@ class BluetoothServer():
                             router = out.split(b'\n')[0].decode("utf-8")
                             print("Router")
                             print(router)
+                            data = {
+                                "request": "getWIFIData",
+                                "router": router
+                            }
                             self.client_sock.send(("{\"name\": \"getWIFIData\", \"router\":\"" +
                                      router + 
                                      "\","

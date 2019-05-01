@@ -26,11 +26,19 @@ class RecordVideo():
     def setVideoResolution(self, height, width):
         self.height = height
         self.width = width
+
     def test(self):
         print("_________int_test____")
         return ("In test Video record ")
 
-    def startRecording(self, filename,resolution, startedPreview, camera):
+    def isStartedRecording(self):
+        return self.startedRecording
+
+    def getConnectedUserId(self):
+        return self.userId
+
+    def startRecording(self, filename,resolution, startedPreview, camera, userID):
+        self.userId = userID
         print("_____in_start_Record____")
         if startedPreview == True and self.startedRecording == False:
             try:

@@ -59,6 +59,12 @@ class Streaming():
         return "In test streaming"
     def getCamera(self):
         return self.camera
+
+    def isStartedStream(self):
+        return self.startedStream
+        
+    def getConnectedUserId(self):
+        return self.connectedUserId
     # ------------------
     def startCamera(self, resolution1):
         print("resolution in Camera")
@@ -178,9 +184,8 @@ class Streaming():
             print(userID)
             self.stoppedUserId = userID
     
-    def isStartedStream(self):
-        return self.startedStream
-    
+    :
+
 # *************Stream***************
     def startRecordingStream(self):
         try:
