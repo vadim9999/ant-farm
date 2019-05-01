@@ -48,13 +48,12 @@ class BluetoothServer():
                         data = self.client_sock.recv(1024)
                         print("received [%s]" % data)
                         decodedData = str(data.decode("utf-8"))
-                        jsonStr1 = json.loads(decodedData)
+                        
+                        receivedData = json.loads(decodedData)
                         print("jsonStr1")
-                        print(jsonStr1)
-                        receivedData = decodedData.split("_")
-                        print(decodedData == "getWIFIData")
-
-                        if receivedData[0] == "getWIFIData":
+                        print(receivedData)
+                        
+                        if receivedData["request"] == "getWIFIData":
                             print("write response wifi")
                             
                             networks = wifiConnector.getWIFINetworks()
@@ -77,34 +76,34 @@ class BluetoothServer():
                             }
                             jsonStr = json.dumps(data) + "\n"
                             self.client_sock.send(jsonStr.encode("utf-8"))
-                            # self.client_sock.send(("{\"name\": \"getWIFIData\", \"router\":\"" +
-                            #          router + 
-                            #          "\","
-                            #             #  \"password\":\"" + 
-                            #         #  password + "\"," + 
-                            #          "\"data\":" +     
-                            #              networks + 
-                            #               "}\n").encode("utf-8"))
                             print("sended")
                         
-                        if receivedData[0] == "setWIFIData":
-                            router = receivedData[1]
-                            password = receivedData[2]
-                            ip_address = wifiConnector.wifi_connect(router,password)
+                        if receivedData["request"] == "setWIFIData":
+                            network = receivedData["network"]
+                            password = receivedData["password"]
+                            ip_address = wifiConnector.wifi_connect(network,password)
                             
-                            print(router) 
+                            print(network) 
                             print(password)
                             print(ip_address)
-                            self.client_sock.send(("{\"name\": \"setWIFIData\"," +
-                                "\"ipAddress\":\"" + ip_address + "\""
-                                 + "}\n").encode("utf-8"))
-                        if receivedData[0] == "getIP":
+                            data = {
+                                "request": "setWIFIData",
+                                "ipAddress": ip_address
+                            }
+                            dataJson = json.dumps(data) + "\n"
+                            self.client_sock.send(dataJson.encode("utf-8"))
+                            
+
+                        if receivedData["request"] == "getIP":
                             ip = wifiConnector.getIP()
-                            self.client_sock.send(("{\"name\": \"getIP\"," +
-                                "\"ip\":\"" + ip + "\""
-                                 + "}\n").encode("utf-8"))
-        # if decodedData == "setWIFIData\n"
-        # client_sock.send("Received data!\n".encode("utf-8"))
+                            data = {
+                                "request":"getIP",
+                                "ip":ip
+                            }
+                            dataJson = json.dumps(data) + "\n"
+                            self.client_sock.send(dataJson.encode("utf-8"))
+                           
+        
                 except IOError:
                     print("Exception _")
                     

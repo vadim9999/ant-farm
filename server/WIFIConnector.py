@@ -15,21 +15,17 @@ class WIFIConnector():
 
         cell = list(Cell.all('wlan0'))
         arrStr = "["
+        networks = []
         for i in range(len(cell)):
-            arrStr = arrStr + "\"" + cell[i].ssid + "\""
-
-            if i < (len(cell) -1):
-               arrStr = arrStr + ","
-
-        arrStr = arrStr + "]"
-
+            networks.append(cell[i].ssid)
+           
         # scheme = Scheme.for_cell('wlan0', 'smart', cell[i], 'Loader55')
         # scheme.save()
         # scheme.activate()
         # print("Founded ")
         # print(cell[i].ssid)
     # print(cell[i])
-        return arrStr
+        return networks
 
     def wifi_connect(self,ssid, psk):
         cmd_result = ""
@@ -65,18 +61,19 @@ class WIFIConnector():
                          stderr=subprocess.PIPE)
 
             out, err = p.communicate()
-            ip_address = "<Not Set>"
+            ip_address = "NONE"
 
     # extract the IP address
             for l in out.split(b'\n'):
                 if l.strip().startswith(b'inet '):
                     ip_address = l.strip().split(b'inet ')[1].split(b' ')[0]
 
-            ip_address = str(ip_address.decode("utf-8"))
+            if ip_address != "NONE":
+                ip_address = str(ip_address.decode("utf-8"))
+            
             print(ip_address)
             return ip_address
         else:
-
             return "FAIL"
 
     def getIP(self):
