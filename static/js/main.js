@@ -3,7 +3,7 @@
 
 loadDoc();
 window.setInterval(function () {
-   loadDoc()
+  //  loadDoc()
 }, 5000)
 
 // ***********************Socket*****************
@@ -377,66 +377,6 @@ function getResolution(resolution) {
       break;
   }
 }
-// ----------stream-------------
-function startStream() {
-  userId = getUrlParam('id', 'Empty')
-  startBlinking("blinkingStream")
-  enableButtonStop("stream")
-  var e = document.getElementById("resolutionStream")
-  var resolution = e.options[e.selectedIndex].value;
-
-  console.log("resolution");
-
-  console.log(resolution);
-  console.log(getResolution(resolution));
-
-  var xhttp = new XMLHttpRequest();
-
-  xhttp.onreadystatechange
-    = function () {
-      if (this.readyState == 4) {
-        console.log("POST /start_stream");
-        console.log(this.responseText);
-      }
-    }
-  xhttp.open("POST", "/start_stream?id=" + userId, true);
-  xhttp.send(getResolution(resolution));
-  waitStartPreview()
-}
-
-function stopStream() {
-  userId = getUrlParam('id', 'Empty')
-  stopBlinking("blinkingStream")
-  enableButtonStart("stream")
-  var xhttp = new XMLHttpRequest();
-
-  xhttp.onreadystatechange
-    = function () {
-      if (this.readyState == 4) {
-        console.log("GET /stop_stream");
-        console.log(this.responseText);
-      }
-    }
-  xhttp.open("GET", "/stop_stream?id=" + userId, true);
-  xhttp.send();
-
-}
-
-function waitStartPreview() {
-  userId = getUrlParam('id', 'Empty')
-  var xhttp = new XMLHttpRequest();
-
-  xhttp.onreadystatechange
-    = function () {
-      if (this.readyState == 4) {
-        console.log("GET /wait_start_preview");
-        console.log(this.responseText);
-        startPreview()
-      }
-    }
-  xhttp.open("GET", "/wait_start_preview?id=" + userId, true);
-  xhttp.send();
-}
 
 // ---------------------
 // ---------Video-Record----------
@@ -501,8 +441,9 @@ function getStreamSettings() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var str = this.responseText;
-      var replacedStr = str.replace(/'/g, "\"")
-      var data = JSON.parse(replacedStr)
+      // var replacedStr = str.replace(/'/g, "\"")
+      // var data = JSON.parse(replacedStr)
+      var data = JSON.parse(str)
       console.log(data);
 
       document.getElementById("streamLink").value = data["youtube"];
@@ -515,3 +456,31 @@ function getStreamSettings() {
   xhttp.send();
 }
 // --------------------------
+function setStreamSettings() {
+  console.log("In set settings");
+  var xhttp = new XMLHttpRequest();
+  var userId = getUrlParam('id', 'Empty')
+  console.log(userId);
+  var youtube = document.getElementById("streamLink").value;
+  var key = document.getElementById("streamKey").value;
+  var result = {
+    "youtube": youtube,
+    "key": key
+  }
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var str = this.responseText;
+      // var replacedStr = str.replace(/'/g, "\"")
+      // var data = JSON.parse(replacedStr)
+      // var data = JSON.parse(str)
+      // console.log(data);
+
+      // document.getElementById("streamLink").value = data["youtube"];
+      // document.getElementById("streamKey").value = data["key"];
+
+      // console.log(this.responseText);
+    }
+  }
+  xhttp.open("POST", "/set_stream_settings?id=" + userId, true);
+  xhttp.send(JSON.stringify(result));
+}

@@ -89,3 +89,64 @@ function startPreview() {
     xhttp.open("GET", "/stop?id=" + userId, true);
     xhttp.send();
   }
+
+  // ----------stream-------------
+function startStream() {
+  userId = getUrlParam('id', 'Empty')
+  startBlinking("blinkingStream")
+  enableButtonStop("stream")
+  var e = document.getElementById("resolutionStream")
+  var resolution = e.options[e.selectedIndex].value;
+
+  console.log("resolution");
+
+  console.log(resolution);
+  console.log(getResolution(resolution));
+
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange
+    = function () {
+      if (this.readyState == 4) {
+        console.log("POST /start_stream");
+        console.log(this.responseText);
+      }
+    }
+  xhttp.open("POST", "/start_stream?id=" + userId, true);
+  xhttp.send(getResolution(resolution));
+  waitStartPreview()
+}
+
+function stopStream() {
+  userId = getUrlParam('id', 'Empty')
+  stopBlinking("blinkingStream")
+  enableButtonStart("stream")
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange
+    = function () {
+      if (this.readyState == 4) {
+        console.log("GET /stop_stream");
+        console.log(this.responseText);
+      }
+    }
+  xhttp.open("GET", "/stop_stream?id=" + userId, true);
+  xhttp.send();
+
+}
+
+function waitStartPreview() {
+  userId = getUrlParam('id', 'Empty')
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange
+    = function () {
+      if (this.readyState == 4) {
+        console.log("GET /wait_start_preview");
+        console.log(this.responseText);
+        startPreview()
+      }
+    }
+  xhttp.open("GET", "/wait_start_preview?id=" + userId, true);
+  xhttp.send();
+}

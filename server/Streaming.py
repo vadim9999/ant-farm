@@ -17,6 +17,7 @@ from urllib.parse import urlencode
 import subprocess
 import os
 import signal
+import json 
 
 class StreamingOutput(object):
     def __init__(self):
@@ -34,8 +35,8 @@ class StreamingOutput(object):
                 self.condition.notify_all()
             self.buffer.seek(0)
         return self.buffer.write(buf)
-YOUTUBE="rtmp://a.rtmp.youtube.com/live2/"
-KEY= "6kbh-kq1m-zbty-e4rt"
+
+
 
 class Streaming():
     connectedClients = 0
@@ -49,6 +50,8 @@ class Streaming():
     deleteUsers = False
     splitter_port = False
     connectedUserId = 0
+    youtube = ""
+    key = ""
     # getters and setters
     def isStartedPreview(self):
         return self.startedPreview
@@ -58,6 +61,8 @@ class Streaming():
         return self.camera
     # ------------------
     def startCamera(self, resolution1):
+        print("resolution in Camera")
+        print(resolution1)
         self.camera = picamera.PiCamera(resolution=resolution1, framerate=24)
         self.output = StreamingOutput()
 
@@ -178,24 +183,22 @@ class Streaming():
     
 # *************Stream***************
     def startRecordingStream(self):
-        
-            self.connectedUserId = userID
-            try:
-                print("_______start recording stream__________")
-                while self.startedStream == True:
-                    self.camera.wait_recording(1)
-                print("____Executing after while____")
-            except Exception as e:
-                print("Exception")
-            finally:
-                print("____Block finally___")
-                print("____Stopping camera___")
-                self.camera.stop_recording()
-                print("___Stopped recording_____")
-                self.camera.close()
-                print("_____camera was closed_____")
-                os.killpg(os.getpgid(self.stream_pipe.pid), signal.SIGTERM)
-                self.startedStream = False
+        try:
+            print("_______start recording stream__________")
+            while self.startedStream == True:
+                self.camera.wait_recording(1)
+            print("____Executing after while____")
+        except Exception as e:
+            print("Exception")
+        finally:
+            print("____Block finally___")
+            print("____Stopping camera___")
+            self.camera.stop_recording()
+            print("___Stopped recording_____")
+            self.camera.close()
+            print("_____camera was closed_____")
+            os.killpg(os.getpgid(self.stream_pipe.pid), signal.SIGTERM)
+            self.startedStream = False
             # self.stream_pipe.stdin.kill()
             # os.kill(self.stream_pipe, signal.SIGKILL)
 #             pid = self.stream_pipe.pid
@@ -214,23 +217,38 @@ class Streaming():
             # print("___closed_pipe____")
             # self.stream_pipe.wait()
             # print("___waiting to close pipe____")
-            print("Done")
+        print("Done")
 
         
+    def setYoutubeKey(self, youtube, key):
+        print("In setYoutube")
+        print(youtube)
+        print(key)
+        self.youtube = youtube
+        self.key = key
 
+    def getYoutubeKey(self):
+        data = {
+            "youtube": self.youtube,
+            "key": self.key
+        }
+        
+        return json.dumps(data)
+        # return "{\"" + "youtube\":\"" + self.youtube + "\", " + "\"key\":\"" + self.key + "\"}"
+    
     def startStream(self, userID = 0, resolution1 = "640x480"):
         if self.startedStream != True and userID != 0:
             self.connectedUserId = userID
-            stream_cmd = 'ffmpeg -f h264 -r 25 -i - -itsoffset 5.5 -fflags nobuffer -f lavfi -i anullsrc -c:v copy -c:a aac -strict experimental -f flv ' + YOUTUBE + KEY
+            stream_cmd = 'ffmpeg -f h264 -r 25 -i - -itsoffset 5.5 -fflags nobuffer -f lavfi -i anullsrc -c:v copy -c:a aac -strict experimental -f flv ' + self.youtube + "/" + self.key
             self.stream_pipe = subprocess.Popen(stream_cmd, shell=True, stdin=subprocess.PIPE, preexec_fn=os.setsid)
             print("_____setting pipe_____")
-            self.startCamera()
+            self.startCamera(resolution1 = resolution1)
             print("___________Started Camera_______")
-            self.camera.framerate = 25
+            # self.camera.framerate = 25
             self.camera.vflip = True
             self.camera.hflip = True
             print("______After Settingup___")
-            self.camera.start_recording(self.stream_pipe.stdin, format='h264', bitrate = 20000000, resize = resolution1)
+            self.camera.start_recording(self.stream_pipe.stdin, format='h264', bitrate = 20000000)
 
             print("__________AfterStartRecording")
             self.startedStream = True

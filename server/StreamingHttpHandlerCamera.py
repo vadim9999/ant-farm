@@ -22,6 +22,7 @@ from os.path import isfile, join
 import os
 import shutil
 import sys
+import json 
 
 WIDTH = 640
 HEIGHT = 480
@@ -109,8 +110,26 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             self.stream.stopRecording(stopPreviewAllUsers = True)
             print("_________After Stopping recording_________")
             resolution = str(self.rfile.read(int(self.headers['Content-Length'])).decode("utf-8"))
+            print(resolution)
             self.stream.startStream(userID = userId, resolution1 = resolution)
         
+        if self.path == '/set_stream_settings':
+            self.send_response(200)
+            self.end_headers()
+                    # @TODO change it
+                    # YOUTUBE="rtmp://a.rtmp.youtube.com/live2/"
+                    # KEY= "6kbh-kq1m-zbty-e4rt"
+                    # ------
+                    # data = {
+                    #     "youtube": YOUTUBE,
+                    #     "key": KEY
+                    # }
+            data = str(self.rfile.read(int(self.headers['Content-Length'])).decode("utf-8"))
+            settings = json.loads(data)
+
+            self.stream.setYoutubeKey(settings["youtube"], settings["key"])
+            
+            self.wfile.write(data.encode('utf-8'))
 
 
 
@@ -184,6 +203,21 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
 
                 if self.path == "/index.html":
                     self.path = 'templates/index.html'
+
+                if self.path == '/stream_settings':
+                    self.send_response(200)
+                    self.end_headers()
+                    # @TODO change it
+                    # YOUTUBE="rtmp://a.rtmp.youtube.com/live2/"
+                    # KEY= "6kbh-kq1m-zbty-e4rt"
+                    # ------
+                    # data = {
+                    #     "youtube": YOUTUBE,
+                    #     "key": KEY
+                    # }
+                    data = self.stream.getYoutubeKey()
+                    print(data)
+                    self.wfile.write(data.encode('utf-8'))
 
                 if self.path == "/stop_record":
                     self.send_response(200)
