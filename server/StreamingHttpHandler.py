@@ -133,11 +133,25 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                         connectedId = 2
 
                 data = {
-                    "sot":{
-                        "temp":26,
-                        "hum":70,
-                    },
-                    "connectedId" : connectedId
+                    "sensors": [
+                        {
+                            "name": "sot",
+                            "Temp": 26,
+                            "Hum": 75,
+                        },
+                        {
+                            "name": "outside",
+                            "temp": 26,
+                            "Hum": 60,
+                        },
+                        {
+                            "name": "arena",
+                            "Temp": 26,
+                            "Hum": 40,
+                         }
+                    ],
+                    "waterLevel": "middle",
+                    "connectedId": connectedId
                 }
             
                 content = (json.dumps(data)).encode('utf-8')

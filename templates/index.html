@@ -128,6 +128,35 @@
           </svg>
           <p>super gauge chart 2</p>
         </div>
+        <div class="gauge-chart">
+          <svg viewBox="0 0 80 40" class="gauge">
+            <circle class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4"
+              stroke-width="15"></circle>
+            <circle id="humidityCircle" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent"
+              stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135" stroke-dashoffset="-100">
+              <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray'
+                values="${animationValues}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
+            </circle>
+
+            <text id="arenaHum" x="25" y="39.5">65</text>
+          </svg>
+          <p>super gauge chart 2</p>
+        </div>
+        <div class="gauge-chart">
+          <svg viewBox="0 0 80 40" class="gauge">
+            <circle class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4"
+              stroke-width="15"></circle>
+            <circle id="humidityCircle" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent"
+              stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135" stroke-dashoffset="-100">
+              <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray'
+                values="${animationValues}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
+            </circle>
+
+            <text id="outsideHum" x="25" y="39.5">65</text>
+          </svg>
+          <p>super gauge chart 2</p>
+        </div>
+
       </div>
       <!-- here -->
     </div>
@@ -238,7 +267,7 @@
                 <option value="3">2</option>
               </select>
               <div>
-              <button type="button" class="btn btn-primary" onClick="feed()">Погодувати</button>
+                <button type="button" class="btn btn-primary" onClick="feed()">Погодувати</button>
               </div>
             </div>
             <div class="modal-footer">
@@ -369,7 +398,7 @@
             </div>
           </div>
           <div class="col">
-            <div id="Humidity">
+            <!-- <div id="Humidity">
               <table style="width:50%">
                 <tr>
                   <th></th>
@@ -410,19 +439,9 @@
                   <td id="waterLvlLow">0</td>
                 </tr>
               </table>
-            </div>
+            </div> -->
           </div>
         </div>
-
-
-        <div id="stopWatch">
-          <p id="blinkingCircle" style="margin-right: 0px;" class="circle red"></p>
-          <time>00:00:00</time>
-        </div>
-
-        <button id="start">start</button>
-        <button id="stop">stop</button>
-        <button id="clear">clear</button>
 
 
         <!--
@@ -435,6 +454,8 @@
         <script src="static/jquery/jquery-3.3.1.slim.min.js"></script>
         <script src="static/jquery/popper.min.js"></script>
         <script src="static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="static/js/helper.js"></script>
+        <script src="static/js/timer.js"></script>
         <script src="static/js/main.js"></script>
         <script src="static/js/sendResolution.js"></script>
 </body>

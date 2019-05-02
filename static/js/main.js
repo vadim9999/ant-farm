@@ -30,31 +30,7 @@ window.setInterval(function () {
 // console.log('Code ' + event.code + ' reason '+ event.reason)
 // }
 // *********************************************
-var h1 = document.getElementById('stopWatch'),
-  start = document.getElementById('start'),
-  stop = document.getElementById('stop'),
-  clear = document.getElementById('clear'),
-  seconds = 0, minutes = 0, hours = 0,
-  t;
-  var isPreviewStart = false;
-function add() {
-  seconds++;
-  if (seconds >= 60) {
-    seconds = 0;
-    minutes++;
-    if (minutes >= 60) {
-      minutes = 0;
-      hours++;
-    }
-  }
 
-  h1.innerHTML = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
-
-  timer();
-}
-function timer() {
-  t = setTimeout(add, 1000);
-}
 // timer();
 function onFullScreen() {
   var fullScreen = document.getElementById("fullScreen");
@@ -81,35 +57,8 @@ function onFullScreen() {
 
   //  fullScreen.webkitRequestFullScreen()
 }
-function startStopWatch() {
-  h1.innerHTML = "00:00:00";
-  seconds = 0; minutes = 0; hours = 0;
-  timer();
-}
 
-function stopStopWatch(id) {
 
-  clearTimeout(t);
-}
-function startBlinking(id) {
-  document.getElementById(id).style.backgroundColor = "red";
-  document.getElementById(id).style.animation = "blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate"
-}
-
-function stopBlinking(id) {
-  document.getElementById(id).style.backgroundColor = "";
-  document.getElementById(id).style.animation = ""
-}
-
-function enableButtonStop(id) {
-  document.getElementById("stop-" + id).removeAttribute("disabled")
-  document.getElementById("start-" + id).disabled = "true"
-}
-
-function enableButtonStart(id) {
-  document.getElementById("start-" + id).removeAttribute("disabled")
-  document.getElementById("stop-" + id).disabled = "true"
-}
 /* Start button */
 // start.onclick = timer;
 
@@ -168,6 +117,17 @@ function loadDoc() {
       console.log(JSON.parse(this.responseText));
       var data = JSON.parse(this.responseText);
 
+      data["sensors"].map(sensor => {
+        console.log("Name");
+        console.log(sensor.name);
+        console.log(sensor["Hum"]);
+        
+        // print("Name")
+        // print(sensor.name)
+        // print(sensor["Hum"])
+        document.getElementById(sensor.name + "Hum").innerHTML = sensor["Hum"] + " %";
+        // document.getElementById("humidityCircle").setAttribute("stroke-dasharray", (sensors[0][1] + " 135"));
+      })
       if(data["connectedId"] != "0"){
         console.log("Not zero");
         
@@ -359,21 +319,6 @@ function buildFiles() {
   document.getElementById("fileList").appendChild(a);
 }
 // ----------------------------------------
-function getUrlVars() {
-  var vars = {};
-  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-    vars[key] = value;
-  });
-  return vars;
-}
-
-function getUrlParam(parameter, defaultvalue) {
-  var urlparameter = defaultvalue;
-  if (window.location.href.indexOf(parameter) > -1) {
-    urlparameter = getUrlVars()[parameter];
-  }
-  return urlparameter;
-}
 
 // -------preview---------
 
