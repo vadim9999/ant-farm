@@ -91,23 +91,23 @@
                 class="btn btn-outline-primary">
                 <i class="fas fa-expand"></i>
               </button>
-              <span id="info"  tabindex="0" title="Disabled tooltip">
-              <div class="btn-group dropup" style="float:right; padding-right: 10px;">
+              <span id="info" tabindex="0" title="Disabled tooltip">
+                <div class="btn-group dropup" style="float:right; padding-right: 10px;">
 
-                <button id="videoResolution" type="button" class="btn btn-primary dropdown-toggle"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                  <i class="fas fa-cog"></i>
-                </button>
+                  <button id="videoResolution" type="button" class="btn btn-primary dropdown-toggle"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-cog"></i>
+                  </button>
 
 
 
-                <div class="dropdown-menu">
+                  <div class="dropdown-menu">
 
-                  <a onClick="onQ720()" id="Q720" class="cursorQ dropdown-item">720 HD</a>
-                  <a onClick="onQ480()" id="Q480" class="cursorQ dropdown-item active">480</a>
-                  <a onClick="onQ240()" id="Q240" class="cursorQ dropdown-item">240</a>
+                    <a onClick="onQ720()" id="Q720" class="cursorQ dropdown-item">720 HD</a>
+                    <a onClick="onQ480()" id="Q480" class="cursorQ dropdown-item active">480</a>
+                    <a onClick="onQ240()" id="Q240" class="cursorQ dropdown-item">240</a>
+                  </div>
                 </div>
-              </div>
               </span>
             </div>
           </div>
@@ -157,7 +157,7 @@
 
 
 
-      <!-- Modal -->
+      <!-- Modals ---------------------------------------------------------------->
       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -219,6 +219,36 @@
         </div>
       </div>
 
+      <div class="modal fade" id="feeder" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Налаштування годівниці</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              <label for="inputInterval">Виберіть інтервал (днях):</label>
+              <select id="inputInterval" style="width:15%; display:inline-block" class="custom-select "
+                id="resolutionStream" aria-label="Example select with button addon">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">2</option>
+              </select>
+              <div>
+              <button type="button" class="btn btn-primary" onClick="feed()">Погодувати</button>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onClick="setSettingsFeeder()">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ------------------------------------------------------------------------- -->
 
       <!-- <img src="stream.mjpg" width="640" height="480" /> -->
       <div class="col-md-8">
@@ -300,7 +330,10 @@
           data-target="#displayListVideos">
           <i class="fas fa-images"></i> Відкрити список медіафайлів
         </button>
-
+        <button type="button" onClick="getItemsTime();" class="btn btn-primary" data-toggle="modal"
+          data-target="#feeder">
+          Налаштування годівниці
+        </button>
         <!-- <video src="http://localhost:8002/video.h264" controls="controls" width="500"></video> -->
         <!-- second row -->
         <div class="col-md-4">

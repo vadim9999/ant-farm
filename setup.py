@@ -1,5 +1,3 @@
-import io
-import logging
 import socketserver
 from threading import Condition
 from http.server import HTTPServer, BaseHTTPRequestHandler

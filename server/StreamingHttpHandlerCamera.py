@@ -14,9 +14,12 @@ from time import sleep, time
 import http.cookies
 import urllib.parse as urlparse
 from urllib.parse import urlencode
+
 from .Streaming import Streaming
 from .RecordVideo import RecordVideo
 from .CaptureImage import CaptureImage
+from .ControlServo import ControlServo
+
 from os import listdir
 from os.path import isfile, join
 import os
@@ -102,10 +105,6 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
         if self.path == '/start_stream':
             self.send_response(200)
             self.end_headers()
-            print("_______start_stream")
-            print("UserId")
-            print(userId)
-            print()
             self.wfile.write("hello".encode('utf-8'))
             self.stream.stopRecording(stopPreviewAllUsers = True)
             print("_________After Stopping recording_________")
@@ -126,11 +125,16 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     # }
             data = str(self.rfile.read(int(self.headers['Content-Length'])).decode("utf-8"))
             settings = json.loads(data)
-
             self.stream.setYoutubeKey(settings["youtube"], settings["key"])
-            
             self.wfile.write(data.encode('utf-8'))
-
+        
+        if self.path == "/set_settings_feeder":
+            self.send_response(200)
+            self.end_headers()
+            
+            data = self.rfile.read(int(self.headers['Content-Length']))
+            data = str(data.decode("utf-8"))
+            print(data)
 
 
     #Handler for the GET requests
@@ -215,6 +219,14 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                 if self.path == "/index.html":
                     self.path = 'templates/index.html'
 
+                
+                # -----------feeder-----------------
+                if self.path == "/feed":
+                    print("feed")
+                    self.send_response(200)
+                    self.end_headers()
+
+                # ------------stream------------------
                 if self.path == '/stream_settings':
                     self.send_response(200)
                     self.end_headers()
@@ -230,6 +242,16 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     print(data)
                     self.wfile.write(data.encode('utf-8'))
 
+                if self.path == "/stop_stream":
+                    self.send_response(200)
+                    self.end_headers()
+                    print("_________________Stop stream____")
+                    self.stream.stopRecording(stopPreviewAllUsers = True)
+                    self.stream.stopStream()
+                    # print(self.rfile.read(int(self.headers['Content-Length'])))
+                    self.wfile.write("hello".encode('utf-8'))
+                
+                # ----------record------------------------
                 if self.path == "/stop_record":
                     self.send_response(200)
                     self.end_headers()
@@ -237,9 +259,9 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     # print(self.rfile.read(int(self.headers['Content-Length'])))
                     self.recordVideo.stopRecording()
                     self.wfile.write("ok".encode('utf-8'))
-        # -------------------------------------
+
+                # -----------media-----------------
                 if self.path == "/media":
-                    print("In videos")
                     content_type = 'text/html; charset=utf-8'
                     mypath = "./media/"
                     fileNames = [f for f in listdir(mypath) if isfile(join(mypath, f))]
@@ -257,6 +279,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     self.end_headers()
                     self.wfile.write(content)
 
+                # --------preview--------
                 if self.path == "/stop":
                     self.send_response(200)
                     self.end_headers()
@@ -269,7 +292,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     # C = http.cookies.SimpleCookie(self.headers["Cookie"])
                     # print(C['user_id'].value)
                     # self.stream.stopRecording(C['user_id'].value)
-                # --------------------------------
+                
                     if(userId != 0):
                         self.stream.stopRecording(userID = userId)
                         # print(self.rfile.read(int(self.headers['Content-Length'])))
@@ -284,18 +307,11 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                         sleep(1)
                     # print(self.rfile.read(int(self.headers['Content-Length'])))
                     self.wfile.write("hello".encode('utf-8'))
-
+                # --------------------------------
                 
 
 
-                if self.path == "/stop_stream":
-                    self.send_response(200)
-                    self.end_headers()
-                    print("_________________Stop stream____")
-                    self.stream.stopRecording(stopPreviewAllUsers = True)
-                    self.stream.stopStream()
-                    # print(self.rfile.read(int(self.headers['Content-Length'])))
-                    self.wfile.write("hello".encode('utf-8'))
+                
 
         # -------------------------------------
                 # -------

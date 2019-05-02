@@ -91,15 +91,23 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
         if self.path == "/capture_image":
             self.send_response(200)
             self.end_headers()
-            
+            # TODO change on json
             data = self.rfile.read(int(self.headers['Content-Length']))
             data = str(data.decode("utf-8"))
             data = data.split("//")
             print(data)
         # ------------------------------------
 
-        
+        if self.path == "/set_settings_feeder":
+            print("")
+            self.send_response(200)
+            self.end_headers()
+            
+            data = self.rfile.read(int(self.headers['Content-Length']))
+            data = str(data.decode("utf-8"))
+            print(data)
 
+        
 
     #Handler for the GET requests
     def do_GET(self):
@@ -177,7 +185,12 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 if len(query) != 0:
                     userId = int(query["id"])
                     print(query["id"])
-
+                # ----feed
+                if self.path == "/feed":
+                    print("feed")
+                    self.send_response(200)
+                    self.end_headers()
+                # *************
                 # Note delete all print(self.rfile.read(int(self.headers['Content-Length'])))
                 if self.path == "/stop":
                     self.send_response(200)

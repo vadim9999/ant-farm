@@ -306,6 +306,49 @@ function getVideoFiles() {
   xhttp.send();
 }
 
+function getItemsTime(){
+  
+  var select = document.getElementById("inputInterval")
+  select.innerHTML = ""
+  for(let i = 1; i<= 10; i++){
+    var option = document.createElement("option");
+    option.innerHTML = i
+    option.value = i
+    select.appendChild(option)
+  }
+}
+
+function setSettingsFeeder(){
+  var userId = getUrlParam('id', 'Empty')
+  var e = document.getElementById("inputInterval")
+  var time = e.options[e.selectedIndex].value;
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange
+    = function () {
+      if (this.readyState == 4) {
+        console.log("POST /set_settings_feeder");
+        console.log(this.responseText);
+      }
+    }
+  xhttp.open("POST", "/set_settings_feeder?id=" + userId, true);
+  xhttp.send(time);
+}
+
+function feed(){
+  var userId = getUrlParam('id', 'Empty')
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        console.log("GET /feed");
+        console.log(this.responseText);
+      }
+    }
+  xhttp.open("GET", "/feed?id=" + userId, true);
+  xhttp.send();
+}
+
 function buildFiles() {
   // <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
   var a = document.createElement('a');
