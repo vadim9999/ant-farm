@@ -88,9 +88,7 @@ function loadDoc() {
       // document.getElementById("sotHum").innerHTML = sensors[0][1] + "%";
       // document.getElementById("humidityCircle").setAttribute("stroke-dasharray", (sensors[0][1] + " 135"));
       // let sotHum = sensors[0][1];
-      // // document.getElementById("humAnimation").setAttribute("values",
-      // // ("0 200; " + ((sotHum/6) + " 180; ") + ((sotHum/4) + " 150; ") + ((sotHum/7) + " 135; ") + (sensors[0][1] + " 135; ")+(sensors[0][1] + " 135; ")));
-
+      
       // document.getElementById("arenaTemp").innerHTML = sensors[1][0];
       // document.getElementById("arenaHum").innerHTML = sensors[1][1];
       // document.getElementById("roomTemp").innerHTML = sensors[2][0];
@@ -126,6 +124,7 @@ function loadDoc() {
         // print(sensor.name)
         // print(sensor["Hum"])
         document.getElementById(sensor.name + "Hum").innerHTML = sensor["Hum"] + " %";
+        document.getElementById("humidityCircle" + sensor.name).setAttribute("stroke-dasharray", (sensor["Hum"] + " 135"));
         // document.getElementById("humidityCircle").setAttribute("stroke-dasharray", (sensors[0][1] + " 135"));
       })
       if(data["connectedId"] != "0"){

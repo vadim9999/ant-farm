@@ -19,6 +19,7 @@ import os
 import shutil
 import sys
 import json
+from .Sensors import Sensors
 
 WIDTH = 640
 HEIGHT = 480
@@ -43,6 +44,7 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
     # def stopStreaming(self):
     #     global streaming
     #     streaming = False
+    sensors = Sensors()
 
     def do_HEAD(self):
         self.do_GET()
@@ -132,29 +134,9 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                     elif recording == True:
                         connectedId = 2
 
-                data = {
-                    "sensors": [
-                        {
-                            "name": "sot",
-                            "Temp": 26,
-                            "Hum": 75,
-                        },
-                        {
-                            "name": "outside",
-                            "temp": 26,
-                            "Hum": 60,
-                        },
-                        {
-                            "name": "arena",
-                            "Temp": 26,
-                            "Hum": 40,
-                         }
-                    ],
-                    "waterLevel": "middle",
-                    "connectedId": connectedId
-                }
+                
             
-                content = (json.dumps(data)).encode('utf-8')
+                content = (self.sensors.getSensorsData(connectedId)).encode('utf-8')
                 self.send_response(200)
                 self.send_header('Content-Type', content_type)
                 self.send_header('Content-Length', len(content))
@@ -322,13 +304,18 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                             index_template = f.read()
 
                         tpl = Template(index_template)
-                        sotHum = 60
+                        print("In Template __________")
+                        # sotHum = 40
 
-                        values = ("0 200; {0:0} 180; {1} 150; {2} 135; {2} 135;".format(int(sotHum/3), int(sotHum/2), sotHum))
+                        # valuesHumSot = ("0 200; {0:0} 180; {1} 150; {2} 135; {2} 135;".format(int(sotHum/3), int(sotHum/2), sotHum))
+                        values = self.sensors.getAnimationValues()
+
                         print(values)
                         content = tpl.safe_substitute(dict(
-                            WS_PORT=WS_PORT, WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR,
-                            BGCOLOR=BGCOLOR, animationValues = values))
+                            COLOR=COLOR,
+                            BGCOLOR=BGCOLOR, animationValuesSot = values["valuesHumSot"],
+                            animationValuesArena = values["valuesHumArena"] ,
+                            animationValuesOutside = values["valuesHumOutside"] ))
 
                         content = content.encode('utf-8')
                         self.send_response(200)

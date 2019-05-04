@@ -113,48 +113,51 @@
           </div>
         </div>
       </div>
+
       <div class="col-2">
         <div class="gauge-chart">
           <svg viewBox="0 0 80 40" class="gauge">
             <circle class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4"
               stroke-width="15"></circle>
-            <circle id="humidityCircle" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent"
+            <circle id="humidityCirclesot" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent"
               stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135" stroke-dashoffset="-100">
               <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray'
-                values="${animationValues}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
+                values="${animationValuesSot}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
             </circle>
 
             <text id="sotHum" x="25" y="39.5">65</text>
           </svg>
-          <p>super gauge chart 2</p>
+          <p>Вологість повітря в сотах</p>
         </div>
+
         <div class="gauge-chart">
           <svg viewBox="0 0 80 40" class="gauge">
             <circle class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4"
               stroke-width="15"></circle>
-            <circle id="humidityCircle" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent"
+            <circle id="humidityCirclearena" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent"
               stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135" stroke-dashoffset="-100">
               <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray'
-                values="${animationValues}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
+                values="${animationValuesArena}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
             </circle>
 
             <text id="arenaHum" x="25" y="39.5">65</text>
           </svg>
-          <p>super gauge chart 2</p>
+          <p>Вологість повітря в арені</p>
         </div>
+
         <div class="gauge-chart">
           <svg viewBox="0 0 80 40" class="gauge">
             <circle class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4"
               stroke-width="15"></circle>
-            <circle id="humidityCircle" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent"
+            <circle id="humidityCircleoutside" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent"
               stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135" stroke-dashoffset="-100">
               <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray'
-                values="${animationValues}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
+                values="${animationValuesOutside}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
             </circle>
 
             <text id="outsideHum" x="25" y="39.5">65</text>
           </svg>
-          <p>super gauge chart 2</p>
+          <p>Вологість повітря в приміщенні</p>
         </div>
 
       </div>
