@@ -155,7 +155,8 @@ function loadDoc() {
   xhttp.open("GET", "/sensors", true);
   xhttp.send();
 }
-
+var newVal = 40
+            document.getElementById("semiMask").setAttribute("style", '-webkit-transform: rotate(' + newVal + 'deg);' )
 function test() {
   console.log("_____test______");
   userId = getUrlParam('id', 'Empty')

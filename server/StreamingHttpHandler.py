@@ -227,6 +227,8 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 if self.path == "/index.html":
                     self.path = 'templates/index.html'
 
+                if self.path == "/ok.html":
+                    self.path = 'templates/ok.html'
                 # if self.path == "/download/file.h264":
                 #     with open(FILEPATH, 'rb') as f:
                 #         self.send_response(200)

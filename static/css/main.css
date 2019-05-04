@@ -18,6 +18,7 @@ body {
   max-height: calc(100vh - 210px);
   overflow-y: auto;
 }
+
 /* blinkng circle */
 /* @keyframes up-right {
   0% {
@@ -41,7 +42,15 @@ body {
   display: inline-block;
   background-color: red;
 }
-
+.humidityCharts{
+  width:136px;
+}
+.alignTempChart{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
 #blinkingRecord {
   border-radius: 50%;
   width: 15px;

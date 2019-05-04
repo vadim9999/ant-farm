@@ -8,7 +8,7 @@ class Sensors():
                 {
                     "name": "sot",
                             "Temp": 26,
-                            "Hum": 50,
+                            "Hum": 60,
                 },
                 {
                     "name": "outside",
@@ -29,8 +29,9 @@ class Sensors():
 
     def getAnimationValues(self):
         sotHum = 60
-        arenaHum = 50
-        outsideHum = 80
+        
+        outsideHum = 50
+        arenaHum = 80
 
         valuesHumSot = ("0 200; {0:0} 180; {1} 150; {2} 135; {2} 135;"
         .format(int(sotHum/3), int(sotHum/2), sotHum))
