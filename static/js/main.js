@@ -114,7 +114,26 @@ function loadDoc() {
       // console.log("Response");
       console.log(JSON.parse(this.responseText));
       var data = JSON.parse(this.responseText);
-
+      
+      switch (data["waterLevel"]) {
+        case 20:
+          document.getElementById('topWater').style.background = "green";
+          break;
+        case 40:
+          document.getElementById('topWater').style.background = "purple";
+          break;
+        case 60:
+          document.getElementById('topWater').style.background = "orange";
+          break;
+        case 80:
+          document.getElementById('topWater').style.background = "blue";
+          break;
+        case 90:
+          document.getElementById('topWater').style.background = "red";
+          break;
+      }
+          // document.getElementById("topWater").style.background = "green"
+          document.getElementById('sky').style.height = data["waterLevel"] + "%";
       data["sensors"].map(sensor => {
         console.log("Name");
         console.log(sensor.name);
@@ -125,7 +144,8 @@ function loadDoc() {
         // print(sensor["Hum"])
         document.getElementById(sensor.name + "Hum").innerHTML = sensor["Hum"] + " %";
         document.getElementById("humidityCircle" + sensor.name).setAttribute("stroke-dasharray", (sensor["Hum"] + " 135"));
-        // document.getElementById("humidityCircle").setAttribute("stroke-dasharray", (sensors[0][1] + " 135"));
+        document.getElementById(sensor.name + "Temp").innerHTML = sensor["Temp"] + "&#8451";
+        document.getElementById("tempCircle_" + sensor.name).setAttribute("style", '-webkit-transform: rotate(' +(sensor["Temp"] + 70) + 'deg);' )
       })
       if(data["connectedId"] != "0"){
         console.log("Not zero");
@@ -155,8 +175,7 @@ function loadDoc() {
   xhttp.open("GET", "/sensors", true);
   xhttp.send();
 }
-var newVal = 40
-            document.getElementById("semiMask").setAttribute("style", '-webkit-transform: rotate(' + newVal + 'deg);' )
+
 function test() {
   console.log("_____test______");
   userId = getUrlParam('id', 'Empty')

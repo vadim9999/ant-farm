@@ -1,7 +1,7 @@
-  #tempText {
+  .tempText {
     position: absolute;
-    top:50%;
-    left:35%;
+    top:55%;
+    left:30%;
     z-index: 3;
 
   }

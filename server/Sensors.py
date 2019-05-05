@@ -12,7 +12,7 @@ class Sensors():
                 },
                 {
                     "name": "outside",
-                            "temp": 26,
+                            "Temp": 26,
                             "Hum": 50,
                 },
                 {
@@ -21,11 +21,29 @@ class Sensors():
                             "Hum": 80,
                 }
             ],
-            "waterLevel": "middle",
+            "waterLevel": self.getWaterLevel(),
             "connectedId": connectedId
         }
         data = json.dumps(data)
         return data
+
+    def getWaterLevel(self):
+        full = False
+        middle = False
+        low = True 
+        level = 80
+        if full == True and middle == False and low == False:
+            level = 20
+        elif full == True and middle == True and low == False:
+            level = 40
+        elif full == False and middle == True and low == False:
+            level = 60
+        elif full == False and middle == True and low == True:
+            level = 80
+        else: 
+            level = 90
+
+        return level
 
     def getAnimationValues(self):
         sotHum = 60
