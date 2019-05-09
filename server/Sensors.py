@@ -1,6 +1,22 @@
 import json
+import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
+import time
+import threading
 
 class Sensors():
+    full = 14
+    middle = 15
+    low  = 18
+    isInitialize = False
+
+    def initWaterLevel(self):
+        print("init waterlevel")
+        GPIO.setmode(GPIO.BCM) 
+        GPIO.setup(self.full, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.middle, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.low, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    def closeWaterLevel(self):
+        GPIO.cleanup()
 
     def getSensorsData(self, connectedId):
         data = {
@@ -26,11 +42,23 @@ class Sensors():
         }
         data = json.dumps(data)
         return data
+    
 
     def getWaterLevel(self):
+        if self.isInitialize == False:
+            self.isInitialize = True
+            self.initWaterLevel()
+            
+        
         full = False
         middle = False
-        low = True 
+        low = False 
+        if GPIO.input(self.full) == GPIO.HIGH:
+            full = True
+        if GPIO.input(self.middle) == GPIO.HIGH:
+            middle = True
+        if GPIO.input(self.low) == GPIO.HIGH:
+            low = True
         level = 80
         if full == True and middle == False and low == False:
             level = 20

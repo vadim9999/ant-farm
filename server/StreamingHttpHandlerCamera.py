@@ -19,6 +19,7 @@ from .Streaming import Streaming
 from .RecordVideo import RecordVideo
 from .CaptureImage import CaptureImage
 from .ControlServo import ControlServo
+from .Sensors import Sensors
 
 from os import listdir
 from os.path import isfile, join
@@ -45,6 +46,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
     stream = Streaming()
     recordVideo = RecordVideo()
     captureImage = CaptureImage()
+    sensors = Sensors()
     # def startRecording(self):
     #     print("Start Recording")
     #     self.camera = picamera.PiCamera(resolution='640x480', framerate=24)
@@ -172,7 +174,8 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                 print("isStartedPreview")
                 print(self.stream.isStartedStream())
                 # content = str([[21,60],[22,70],[20,85],2])
-                content = (json.dumps(data)).encode('utf-8')
+                # content = (json.dumps(data)).encode('utf-8')
+                content = (self.sensors.getSensorsData(connectedId)).encode('utf-8')
 
                 self.send_response(200)
                 self.send_header('Content-Type', content_type)
@@ -378,11 +381,14 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                         tpl = Template(index_template)
                         sotHum = 60
 
-                        values = ("0 200; {0:0} 180; {1} 150; {2} 135; {2} 135;".format(int(sotHum/3), int(sotHum/2), sotHum))
+                        values = self.sensors.getAnimationValues()
+
                         print(values)
                         content = tpl.safe_substitute(dict(
-                            WS_PORT=WS_PORT, WIDTH=WIDTH, HEIGHT=HEIGHT, COLOR=COLOR,
-                            BGCOLOR=BGCOLOR, animationValues = values))
+                            COLOR=COLOR,
+                            BGCOLOR=BGCOLOR, animationValuesSot = values["valuesHumSot"],
+                            animationValuesArena = values["valuesHumArena"] ,
+                            animationValuesOutside = values["valuesHumOutside"] ))
 
                         content = content.encode('utf-8')
                         self.send_response(200)

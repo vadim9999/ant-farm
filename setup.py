@@ -11,7 +11,7 @@ import sys
 # from server.StreamingHttpHandler import StreamingHttpHandler
 from server.StreamingHttpHandlerCamera import StreamingHttpHandlerCamera
 from server.BluetoothServer import BluetoothServer
-from server.thread_with_trace import thread_with_trace
+# from server.thread_with_trace import thread_with_trace
 
 import picamera
 from time import sleep, time
