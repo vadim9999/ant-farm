@@ -19,7 +19,7 @@ from time import sleep, time
 WIDTH = 640
 HEIGHT = 480
 FRAMERATE = 24
-HTTP_PORT = 8002
+HTTP_PORT = 80
 WS_PORT = 8084
 COLOR = u'#444'
 BGCOLOR = u'#FFFFFF'

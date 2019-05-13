@@ -37,23 +37,11 @@ COLOR = u'#444'
 BGCOLOR = u'#FFFFFF'
 
 
-
-# streaming = False
-# connectedClients = 0
-
-
 class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
     stream = Streaming()
     recordVideo = RecordVideo()
     captureImage = CaptureImage()
     sensors = Sensors()
-    # def startRecording(self):
-    #     print("Start Recording")
-    #     self.camera = picamera.PiCamera(resolution='640x480', framerate=24)
-
-    # def stopStreaming(self):
-    #     global streaming
-    #     streaming = False
 
     def do_HEAD(self):
         self.do_GET()
@@ -68,9 +56,10 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             print(query["id"])
 
         if self.path == "/start_record":
+            # TODO change on sending data by json 
             self.send_response(200)
             self.end_headers()
-            print("_____start_recording_video____")
+            
 
             # self.recordVideo.test()
 
@@ -78,11 +67,11 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             # filename = self.rfile.read(int(self.headers['Content-Length']))
             data = self.rfile.read(int(self.headers['Content-Length']))
             data = str(data.decode("utf-8"))
-            data = data.split("//")
+            data = json.loads(data)
             # print(self.stream.test())
             camera = self.stream.getCamera()
             # print(str(filename.decode("utf-8")))
-            self.recordVideo.startRecording(data[0], data[1],True, camera)
+            self.recordVideo.startRecording(data["filename"], data["resolution"],True, camera)
             self.wfile.write("ok".encode('utf-8'))
 
         if self.path == "/capture_image":
@@ -91,8 +80,9 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             camera = self.stream.getCamera()
             data = self.rfile.read(int(self.headers['Content-Length']))
             data = str(data.decode("utf-8"))
-            data = data.split("//")
-            self.captureImage.takeImage(data[0],data[1], camera, True)
+            data = json.loads(data)
+            
+            self.captureImage.takeImage(data["filename"],data["resolution"], camera, True)
 
         if self.path == "/start":
             self.send_response(200)
@@ -117,14 +107,6 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
         if self.path == '/set_stream_settings':
             self.send_response(200)
             self.end_headers()
-                    # @TODO change it
-                    # YOUTUBE="rtmp://a.rtmp.youtube.com/live2/"
-                    # KEY= "6kbh-kq1m-zbty-e4rt"
-                    # ------
-                    # data = {
-                    #     "youtube": YOUTUBE,
-                    #     "key": KEY
-                    # }
             data = str(self.rfile.read(int(self.headers['Content-Length'])).decode("utf-8"))
             settings = json.loads(data)
             self.stream.setYoutubeKey(settings["youtube"], settings["key"])
@@ -144,11 +126,10 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             if self.path == '/':
                 self.send_response(301)
                 self.stream.counter = self.stream.counter + 1
-                print("_________counter_____________")
-                print(self.stream.counter)
                 self.send_header('Location', '/index.html?id='+str(self.stream.counter))
                 self.end_headers()
                 return
+
             elif self.path == '/sensors':
                 content_type = 'text/html; charset=utf-8'
                 
@@ -161,28 +142,15 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     elif self.recordVideo.isStartedRecording() == True:
                         connectedId = self.recordVideo.getConnectedUserId()
 
-                data = {
-                    "sot":{
-                        "temp":26,
-                        "hum":70,
-                    },
-                    "connectedId" : connectedId
-                }
                 
-                    
-
-                print("isStartedPreview")
-                print(self.stream.isStartedStream())
-                # content = str([[21,60],[22,70],[20,85],2])
-                # content = (json.dumps(data)).encode('utf-8')
                 content = (self.sensors.getSensorsData(connectedId)).encode('utf-8')
-
                 self.send_response(200)
                 self.send_header('Content-Type', content_type)
                 self.send_header('Content-Length', len(content))
                 # @TODO add last modified
                 self.end_headers()
                 self.wfile.write(content)
+
             else:
                 url_parts = list(urlparse.urlparse(self.path))
                 self.path = url_parts[2]

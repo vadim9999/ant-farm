@@ -15,6 +15,7 @@ class Sensors():
         GPIO.setup(self.full, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.middle, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.low, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        
     def closeWaterLevel(self):
         GPIO.cleanup()
 

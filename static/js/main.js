@@ -384,7 +384,11 @@ function captureImage() {
     }
   }
   xhttp.open("POST", "/capture_image?id=" + userId, true);
-  xhttp.send(filename + "//" + getResolution(resolution));
+  var result = {
+    "filename": filename,
+    "resolution": getResolution(resolution)
+  }
+  xhttp.send(JSON.stringify(result));
 }
 
 
