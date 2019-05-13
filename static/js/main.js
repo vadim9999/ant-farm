@@ -445,7 +445,11 @@ function startRecord() {
       }
     }
   xhttp.open("POST", "/start_record?id=" + userId, true);
-  xhttp.send(filename + "//" + getResolution(resolution));
+  var result = {
+    "filename":filename,
+    "resolution": getResolution(resolution)
+  }
+  xhttp.send(JSON.stringify(result));
 }
 
 function stopRecord() {
