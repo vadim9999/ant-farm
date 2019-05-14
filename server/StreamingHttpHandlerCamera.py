@@ -71,7 +71,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             # print(self.stream.test())
             camera = self.stream.getCamera()
             # print(str(filename.decode("utf-8")))
-            self.recordVideo.startRecording(data["filename"], data["resolution"],True, camera)
+            self.recordVideo.startRecording(data["filename"], data["resolution"],True, camera, userId)
             self.wfile.write("ok".encode('utf-8'))
 
         if self.path == "/capture_image":
