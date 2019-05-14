@@ -55,23 +55,8 @@ function onFullScreen() {
 
   };
 
-  //  fullScreen.webkitRequestFullScreen()
+  
 }
-
-
-/* Start button */
-// start.onclick = timer;
-
-/* Stop button */
-// stop.onclick = function() {
-
-// }
-
-/* Clear button */
-// clear.onclick = function() {
-//     h1.innerHTML = "00:00:00";
-//     seconds = 0; minutes = 0; hours = 0;
-// }
 
 var isBlocked = false;
 function loadDoc() {
@@ -80,39 +65,7 @@ function loadDoc() {
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      // var data = document.test_form.test_text.value;
-      // sensors = JSON.parse(this.responseText)
-      // // console.log(data);
-      // // document.getElementById("TextBlock").innerHTML = this.responseText ;
-      // document.getElementById("sotTemp").innerHTML = sensors[0][0];
-      // document.getElementById("sotHum").innerHTML = sensors[0][1] + "%";
-      // document.getElementById("humidityCircle").setAttribute("stroke-dasharray", (sensors[0][1] + " 135"));
-      // let sotHum = sensors[0][1];
-      
-      // document.getElementById("arenaTemp").innerHTML = sensors[1][0];
-      // document.getElementById("arenaHum").innerHTML = sensors[1][1];
-      // document.getElementById("roomTemp").innerHTML = sensors[2][0];
-      // document.getElementById("roomHum").innerHTML = sensors[2][1];
-      // // Water level
-      // switch (sensors[3]) {
-      //   case 1:
-      //     document.getElementById("waterLvlLow").innerHTML = 1;
-      //     document.getElementById('topWater').style.background = "red";
-      //     document.getElementById('sky').style.height = '80%';
-      //     break;
-      //   case 2:
-      //     document.getElementById("waterLvlMiddle").innerHTML = 1;
-      //     document.getElementById('topWater').style.background = "orange";
-      //     document.getElementById('sky').style.height = '50%';
-      //     break;
-      //   case 3:
-      //     document.getElementById("waterLvlHigh").innerHTML = 1;
-      //     document.getElementById('topWater').style.background = "green";
-      //     document.getElementById('sky').style.height = '20%';
-      //     break;
-      // }
-      // console.log("Response");
-      console.log(JSON.parse(this.responseText));
+     
       var data = JSON.parse(this.responseText);
       
       switch (data["waterLevel"]) {
@@ -135,23 +88,15 @@ function loadDoc() {
           // document.getElementById("topWater").style.background = "green"
           document.getElementById('sky').style.height = data["waterLevel"] + "%";
       data["sensors"].map(sensor => {
-        console.log("Name");
-        console.log(sensor.name);
-        console.log(sensor["Hum"]);
         
-        // print("Name")
-        // print(sensor.name)
-        // print(sensor["Hum"])
         document.getElementById(sensor.name + "Hum").innerHTML = sensor["Hum"] + " %";
         document.getElementById("humidityCircle" + sensor.name).setAttribute("stroke-dasharray", (sensor["Hum"] + " 135"));
         document.getElementById(sensor.name + "Temp").innerHTML = sensor["Temp"] + "&#8451";
         document.getElementById("tempCircle_" + sensor.name).setAttribute("style", '-webkit-transform: rotate(' +(sensor["Temp"] + 70) + 'deg);' )
       })
+
       if(data["connectedId"] != "0"){
-        console.log("Not zero");
-        
         if (isBlocked == false && data["connectedId"] != userId && isPreviewStart == true){
-          console.log("block buttons");
           
           document.getElementById("start-stream").disabled = true;
           document.getElementById("capture-image").disabled = true;
