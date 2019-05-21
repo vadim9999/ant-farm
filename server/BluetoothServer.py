@@ -17,7 +17,7 @@ class BluetoothServer():
         subprocess.call(['sudo', 'hciconfig', 'hci0', 'piscan'])
         self.connected = False
         self.server_sock=BluetoothSocket( RFCOMM )
-        # self.server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        
         self.server_sock.bind(("",PORT_ANY))
         self.server_sock.listen(1)
 
@@ -44,52 +44,40 @@ class BluetoothServer():
                 
                 try:
                     while True:
-
-                        data = self.client_sock.recv(1024)
-                        print("received [%s]" % data)
+                        data = self.client_sock.recv(1024)            
                         decodedData = str(data.decode("utf-8"))
+                        receivedData = json.loads(decodedData)                       
                         
-                        receivedData = json.loads(decodedData)
-                        print("jsonStr1")
-                        print(receivedData)
-                        
-                        if receivedData["request"] == "getWIFIData":
-                            print("write response wifi")
+                        if receivedData["request"] == "getWIFIData":                            
                             
-                            networks = wifiConnector.getWIFINetworks()
-                            print("GetNetworks")
-                            print(networks)
-                            
+                            networks = wifiConnector.getWIFINetworks()                                                     
                             p = subprocess.Popen(['iwgetid', '-r'], stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE)
-
                             out, err = p.communicate()
                             time.sleep(1)
 
                             router = out.split(b'\n')[0].decode("utf-8")
-                            print("Router")
-                            print(router)
+                            
                             data = {
                                 "request": "getWIFIData",
                                 "router": router,
                                 "data": networks
                             }
+
                             jsonStr = json.dumps(data) + "\n"
                             self.client_sock.send(jsonStr.encode("utf-8"))
-                            print("sended")
+                            
                         
                         if receivedData["request"] == "setWIFIData":
                             network = receivedData["network"]
                             password = receivedData["password"]
                             ip_address = wifiConnector.wifi_connect(network,password)
                             
-                            print(network) 
-                            print(password)
-                            print(ip_address)
                             data = {
                                 "request": "setWIFIData",
                                 "ipAddress": ip_address
                             }
+
                             dataJson = json.dumps(data) + "\n"
                             self.client_sock.send(dataJson.encode("utf-8"))
                             
@@ -109,17 +97,17 @@ class BluetoothServer():
                     
         
         except Exception as e:
-            print("Exception Bluetooth")
             print(e)
+
         finally:
             print("disconnected")
             if self.connected == True:
                 self.client_sock.close()
             self.server_sock.close()
-            print("all done") 
+
     def shutdown(self):
         self.server_sock.close()
-        # self.server_sock.shutdown(socket.SHUT_RDWR)
+        
 
 
 
