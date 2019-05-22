@@ -94,7 +94,8 @@ function loadDoc() {
         document.getElementById(sensor.name + "Temp").innerHTML = sensor["Temp"] + "&#8451";
         document.getElementById("tempCircle_" + sensor.name).setAttribute("style", '-webkit-transform: rotate(' +(sensor["Temp"] + 70) + 'deg);' )
       })
-
+      
+      
       if(data["connectedId"] != "0"){
         if (isBlocked == false && data["connectedId"] != userId && isPreviewStart == true){
           

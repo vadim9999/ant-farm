@@ -42,6 +42,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
     recordVideo = RecordVideo()
     captureImage = CaptureImage()
     sensors = Sensors()
+    feeder = ControlServo()
 
     def do_HEAD(self):
         self.do_GET()
@@ -117,8 +118,10 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             self.end_headers()
             
             data = self.rfile.read(int(self.headers['Content-Length']))
-            data = str(data.decode("utf-8"))
-            print(data)
+            data = int(data.decode("utf-8"))
+            time = data * 86400
+            
+            print(time)
 
 
     #Handler for the GET requests

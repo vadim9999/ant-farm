@@ -2,45 +2,73 @@ import json
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 import time
 import threading
+import Adafruit_DHT
 
 class Sensors():
-    full = 14
-    middle = 15
-    low  = 18
+    fullWaterPin = 23
+    middleWaterPin = 24
+    lowWaterPin  = 25
     isInitialize = False
 
     def initWaterLevel(self):
         print("init waterlevel")
         GPIO.setmode(GPIO.BCM) 
-        GPIO.setup(self.full, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(self.middle, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(self.low, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.fullWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.middleWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.lowWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         
     def closeWaterLevel(self):
         GPIO.cleanup()
 
-    def getSensorsData(self, connectedId):
-        data = {
-            "sensors": [
+    def getDataDHTS(self):
+        
+
+        humidityOutside, temperatureOutside = Adafruit_DHT.read_retry(11, 27) #DOne
+        humiditySot, temperatureSot = Adafruit_DHT.read_retry(11, 17)
+        humidityArena, temperatureArena = Adafruit_DHT.read_retry(11, 26)
+
+        if humidityOutside is None and temperatureOutside is None:
+            humidityOutside = 20
+            temperatureOutside = 30
+            print('Failed to get reading. Try again!humidityOutside')
+
+        if humiditySot is None and temperatureSot is None:
+            humiditySot = 20
+            temperatureSot = 30
+            print('Failed to get reading. Try again!humiditySot')
+
+        if humidityArena is None and temperatureArena is None:
+            humidityArena = 20
+            temperatureArena = 30
+            print('Failed to get reading. Try again! temperatureArena')
+
+        result = [
                 {
                     "name": "sot",
-                            "Temp": 26,
-                            "Hum": 60,
+                            "Temp": temperatureSot,
+                            "Hum": humiditySot,
                 },
                 {
                     "name": "outside",
-                            "Temp": 26,
-                            "Hum": 50,
+                            "Temp": temperatureOutside,
+                            "Hum": humidityOutside,
                 },
                 {
                     "name": "arena",
-                            "Temp": 26,
-                            "Hum": 80,
+                            "Temp": temperatureArena,
+                            "Hum": humidityArena,
                 }
-            ],
+            ]
+        return result
+    
+
+    def getSensorsData(self, connectedId):
+        data = {
+            "sensors": self.getDataDHTS(),
             "waterLevel": self.getWaterLevel(),
             "connectedId": connectedId
         }
+        
         data = json.dumps(data)
         return data
     
@@ -54,11 +82,11 @@ class Sensors():
         full = False
         middle = False
         low = False 
-        if GPIO.input(self.full) == GPIO.HIGH:
+        if GPIO.input(self.fullWaterPin) == GPIO.HIGH:
             full = True
-        if GPIO.input(self.middle) == GPIO.HIGH:
+        if GPIO.input(self.middleWaterPin) == GPIO.HIGH:
             middle = True
-        if GPIO.input(self.low) == GPIO.HIGH:
+        if GPIO.input(self.lowWaterPin) == GPIO.HIGH:
             low = True
         level = 80
         if full == True and middle == False and low == False:
