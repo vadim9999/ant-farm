@@ -31,11 +31,8 @@ class Streaming():
     connectedClients = 0
     startedPreview = False
     startedStream = False
-    counter = 0
     users = []
     stoppedUserId = 0
-    width = 640
-    height = 480
     deleteUsers = False
     splitter_port = False
     connectedUserId = 0
@@ -111,7 +108,6 @@ class Streaming():
                     'Removed streaming client %s: %s',
                     selfed.client_address, str(e))
             finally:
-                print("Stopping camera")
                 if (self.connectedClients == 0):
                     print("O users")
                     print(str(self.connectedClients))
