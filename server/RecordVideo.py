@@ -9,10 +9,6 @@ class RecordVideo():
         self.height = height
         self.width = width
 
-    def test(self):
-        print("_________int_test____")
-        return ("In test Video record ")
-
     def isStartedRecording(self):
         return self.startedRecording
 
