@@ -3,28 +3,13 @@
 
 <head>
   <title>Мурашина ферма</title>
-  <meta charset="utf-8" name="viewport" content="width=${WIDTH}, initial-scale=1" />
+  <meta charset="utf-8" />
   <link rel="stylesheet" type="text/css" href="static/css/waterLevel.css">
   <link rel="stylesheet" type="text/css" href="static/css/main.css">
   <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="static/css/humiditySensor.css">
   <link rel="stylesheet" type="text/css" href="static/fontawesome/css/all.css">
   <link rel="stylesheet" type="text/css" href="static/css/thermometer.css">
-
-
-  <!-- <style type="text/css">
-		body {
-			background: ${BGCOLOR};
-			text-align: center;
-			margin-top: 10%;
-		}
-		#videoCanvas {
-			/* Always stretch the canvas to 640x480, regardless of its
-			internal size. */
-			width: ${WIDTH}px;
-			height: ${HEIGHT}px;
-		}
-	</style> -->
 
 </head>
 
@@ -33,7 +18,8 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="index.html">
-        <img src="images/logo1.png" width="100" height="30" alt="">
+        <img src="static/images/logo1.png" width="30" height="30" alt="">
+        Мурашина ферма
       </a>
       <div class="pos-f-t">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -43,11 +29,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="index.html">Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="main.html">Глава 22
+              <a class="nav-link active" href="index.html">Панель керування
               </a>
             </li>
             <li class="nav-item">
@@ -72,105 +54,102 @@
 
       <div class="col-auto ">
         <div col="col-auto">
-            <div style="width:640px; height:480px">
-                <div id="fullScreen" style="background:black; width:auto; height:auto; position: relative">
-                  <img id="badge" width="640" height="480" />
-                  <div style="position: absolute; bottom:0; width: 100%">
-                    <button id="start-preview" type="button" onClick="startPreview();" class="btn btn-outline-primary">
-                      <i class="fas fa-play"></i>
-                    </button>
-                    <button id="stop-preview" type="button" onClick="stopPreview();" class="btn btn-outline-primary" disabled>
-                      <i class="fas fa-pause"></i>
-                    </button>
-                    <button id="stop-preview" style="float:right" type="button" onClick="onFullScreen();"
-                      class="btn btn-outline-primary">
-                      <i class="fas fa-expand"></i>
-                    </button>
-                    <span id="info" tabindex="0" title="Disabled tooltip">
-                      <div class="btn-group dropup" style="float:right; padding-right: 10px;">
-      
-                        <button id="videoResolution" type="button" class="btn btn-primary dropdown-toggle"
-                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-cog"></i>
-                        </button>
-      
-      
-      
-                        <div class="dropdown-menu">
-      
-                          <a onClick="onQ720()" id="Q720" class="cursorQ dropdown-item">720 HD</a>
-                          <a onClick="onQ480()" id="Q480" class="cursorQ dropdown-item active">480</a>
-                          <a onClick="onQ240()" id="Q240" class="cursorQ dropdown-item">240</a>
-                        </div>
-                      </div>
-                    </span>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <div col="col-auto">
-            
-                <button id="start-stream" type="button" onClick="startStream();" class="btn btn-outline-primary">
-                  <i class="fas fa-play-circle"></i> Почати трансляцію
+          <div style="width:640px; height:480px">
+            <div id="fullScreen" style="background:black; width:auto; height:auto; position: relative">
+              <img id="badge" width="640" height="480" />
+              <div style="position: absolute; bottom:0; width: 100%">
+                <button id="start-preview" type="button" onClick="startPreview();" class="btn btn-outline-primary">
+                  <i class="fas fa-play"></i>
                 </button>
-      
-                <select style="width:15%; display:inline-block" class="custom-select " id="resolutionStream"
-                  aria-label="Example select with button addon">
-      
-                  <option value="720">720 HD</option>
-                  <option value="480" selected>480</option>
-                  <option value="240">240</option>
-                </select>
-      
-                <button id="stop-stream" type="button" onClick="stopStream();" class="btn btn-outline-danger" disabled>
-                  <div id="blinkingStream"></div>
-                  Зупинити
+                <button id="stop-preview" type="button" onClick="stopPreview();" class="btn btn-outline-primary"
+                  disabled>
+                  <i class="fas fa-pause"></i>
                 </button>
-      
-                <button type="button" class="btn btn-outline-primary" onClick="getStreamSettings();" data-toggle="modal"
-                  data-target="#exampleModalCenter">
-                  <i class="fas fa-cogs"></i> Налаштування
+                <button id="stop-preview" style="float:right" type="button" onClick="onFullScreen();"
+                  class="btn btn-outline-primary">
+                  <i class="fas fa-expand"></i>
                 </button>
-              </div>
-              <div class="input-group">
-                  <input id="start-record-input" type="text" class="form-control" placeholder="Ім'я файлу"
-                    aria-describedby="button-addon4">
-                  <div class="input-group-append" id="button-addon4">
-                    <select style=" display:inline-block" class="custom-select " id="resolutionRecord"
-                      aria-label="Example select with button addon">
-                      <option value="720">720 HD</option>
-                      <option value="480" selected>480</option>
-                      <option value="240">240</option>
-                    </select>
-                    <button id="start-record" class="btn btn-outline-primary" type="button" onclick="startRecord()" disabled>
-                      <i class="fas fa-video"></i> Почати запис
+                <span id="info" tabindex="0" title="Disabled tooltip">
+                  <div class="btn-group dropup" style="float:right; padding-right: 10px;">
+
+                    <button id="videoResolution" type="button" class="btn btn-primary dropdown-toggle"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-cog"></i>
                     </button>
-        
-                    <button id="stop-record" class="btn btn-outline-danger" type="button" onclick="stopRecord()" disabled>
-                      <div id="blinkingRecord"></div>
-                      <div id="stopWatch"><time>00:00:00</time></div>
-                      Зупинити
-                    </button>
-                  </div>
-                </div>
-                <div class="input-group">
-                    <input id="capture-input" type="text" class="form-control" placeholder="Ім'я зображення"
-                      aria-describedby="button-addon4">
-          
-                    <div class="input-group-append" id="button-addon4">
-                      <select style=" display:inline-block" class="custom-select " id="resolutionImage"
-                        aria-label="Example select with button addon">
-          
-                        <option value="720">1024x768</option>
-                        <option value="480" selected>640x480</option>
-                        <option value="240">320x240</option>
-                      </select>
-                      <button id="capture-image" onClick="captureImage()" class="btn btn-outline-primary" type="button" disabled>
-                        <i class="fas fa-camera"></i> Створити зображення
-                      </button>
+                    <div class="dropdown-menu">
+                      <a onClick="onQ720()" id="Q720" class="cursorQ dropdown-item">720 HD</a>
+                      <a onClick="onQ480()" id="Q480" class="cursorQ dropdown-item active">480</a>
+                      <a onClick="onQ240()" id="Q240" class="cursorQ dropdown-item">240</a>
                     </div>
                   </div>
-                  <button type="button" onClick="getVideoFiles();" class="btn btn-primary" data-toggle="modal"
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div col="col-auto">
+
+          <button id="start-stream" type="button" onClick="startStream();" class="btn btn-outline-primary">
+            <i class="fas fa-play-circle"></i> Почати трансляцію
+          </button>
+
+          <select style="width:15%; display:inline-block" class="custom-select " id="resolutionStream"
+            aria-label="Example select with button addon">
+
+            <option value="720">720 HD</option>
+            <option value="480" selected>480</option>
+            <option value="240">240</option>
+          </select>
+
+          <button id="stop-stream" type="button" onClick="stopStream();" class="btn btn-outline-danger" disabled>
+            <div id="blinkingStream"></div>
+            Зупинити
+          </button>
+
+          <button type="button" class="btn btn-outline-primary" onClick="getStreamSettings();" data-toggle="modal"
+            data-target="#exampleModalCenter">
+            <i class="fas fa-cogs"></i> Налаштування
+          </button>
+        </div>
+        <div class="input-group">
+          <input id="start-record-input" type="text" class="form-control" placeholder="Ім'я файлу"
+            aria-describedby="button-addon4">
+          <div class="input-group-append" id="button-addon4">
+            <select style=" display:inline-block" class="custom-select " id="resolutionRecord"
+              aria-label="Example select with button addon">
+              <option value="720">720 HD</option>
+              <option value="480" selected>480</option>
+              <option value="240">240</option>
+            </select>
+            <button id="start-record" class="btn btn-outline-primary" type="button" onclick="startRecord()" disabled>
+              <i class="fas fa-video"></i> Почати запис
+            </button>
+
+            <button id="stop-record" class="btn btn-outline-danger" type="button" onclick="stopRecord()" disabled>
+              <div id="blinkingRecord"></div>
+              <div id="stopWatch"><time>00:00:00</time></div>
+              Зупинити
+            </button>
+          </div>
+        </div>
+        <div class="input-group">
+          <input id="capture-input" type="text" class="form-control" placeholder="Ім'я зображення"
+            aria-describedby="button-addon4">
+
+          <div class="input-group-append" id="button-addon4">
+            <select style=" display:inline-block" class="custom-select " id="resolutionImage"
+              aria-label="Example select with button addon">
+
+              <option value="720">1024x768</option>
+              <option value="480" selected>640x480</option>
+              <option value="240">320x240</option>
+            </select>
+            <button id="capture-image" onClick="captureImage()" class="btn btn-outline-primary" type="button" disabled>
+              <i class="fas fa-camera"></i> Створити зображення
+            </button>
+          </div>
+        </div>
+        <button type="button" onClick="getVideoFiles();" class="btn btn-primary" data-toggle="modal"
           data-target="#displayListVideos">
           <i class="fas fa-images"></i> Відкрити список медіафайлів
         </button>
@@ -181,127 +160,130 @@
       </div>
 
       <div class="col-auto ">
-        <!-- <div class="row">
-          <div class="col">
-            Level 1: .col-sm-9 -->
-            <div class="row">
-              <div class="col alignTempChart">
-                <div class="gauge-chart humidityCharts">
-                  <svg viewBox="0 0 80 40" class="gauge">
-                    <circle class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4"
-                      stroke-width="15"></circle>
-                    <circle id="humidityCirclesot" class="donut-segment" cx="40" cy="40" r="31.8309886184"
-                      fill="transparent" stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135"
-                      stroke-dashoffset="-100">
-                      <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray'
-                        values="${animationValuesSot}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
-                    </circle>
+        <div class="row">
+          <div class="col alignTempChart">
+            <div class="gauge-chart humidityCharts">
+              <svg viewBox="0 0 80 40" class="gauge">
+                <circle class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4"
+                  stroke-width="15"></circle>
+                <circle id="humidityCirclesot" class="donut-segment" cx="40" cy="40" r="31.8309886184"
+                  fill="transparent" stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135"
+                  stroke-dashoffset="-100">
+                  <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray'
+                    values="${animationValuesSot}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
+                </circle>
 
-                    <text id="sotHum" x="25" y="39.5">65</text>
-                  </svg>
-                  <!-- <p>Вологість повітря в сотах</p> -->
+                <text id="sotHum" x="25" y="39.5">65</text>
+              </svg>
+              <!-- <p>Вологість повітря в сотах</p> -->
+            </div>
+          </div>
+          <div class="col">
+            <div id="Box3" class="box gauge--3">
+              <div class="mask">
+                <div class="semi-circle">
+                  <h3 id="sotTemp" class="tempText">65&#8451;</h3>
                 </div>
-              </div>
-              <div class="col">
-                <div id="Box3" class="box gauge--3">
-                  <div class="mask">
-                    <div class="semi-circle">
-                      <h3 id="sotTemp" class="tempText">65&#8451;</h3>
-                    </div>
-                    <div id="tempCircle_sot" class="semi-circle--mask"></div>
-                  </div>
-                </div>
+                <div id="tempCircle_sot" class="semi-circle--mask"></div>
               </div>
             </div>
-          <!-- </div>
+          </div>
+        </div>
+        <div class="row">
+          <h5>Сотах<h5>
+        </div>
+        <!-- </div>
         </div> -->
         <div class="row">
           <div class="col alignTempChart">
-              <div class="gauge-chart humidityCharts">
-                  <svg viewBox="0 0 80 40" class="gauge">
-                    <circle class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4"
-                      stroke-width="15"></circle>
-                    <circle id="humidityCirclearena" class="donut-segment" cx="40" cy="40" r="31.8309886184" fill="transparent"
-                      stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135" stroke-dashoffset="-100">
-                      <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray'
-                        values="${animationValuesArena}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
-                    </circle>
-        
-                    <text id="arenaHum" x="25" y="39.5">65</text>
-                  </svg>
-                  <!-- <p>Вологість повітря в арені</p> -->
-                </div>
+            <div class="gauge-chart humidityCharts">
+              <svg viewBox="0 0 80 40" class="gauge">
+                <circle class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4"
+                  stroke-width="15"></circle>
+                <circle id="humidityCirclearena" class="donut-segment" cx="40" cy="40" r="31.8309886184"
+                  fill="transparent" stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135"
+                  stroke-dashoffset="-100">
+                  <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray'
+                    values="${animationValuesArena}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
+                </circle>
+
+                <text id="arenaHum" x="25" y="39.5">65</text>
+              </svg>
+              <!-- <p>Вологість повітря в арені</p> -->
+            </div>
           </div>
           <div class="col">
-              <div id="Box3" class="box gauge--3">
-                  <div class="mask">
-                    <div class="semi-circle">
-                      <h3 id="arenaTemp" class="tempText">65&#8451;</h3>
-                    </div>
-                    <div id="tempCircle_arena" class="semi-circle--mask"></div>
-                  </div>
+            <div id="Box3" class="box gauge--3">
+              <div class="mask">
+                <div class="semi-circle">
+                  <h3 id="arenaTemp" class="tempText">65&#8451;</h3>
                 </div>
+                <div id="tempCircle_arena" class="semi-circle--mask"></div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
-        
+          <h5>Арена<h5>
+        </div>
+        <div class="row">
+
           <div class="col alignTempChart">
-              <div class="gauge-chart humidityCharts">
-                  <svg viewBox="0 0 80 40" class="gauge">
-                    <circle class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4"
-                      stroke-width="15"></circle>
-                    <circle id="humidityCircleoutside" class="donut-segment" cx="40" cy="40" r="31.8309886184"
-                      fill="transparent" stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135" stroke-dashoffset="-100">
-                      <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray'
-                        values="${animationValuesOutside}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
-                    </circle>
-        
-                    <text id="outsideHum" x="25" y="39.5">65</text>
-                  </svg>
-                  <!-- <p>Вологість повітря в приміщенні</p> -->
-                </div>
+            <div class="gauge-chart humidityCharts">
+              <svg viewBox="0 0 80 40" class="gauge">
+                <circle class="donut-ring" cx="40" cy="40" r="31.8309886184" fill="transparent" stroke="#d2d3d4"
+                  stroke-width="15"></circle>
+                <circle id="humidityCircleoutside" class="donut-segment" cx="40" cy="40" r="31.8309886184"
+                  fill="transparent" stroke="#b3ffab" stroke-width="15" stroke-dasharray="80 135"
+                  stroke-dashoffset="-100">
+                  <animate id="humAnimation" attributeType='XML' attributeName='stroke-dasharray'
+                    values="${animationValuesOutside}" keyTimes='0; 0.4; 0.6; 0.7; 1' dur='2.5s' repeatCount='1'>
+                </circle>
+
+                <text id="outsideHum" x="25" y="39.5">65</text>
+              </svg>
+              <!-- <p>Вологість повітря в приміщенні</p> -->
+            </div>
           </div>
           <div class="col">
-              <div id="Box3" class="box gauge--3">
-                  <div class="mask">
-                    <div class="semi-circle">
-                      <h3 id="outsideTemp" class="tempText">65&#8451;</h3>
-                    </div>
-                    <div id="tempCircle_outside" class="semi-circle--mask"></div>
-                  </div>
+            <div id="Box3" class="box gauge--3">
+              <div class="mask">
+                <div class="semi-circle">
+                  <h3 id="outsideTemp" class="tempText">65&#8451;</h3>
                 </div>
+                <div id="tempCircle_outside" class="semi-circle--mask"></div>
+              </div>
+            </div>
           </div>
         </div>
-        
-
-        
-
-
+        <div class="row">
+          <h5>В приміщенні<h5>
+        </div>
       </div>
       <!-- here -->
 
       <div class="col-auto ">
-          <main>
-              <div id="sky">
-                <div class="sun"></div>
-                <div class="sunset"></div>
-                <div class="sunset_1"></div>
-              </div>
-              <div id="water">
-                <div id="topWater" class="top"></div>
-                <div id="rays">
-                  <div class="ray1"></div>
-                  <div class="ray2"></div>
-                  <div class="ray3"></div>
-                </div>
-              </div>
-              <div class="bubl"></div>
-            </main>
+        <main>
+          <div id="sky">
+            <div class="sun"></div>
+            <div class="sunset"></div>
+            <div class="sunset_1"></div>
+          </div>
+          <div id="water">
+            <div id="topWater" class="top"></div>
+            <div id="rays">
+              <div class="ray1"></div>
+              <div class="ray2"></div>
+              <div class="ray3"></div>
+            </div>
+          </div>
+          <div class="bubl"></div>
+        </main>
       </div>
     </div>
 
     <div class="row">
-      
+
       <!-- Modals ---------------------------------------------------------------->
       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -395,105 +377,14 @@
       </div>
       <!-- ------------------------------------------------------------------------- -->
 
-      <!-- <img src="stream.mjpg" width="640" height="480" /> -->
-      
-        <!-- <div id="TextBlock">
-          <p>2</p>
-        </div> -->
 
-
-
-      <div class="col-md-8">
-        
-        <!-- <button type="button" class="btn btn-primary" >
-            Launch demo modal
-          </button> -->
-        
-        
-
-
-        <!-- ----------------- -->
-        
-        <!-- <video src="http://localhost:8002/video.h264" controls="controls" width="500"></video> -->
-        <!-- second row -->
-        <div class="col-md-4">
-         
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <div>
-              <!-- <canvas id="videoCanvas" width="640" height="480">
-    <p>
-      Please use a browser that supports the Canvas Element, like
-      <a href="http://www.google.com/chrome">Chrome</a>,
-      <a href="http://www.mozilla.com/firefox/">Firefox</a>,
-      <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
-    </p>
-    </canvas> -->
-            </div>
-          </div>
-          <div class="col">
-            <!-- <div id="Humidity">
-              <table style="width:50%">
-                <tr>
-                  <th></th>
-                  <th>Температура повітря</th>
-                  <th>Вологість %</th>
-                </tr>
-                <tr>
-                  <td>Сотах</td>
-                  <td id="sotTemp">0</td>
-                  <td>0</td>
-                </tr>
-                <tr>
-                  <td>Арена</td>
-                  <td id="arenaTemp">0</td>
-                  <td id="arenaHum">0</td>
-                </tr>
-                <tr>
-                  <td>Кімната</td>
-                  <td id="roomTemp">0</td>
-                  <td id="roomHum">0</td>
-                </tr>
-              </table>
-              <table style="width:50%">
-                <tr>
-                  <th></th>
-                  <th>Рівень води</th>
-                </tr>
-                <tr>
-                  <td>Повна ємність</td>
-                  <td id="waterLvlHigh">0</td>
-                </tr>
-                <tr>
-                  <td>Напівзаповнена</td>
-                  <td id="waterLvlMiddle">0</td>
-                </tr>
-                <tr>
-                  <td>Вода майже закінчилася</td>
-                  <td id="waterLvlLow">0</td>
-                </tr>
-              </table>
-            </div> -->
-          </div>
-        </div>
-
-
-        <!--
-    </div>
-    </div> -->
-        <!-- </div>
-</div> -->
-        <!-- </div> -->
-        <!--<script type="text/javascript" src="jsmpg.js"></script>-->
-        <script src="static/jquery/jquery-3.3.1.slim.min.js"></script>
-        <script src="static/jquery/popper.min.js"></script>
-        <script src="static/bootstrap/js/bootstrap.min.js"></script>
-        <script src="static/js/helper.js"></script>
-        <script src="static/js/timer.js"></script>
-        <script src="static/js/main.js"></script>
-        <script src="static/js/sendResolution.js"></script>
+      <script src="static/jquery/jquery-3.3.1.slim.min.js"></script>
+      <script src="static/jquery/popper.min.js"></script>
+      <script src="static/bootstrap/js/bootstrap.min.js"></script>
+      <script src="static/js/helper.js"></script>
+      <script src="static/js/timer.js"></script>
+      <script src="static/js/main.js"></script>
+      <script src="static/js/sendResolution.js"></script>
 </body>
 
 </html>

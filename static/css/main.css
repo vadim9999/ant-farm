@@ -1,8 +1,11 @@
 /* body {
-  background-image:  url("../images/background3.jpg")
+  
 } */
+
 body {
   padding-top: 5rem;
+  background:  url("../background/background1.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
 }
 .Blink {
   /* animation: blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;   */

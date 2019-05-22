@@ -94,9 +94,10 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
 
         if self.path == '/':
             self.send_response(301)
-            self.stream.counter = self.stream.counter + 1
-            self.send_header('Location', '/index.html?id=' +
-                             str(self.stream.counter))
+            global counter
+            counter = counter + 1
+            print("_________counter_____________")
+            self.send_header('Location', '/index.html?id='+str(counter))  
             self.end_headers()
             return
 
@@ -227,24 +228,35 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
 
                 sendReply = False
                 if self.path.endswith(".html"):
-                    print('it is html ')
-                    mimetype = 'text/html'
-                    content_type = 'text/html; charset=utf-8'
-                    with io.open(self.path, 'r') as f:
-                        index_template = f.read()
-                    tpl = Template(index_template)
-                    values = self.sensors.getAnimationValues()
-                    content = tpl.safe_substitute(dict(
-                        animationValuesSot=values["valuesHumSot"],
-                        animationValuesArena=values["valuesHumArena"],
-                        animationValuesOutside=values["valuesHumOutside"]))
+                    global connectedUsers
+                    if userId in connectedUsers:
+                        self.send_response(301)
+                            
+                        counter = counter + 1
+                            
+                        print("_________counter22122_____________")
 
-                    content = content.encode('utf-8')
-                    self.send_response(200)
-                    self.send_header('Content-Type', content_type)
-                    self.send_header('Content-Length', len(content))
-                    self.end_headers()
-                    self.wfile.write(content)
+                        self.send_header('Location', '/index.html?id='+str(counter))
+                        self.end_headers()
+                    else:
+                        print('it is html ')
+                        mimetype = 'text/html'
+                        content_type = 'text/html; charset=utf-8'
+                        with io.open(self.path, 'r') as f:
+                            index_template = f.read()
+                        tpl = Template(index_template)
+                        values = self.sensors.getAnimationValues()
+                        content = tpl.safe_substitute(dict(
+                            animationValuesSot=values["valuesHumSot"],
+                            animationValuesArena=values["valuesHumArena"],
+                            animationValuesOutside=values["valuesHumOutside"]))
+
+                        content = content.encode('utf-8')
+                        self.send_response(200)
+                        self.send_header('Content-Type', content_type)
+                        self.send_header('Content-Length', len(content))
+                        self.end_headers()
+                        self.wfile.write(content)
 
                 if self.path.endswith(".jpg"):
                     mimetype = 'image/jpg'

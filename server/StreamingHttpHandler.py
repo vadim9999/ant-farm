@@ -27,6 +27,7 @@ BGCOLOR = u'#FFFFFF'
 # connectedClients = 0
 # FILEPATH = "videos/file.h264"
 counter = 0
+connectedUsers = [1]
 class StreamingHttpHandler(BaseHTTPRequestHandler):
 
     # sensors = Sensors()
@@ -106,8 +107,10 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 global counter
                 counter = counter + 1
                 print("_________counter_____________")
+
                 self.send_header('Location', '/index.html?id='+str(counter))
                 self.end_headers()
+                # self.path = "/index.html?id=" + str(counter)
                 return
 
             elif self.path == '/sensors':
@@ -216,8 +219,7 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 if self.path == "/index.html":
                     self.path = 'templates/index.html'
 
-                if self.path == "/ok.html":
-                    self.path = 'templates/ok.html'
+                
                 # if self.path == "/download/file.h264":
                 #     with open(FILEPATH, 'rb') as f:
                 #         self.send_response(200)
@@ -288,32 +290,53 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                     #set the right mime type
                     sendReply = False
                     if self.path.endswith(".html"):
-                        print('it is html ')
-                        mimetype='text/html'
-                        content_type = 'text/html; charset=utf-8'
-                        with io.open(self.path, 'r') as f:
-                            index_template = f.read()
+                        global connectedUsers
+                        # try:
+                        #     if connectedUsers.index(userId) >=0:
+                        #         print("________Ok____")
+                        # except:
+                        #     print("Error")
+                        if userId in connectedUsers:
+                            self.send_response(301)
+                            
+                            counter = counter + 1
+                            
+                            print("_________counter22122_____________")
 
-                        tpl = Template(index_template)
-                        print("In Template __________")
+                            self.send_header('Location', '/index.html?id='+str(counter))
+                            self.end_headers()
+                        else:
+                            
+                            connectedUsers.append(userId)
+
+                            # print(connectedUsers.index(userId))
+                            # if (userId )
+                            print('it is html ')
+                            mimetype='text/html'
+                            content_type = 'text/html; charset=utf-8'
+                            with io.open(self.path, 'r') as f:
+                                index_template = f.read()
+
+                            tpl = Template(index_template)
+                            print("In Template __________")
                         # sotHum = 40
 
-                        values = ("0 200; {0:0} 180; {1} 150; {2} 135; {2} 135;".format(int(55/3), int(55/2), 55))
+                            values = ("0 200; {0:0} 180; {1} 150; {2} 135; {2} 135;".format(int(55/3), int(55/2), 55))
                         # values = self.sensors.getAnimationValues()
 
-                        print(values)
-                        content = tpl.safe_substitute(dict(
-                            COLOR=COLOR,
-                            BGCOLOR=BGCOLOR, 
+                            print(values)
+                            content = tpl.safe_substitute(dict(
+                                COLOR=COLOR,
+                                BGCOLOR=BGCOLOR, 
                             # animationValuesSot = values["valuesHumSot"],
                             # animationValuesArena = values["valuesHumArena"] ,
                             # animationValuesOutside = values["valuesHumOutside"]
-                             ))
+                                ))
 
-                        content = content.encode('utf-8')
-                        self.send_response(200)
-                        self.send_header('Content-Type', content_type)
-                        self.send_header('Content-Length', len(content))
+                            content = content.encode('utf-8')
+                            self.send_response(200)
+                            self.send_header('Content-Type', content_type)
+                            self.send_header('Content-Length', len(content))
                         # -------------------------------
                         # cookies
                         # cookie = http.cookies.SimpleCookie()
@@ -324,8 +347,9 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                         # self.send_header("Set-Cookie", cookie.output(header='', sep=''))
                         # --------------------------------------------------------
                         # self.send_header('Last-Modified', self.date_time_string(time()))
-                        self.end_headers()
-                        self.wfile.write(content)
+                            self.end_headers()
+                            self.wfile.write(content)
+                        
 
                     if self.path.endswith(".jpg"):
                         mimetype='image/jpg'
