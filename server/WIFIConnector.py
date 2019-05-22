@@ -3,34 +3,21 @@ import os
 import time
 import subprocess
 
-
-# cell = list(Cell.all('wlan0'))
-
 class WIFIConnector():
     wpa_supplicant_conf = "/etc/wpa_supplicant/wpa_supplicant.conf"
     sudo_mode = "sudo "
 
     def getWIFINetworks(self):
-
-
         cell = list(Cell.all('wlan0'))
         arrStr = "["
         networks = []
         for i in range(len(cell)):
             networks.append(cell[i].ssid)
-           
-        # scheme = Scheme.for_cell('wlan0', 'smart', cell[i], 'Loader55')
-        # scheme.save()
-        # scheme.activate()
-        # print("Founded ")
-        # print(cell[i].ssid)
-    # print(cell[i])
         return networks
 
     def wifi_connect(self,ssid, psk):
         cmd_result = ""
 
-        # write wifi config to file
         f = open('wifi.conf', 'w')
         f.write('ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n')
         f.write('update_config=1\n')
@@ -39,12 +26,12 @@ class WIFIConnector():
         f.write('network={\n')
         f.write('    ssid="' + ssid + '"\n')
         f.write('    psk="' + psk + '"\n')
-    # f.write('    key_mgmt=WPA-PSK\n')
+        # f.write('    key_mgmt=WPA-PSK\n')
         f.write('}\n')
         f.close()
         time.sleep(1)
 
-    # move to the specific folder and overwrite the old file
+        # move to the specific folder and overwrite the old file
         cmd = 'sudo mv wifi.conf ' + self.wpa_supplicant_conf
         cmd_result = os.system(cmd)
         print(cmd + " - " + str(cmd_result))
@@ -95,16 +82,3 @@ class WIFIConnector():
         else:
             return "NoIP"
             
-        
-        
-    # keep all the information about the network
-        
-
-
-
-
-
-
-
-
-# ip = wifi_connect('router', '@Load$5%\Gen%853')
