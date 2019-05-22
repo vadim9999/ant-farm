@@ -25,7 +25,19 @@ class ControlServo():
     def resetfeedAfter(self):
         self.t.cancel()
         
-    def feed(self):
+    def feed(self, time):
+        self.initFeeder()
+        self.pwm.start(2.5)
+        time.sleep(1)
+        self.pwm.ChangeDutyCycle(12.5) 
+        time.sleep(1)
+        self.pwm.start(2.5)
+        time.sleep(1)
+        self.pwm.stop()
+        self.stopFeeder()
+        self.feedAfter(time)
+
+    def feedNow(self):
         self.initFeeder()
         self.pwm.start(2.5)
         time.sleep(1)

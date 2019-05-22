@@ -120,8 +120,8 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             data = self.rfile.read(int(self.headers['Content-Length']))
             data = int(data.decode("utf-8"))
             time = data * 86400
+            self.feeder.feedAfter(time)
             
-            print(time)
 
 
     #Handler for the GET requests
@@ -199,21 +199,13 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     print("feed")
                     self.send_response(200)
                     self.end_headers()
+                    self.feeder.feedNow()
 
                 # ------------stream------------------
                 if self.path == '/stream_settings':
                     self.send_response(200)
                     self.end_headers()
-                    # @TODO change it
-                    # YOUTUBE="rtmp://a.rtmp.youtube.com/live2/"
-                    # KEY= "6kbh-kq1m-zbty-e4rt"
-                    # ------
-                    # data = {
-                    #     "youtube": YOUTUBE,
-                    #     "key": KEY
-                    # }
                     data = self.stream.getYoutubeKey()
-                    print(data)
                     self.wfile.write(data.encode('utf-8'))
 
                 if self.path == "/stop_stream":
