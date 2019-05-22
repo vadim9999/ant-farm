@@ -1,14 +1,7 @@
 import socketserver
-from threading import Condition
-from http.server import HTTPServer, BaseHTTPRequestHandler
-from glob import glob
-from os import curdir, sep
-from string import Template
-from wsgiref.simple_server import make_server
+from http.server import HTTPServer
 from threading import Thread
-from ws4py.websocket import WebSocket
-import sys 
-
+import sys
 from server.StreamingHttpHandlerCamera import StreamingHttpHandlerCamera
 from server.BluetoothServer import BluetoothServer
 
@@ -17,7 +10,6 @@ HTTP_PORT = 80
 class StreamingServer(socketserver.ThreadingMixIn, HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
-
 
 def main():
     try:
@@ -41,8 +33,6 @@ def main():
         print("wait bluetooth")
         sys.exit() 
 
-        if not bluetooth_thread.isAlive(): 
-            print('thread killed') 
         
 if __name__ == '__main__':
     main()
