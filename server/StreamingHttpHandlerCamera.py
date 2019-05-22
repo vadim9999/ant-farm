@@ -1,31 +1,18 @@
 import io
-import logging
-import socketserver
-from threading import Condition
-from http.server import HTTPServer, BaseHTTPRequestHandler
-from glob import glob
+from http.server import BaseHTTPRequestHandler
 from os import curdir, sep
 from string import Template
-from wsgiref.simple_server import make_server
-from threading import Thread
-from ws4py.websocket import WebSocket
-import picamera
-from time import sleep, time
-import http.cookies
+from time import sleep
 import urllib.parse as urlparse
-from urllib.parse import urlencode
-
 from .Streaming import Streaming
 from .RecordVideo import RecordVideo
 from .CaptureImage import CaptureImage
 from .ControlServo import ControlServo
 from .Sensors import Sensors
-
 from os import listdir
 from os.path import isfile, join
 import os
 import shutil
-import sys
 import json 
 
 WIDTH = 640
@@ -52,27 +39,20 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
         self.path = url_parts[2]
         query = dict(urlparse.parse_qsl(url_parts[4]))
         userId = 0
+
         if len(query) != 0:
             userId = int(query["id"])
             print(query["id"])
 
         if self.path == "/start_record":
-            # TODO change on sending data by json 
+
             self.send_response(200)
             self.end_headers()
-            
-
-            # self.recordVideo.test()
-
-            # print(self.rfile.read(int(self.headers['Content-Length'])))
-            # filename = self.rfile.read(int(self.headers['Content-Length']))
             data = self.rfile.read(int(self.headers['Content-Length']))
             data = str(data.decode("utf-8"))
             data = json.loads(data)
-            # print(self.stream.test())
             camera = self.stream.getCamera()
-            # print(str(filename.decode("utf-8")))
-            self.recordVideo.startRecording(data["filename"], data["resolution"],True, camera, userId)
+            self.recordVideo.startRecording(data["filename"], data["resolution"], True, camera, userId)
             self.wfile.write("ok".encode('utf-8'))
 
         if self.path == "/capture_image":
@@ -82,17 +62,12 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             data = self.rfile.read(int(self.headers['Content-Length']))
             data = str(data.decode("utf-8"))
             data = json.loads(data)
-            
             self.captureImage.takeImage(data["filename"],data["resolution"], camera, True)
 
         if self.path == "/start":
             self.send_response(200)
             self.end_headers()
-
-            # print(self.rfile.read(int(self.headers['Content-Length'])))
             resolution = str(self.rfile.read(int(self.headers['Content-Length'])).decode("utf-8"))
-            print("resolution")
-            print(resolution)
             self.stream.startRecording(resolution)
 
         if self.path == '/start_stream':
@@ -100,10 +75,8 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write("hello".encode('utf-8'))
             self.stream.stopRecording(stopPreviewAllUsers = True)
-            print("_________After Stopping recording_________")
             resolution = str(self.rfile.read(int(self.headers['Content-Length'])).decode("utf-8"))
-            print(resolution)
-            self.stream.startStream(userID = userId, resolution1 = resolution)
+            self.stream.startStream(userID=userId, resolution1=resolution)
         
         if self.path == '/set_stream_settings':
             self.send_response(200)
@@ -116,16 +89,13 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
         if self.path == "/set_settings_feeder":
             self.send_response(200)
             self.end_headers()
-            
             data = self.rfile.read(int(self.headers['Content-Length']))
             data = int(data.decode("utf-8"))
             time = data * 86400
             self.feeder.feedAfter(time)
-            
 
-
-    #Handler for the GET requests
     def do_GET(self):
+
             if self.path == '/':
                 self.send_response(301)
                 self.stream.counter = self.stream.counter + 1
@@ -135,9 +105,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
 
             elif self.path == '/sensors':
                 content_type = 'text/html; charset=utf-8'
-                
-                # data["sot"]["temp"]
-                #
+
                 connectedId = 0
                 if self.stream.isStartedPreview() == True:
                     if self.stream.isStartedStream() == True:
@@ -145,12 +113,10 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                     elif self.recordVideo.isStartedRecording() == True:
                         connectedId = self.recordVideo.getConnectedUserId()
 
-                
                 content = (self.sensors.getSensorsData(connectedId)).encode('utf-8')
                 self.send_response(200)
                 self.send_header('Content-Type', content_type)
                 self.send_header('Content-Length', len(content))
-                # @TODO add last modified
                 self.end_headers()
                 self.wfile.write(content)
 
@@ -159,10 +125,10 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                 self.path = url_parts[2]
                 query = dict(urlparse.parse_qsl(url_parts[4]))
                 userId = 0
-                print(url_parts)
+
                 if url_parts[2].startswith('/download') == True:
                     urls = url_parts[2].split("/")
-                    print(urls[2])
+
                     filepath = "media/" + urls[2]
                     with open(filepath, 'rb') as f:
                         self.send_response(200)
@@ -173,7 +139,8 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                         self.send_header("Content-Length", str(fs.st_size))
                         self.end_headers()
                         shutil.copyfileobj(f, self.wfile)
-                        # self.path = 'videos/file.h264'
+
+
                 if url_parts[2].startswith('/delete') == True:
                     self.send_response(204)
                     self.end_headers()

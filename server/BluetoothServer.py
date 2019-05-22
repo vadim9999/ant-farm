@@ -1,10 +1,7 @@
 # import bluetooth
 from bluetooth import *
 import subprocess
-import sys 
-import trace 
-import threading 
-import os
+
 import time
 import json
 

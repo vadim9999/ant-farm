@@ -1,7 +1,5 @@
 import json
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
-import time
-import threading
 import Adafruit_DHT
 
 class Sensors():

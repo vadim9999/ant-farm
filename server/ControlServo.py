@@ -6,7 +6,7 @@ class ControlServo():
     
     def __init__(self):
         
-        self.feedAfter(60)
+        self.feedAfter(3600)
 
     def initFeeder(self):
         GPIO.setmode(GPIO.BCM)
@@ -34,7 +34,7 @@ class ControlServo():
         self.pwm.start(2.5)
         time.sleep(1)
         self.pwm.stop()
-        self.stopFeeder()
+        self.stopServo()
         self.feedAfter(time)
 
     def feedNow(self):
@@ -46,4 +46,4 @@ class ControlServo():
         self.pwm.start(2.5)
         time.sleep(1)
         self.pwm.stop()
-        self.stopFeeder()
+        self.stopServo()

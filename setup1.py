@@ -1,16 +1,8 @@
-
 import socketserver
 from http.server import HTTPServer
 from server.StreamingHttpHandler import StreamingHttpHandler
 
-WIDTH = 640
-HEIGHT = 480
-FRAMERATE = 24
 HTTP_PORT = 80
-WS_PORT = 8084
-COLOR = u'#444'
-BGCOLOR = u'#FFFFFF'
-
 
 class StreamingServer(socketserver.ThreadingMixIn, HTTPServer):
     allow_reuse_address = True
