@@ -4,48 +4,57 @@ import threading
 
 class ControlServo():
     timer = 3600
+    servoChannel = 0
     def __init__(self):
         
         self.feedAfter(self.timer)
+    
+    
+    def setServo(self, servoChannel, position):
+        servoStr ="%u=%u\n" % (servoChannel, position)
+        with open("/dev/servoblaster", "wb") as f:
+            f.write(servoStr.encode("utf-8"))
 
-    def initFeeder(self):
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(18,GPIO.OUT)
-        self.pwm=GPIO.PWM(18,50)
+    # def initFeeder(self):
+    #     GPIO.setmode(GPIO.BCM)
+    #     GPIO.setup(18,GPIO.OUT)
+    #     self.pwm=GPIO.PWM(18,50)
       
     
-    def stopServo(self):
-        self.pwm.stop()
-        GPIO.cleanup()
+    # def stopServo(self):
+    #     # print("Stop")
+    #     self.pwm.stop()
+    #     GPIO.cleanup(18)
     
     def feedAfter(self, time):
-        # Fix
         self.timer = time
-        self.t = threading.Timer(time, self.feed)
+        self.t = threading.Timer(time, self.feedTimer)
         self.t.start()
 
     def resetfeedAfter(self):
         self.t.cancel()
-        
-    def feed(self):
-        self.initFeeder()
-        self.pwm.start(2.5)
-        time.sleep(1)
-        self.pwm.ChangeDutyCycle(12.5) 
-        time.sleep(1)
-        self.pwm.start(2.5)
-        time.sleep(1)
-        self.pwm.stop()
-        self.stopServo()
+
+    def feedTimer(self):
+        self.feed()
         self.feedAfter(self.timer)
 
-    def feedNow(self):
-        self.initFeeder()
-        self.pwm.start(2.5)
+    def feed(self):
+        val = 50
+        self.direction = 1
+        self.setServo(self.servoChannel, val)
+
+        while True:
+            self.setServo(self.servoChannel, val)
+            # time.sleep(.01)
+            if val == 249:
+                break
+            val = val + 1
+
         time.sleep(1)
-        self.pwm.ChangeDutyCycle(12.5) 
-        time.sleep(1)
-        self.pwm.start(2.5)
-        time.sleep(1)
-        self.pwm.stop()
-        self.stopServo()
+        while True:
+            self.setServo(self.servoChannel, val)
+            # time.sleep(.01)
+            if val == 50:
+                break
+            val = val - 1
+        

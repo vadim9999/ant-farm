@@ -16,8 +16,8 @@ class Sensors():
         GPIO.setup(self.middleWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.lowWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-    def closeWaterLevel(self):
-        GPIO.cleanup()
+    # def closeWaterLevel(self):
+    #     GPIO.cleanup()
 
     def getDataDHTS(self):
 

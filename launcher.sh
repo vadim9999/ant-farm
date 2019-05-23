@@ -4,5 +4,6 @@
 
 cd /
 cd home/pi/ant-farm
+sudo /usr/local/sbin/servod --idle-timeout=2000 --p1pins=12
 sudo python3.7 setup.py
 cd /

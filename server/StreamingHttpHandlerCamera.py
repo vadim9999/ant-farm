@@ -15,6 +15,8 @@ import os
 import shutil
 import json
 
+counter = 0
+connectedUsers = [1]
 class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
     stream = Streaming()
     recordVideo = RecordVideo()
@@ -162,7 +164,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             if self.path == "/feed":
                 self.send_response(200)
                 self.end_headers()
-                self.feeder.feedNow()
+                self.feeder.feed()
 
             # ------------stream------------------
             if self.path == '/stream_settings':
