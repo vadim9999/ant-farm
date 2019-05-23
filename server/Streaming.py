@@ -156,6 +156,7 @@ class Streaming():
             while self.startedStream == True:
                 self.camera.wait_recording(1)
         except Exception as e:
+            print("Error")
         finally:
             self.camera.stop_recording()
             self.camera.close()

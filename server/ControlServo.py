@@ -3,10 +3,10 @@ import time
 import threading
 
 class ControlServo():
-    
+    timer = 3600
     def __init__(self):
         
-        self.feedAfter(3600)
+        self.feedAfter(self.timer)
 
     def initFeeder(self):
         GPIO.setmode(GPIO.BCM)
@@ -19,13 +19,15 @@ class ControlServo():
         GPIO.cleanup()
     
     def feedAfter(self, time):
+        # Fix
+        self.timer = time
         self.t = threading.Timer(time, self.feed)
         self.t.start()
 
     def resetfeedAfter(self):
         self.t.cancel()
         
-    def feed(self, time):
+    def feed(self):
         self.initFeeder()
         self.pwm.start(2.5)
         time.sleep(1)
@@ -35,7 +37,7 @@ class ControlServo():
         time.sleep(1)
         self.pwm.stop()
         self.stopServo()
-        self.feedAfter(time)
+        self.feedAfter(self.timer)
 
     def feedNow(self):
         self.initFeeder()
