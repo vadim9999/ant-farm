@@ -7,9 +7,7 @@ body {
   background:  url("../background/background1.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
 }
-.Blink {
-  /* animation: blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;   */
-}
+
 #stopWatch{
   display: inline-block;
 }
@@ -22,21 +20,6 @@ body {
   overflow-y: auto;
 }
 
-/* blinkng circle */
-/* @keyframes up-right {
-  0% {
-      transform: scale(1);
-      opacity: .25
-  }
-  50% {
-      transform: scale (1, 5);
-      opacity: 1;
-  }
-  100% {
-      transform: scale(1);
-      opacity: .25;
-  }
-} */
 #blinkingStream {
   border-radius: 50%;
   width: 15px;
@@ -174,28 +157,6 @@ h2{
   background: none;
 }
 
-/* @media(min-width:768px) {
-  #wrapper {
-    padding-left: 0;
-  }
-  #wrapper.toggled {
-    padding-left: 250px;
-  }
-  #sidebar-wrapper {
-    width: 0;
-  }
-  #wrapper.toggled #sidebar-wrapper {
-    width: 250px;
-  }
-  #page-content-wrapper {
-    padding: 20px;
-    position: relative;
-  }
-  #wrapper.toggled #page-content-wrapper {
-    position: relative;
-    margin-right: 0;
-  }
-} */
 .switch {
   position: relative;
   display: inline-block;
