@@ -99,8 +99,8 @@ class Sensors():
         return level
 
     def getAnimationValues(self):
-        sotHum = 60
-        outsideHum = 50
+        sotHum = 80
+        outsideHum = 80
         arenaHum = 80
 
         valuesHumSot = ("0 200; {0:0} 180; {1} 150; {2} 135; {2} 135;"

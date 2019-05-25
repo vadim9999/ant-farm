@@ -99,7 +99,8 @@ function loadDoc() {
       if(data["connectedId"] != "0"){
         if (isBlocked == false && data["connectedId"] != userId && isPreviewStart == true){
           
-          document.getElementById("start-stream").disabled = true;
+          // document.getElementById("start-stream").disabled = true;
+          enableButtonStop("stream")
           document.getElementById("capture-image").disabled = true;
           document.getElementById("start-record").disabled = true;
           isBlocked = true
@@ -110,7 +111,8 @@ function loadDoc() {
           console.log("Iin section remove disable");
           
           isBlocked = false
-          document.getElementById("start-stream").removeAttribute("disabled")
+          // document.getElementById("start-stream").removeAttribute("disabled")
+          enableButtonStart("stream")
           document.getElementById("capture-image").removeAttribute("disabled")
           document.getElementById("start-record").removeAttribute("disabled")
         }

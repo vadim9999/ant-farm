@@ -13,7 +13,7 @@
 
 </head>
 
-<body>
+<body style="background-color:inherit">
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -33,9 +33,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="avtor.html">Автор</a>
+              <a class="nav-link" href="avtor.html" data-toggle="modal"
+              data-target="#aboutSite">Автор</a>
             </li>
-
           </ul>
         </div>
       </div>
@@ -43,13 +43,11 @@
 
 
   <!-- <div class="jumbotron"> -->
-  <div class="container" style="margin:10px;">
+  <div class="container" style="margin-top:10px;">
 
     <div id="alertBlock">
     </div>
-    <!-- <div id="wrapper">
-
-    <div class="mainpage"> -->
+    
     <div class="row ">
 
       <div class="col-auto ">
@@ -87,7 +85,7 @@
             </div>
           </div>
         </div>
-        <div col="col-auto">
+        <div col="col-auto" class="rowGrid">
 
           <button id="start-stream" type="button" onClick="startStream();" class="btn btn-outline-primary">
             <i class="fas fa-play-circle"></i> Почати трансляцію
@@ -107,11 +105,11 @@
           </button>
 
           <button type="button" class="btn btn-outline-primary" onClick="getStreamSettings();" data-toggle="modal"
-            data-target="#exampleModalCenter">
+            data-target="#settingsStream">
             <i class="fas fa-cogs"></i> Налаштування
           </button>
         </div>
-        <div class="input-group">
+        <div class="input-group " >
           <input id="start-record-input" type="text" class="form-control" placeholder="Ім'я файлу"
             aria-describedby="button-addon4">
           <div class="input-group-append" id="button-addon4">
@@ -132,7 +130,7 @@
             </button>
           </div>
         </div>
-        <div class="input-group">
+        <div class="input-group rowGrid">
           <input id="capture-input" type="text" class="form-control" placeholder="Ім'я зображення"
             aria-describedby="button-addon4">
 
@@ -149,17 +147,17 @@
             </button>
           </div>
         </div>
-        <button type="button" onClick="getVideoFiles();" class="btn btn-primary" data-toggle="modal"
+        <button type="button" onClick="getVideoFiles();" class="btn btn-primary " data-toggle="modal"
           data-target="#displayListVideos">
-          <i class="fas fa-images"></i> Відкрити список медіафайлів
+          <i class="fas fa-images"></i> Медіафайли
         </button>
-        <button type="button" onClick="getItemsTime();" class="btn btn-primary" data-toggle="modal"
+        <button type="button" onClick="getItemsTime();" class="btn btn-primary " data-toggle="modal"
           data-target="#feeder">
-          Налаштування годівниці
+          <i class="fas fa-cog"></i> Налаштування годівниці
         </button>
       </div>
 
-      <div class="col-auto ">
+      <div class="col-auto " >
         <div class="row">
           <div class="col alignTempChart">
             <div class="gauge-chart humidityCharts">
@@ -284,13 +282,13 @@
 
     <div class="row">
 
-      <!-- Modals ---------------------------------------------------------------->
-      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <!-- Modal setting stream ---------------------------------------------------------------->
+      <div class="modal fade" id="settingsStream" tabindex="-1" role="dialog"
+        aria-labelledby="settingsStream" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+              <h5 class="modal-title" id="settingsStream">Налаштування трансляції в YouTube <i class="fab fa-youtube"></i></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -298,59 +296,54 @@
             <div class="modal-body">
               <form>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Youtube Link</label>
-                  <input id="streamLink" type="text" class="form-control" id="exampleInputEmail1"
-                    placeholder="Youtube link">
+                  <label for="inputLink">Посилання</label>
+                  <input id="streamLink" type="text" class="form-control" id="inputLink"
+                    placeholder="Введіть посилання">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">Key</label>
-                  <input id="streamKey" type="text" class="form-control" id="exampleInputPassword1" placeholder="Key">
+                  <label for="inputKey">Ключ</label>
+                  <input id="streamKey" type="text" class="form-control" id="inputKey" placeholder="Введіть ключ">
                 </div>
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" onClick="setStreamSettings()">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+              <button type="button" class="btn btn-primary" onClick="setStreamSettings()">Зберегти зміни</button>
             </div>
           </div>
         </div>
       </div>
-      <!-- Modal -->
+      <!-- Modal mediafiles -->
       <div class="modal fade" id="displayListVideos" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+              <h5 class="modal-title" id="exampleModalCenterTitle">Медіафайли</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
               <ul id="fileList" class="list-group">
-                <a class="list-group-item list-group-item-action">
-                  Cras justo odio <i id="glyphicon" class="fas fa-download"></i>
-                </a>
-                <a class="list-group-item list-group-item-action">
-                  Cras justo odidjjjfdo <i id="glyphicon" class="fas fa-trash-alt"></i>
-                </a>
+               
               </ul>
               <!-- <i onclick="onDeleteFile();" class="fas fa-download"></i> -->
             </div>
             <div class="modal-footer">
-              <button type="button" onClick="getVideoFiles()" class="btn btn-primary">Оновити</button>
+              <button type="button" onClick="getVideoFiles()" class="btn btn-primary">Оновити список</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
 
             </div>
           </div>
         </div>
       </div>
-
+      <!-- Modal feeder -->
       <div class="modal fade" id="feeder" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalCenterTitle">Налаштування годівниці</h5>
+              <h5 class="modal-title" id="feederTitle">Налаштування годівниці</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -359,25 +352,58 @@
 
               <label for="inputInterval">Виберіть інтервал (днях):</label>
               <select id="inputInterval" style="width:15%; display:inline-block" class="custom-select "
-                id="resolutionStream" aria-label="Example select with button addon">
+                id="resolutionStream" >
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">2</option>
               </select>
               <div>
-                <button type="button" class="btn btn-primary" onClick="feed()">Погодувати</button>
+                <button type="button" class="btn btn-primary" onClick="feed()"><i class="fas fa-utensils"></i> Погодувати</button>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" onClick="setSettingsFeeder()">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+              <button type="button" class="btn btn-primary" onClick="setSettingsFeeder()">Зберегти зміни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal about site -->
+      <div class="modal fade" id="aboutSite" tabindex="-1" role="dialog"
+        aria-labelledby="aboutSiteModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="aboutSiteModalTitle">Про сайт</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+             <p style="text-align:center">Дипломний проект </br>
+             на тему: Розробка та програмування Web-серверу 
+          на мові Python та додатку на основі Android 
+          на базі одноплатного комп'ютера Raspberry 
+          для забезпечення діяльності мурашиної ферми</p>
+          <p>Виконавець студент групи К-1-15 Путров Вадим Дмитрович</br>
+          Керівник дипломного проекту Єрьоміна Анастасія Вікторівна</p>
+            </div>
+            <div class="modal-footer">
+              
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+
             </div>
           </div>
         </div>
       </div>
       <!-- ------------------------------------------------------------------------- -->
 
-
+      <footer class="footer fixed-bottom bg-black small text-center mainfooter">
+        <div class="container">
+          <br/>
+          <span>Copyright &copy; Путров Вадим 2019</span>
+        </div>
+      </footer>
       <script src="static/jquery/jquery-3.3.1.slim.min.js"></script>
       <script src="static/jquery/popper.min.js"></script>
       <script src="static/bootstrap/js/bootstrap.min.js"></script>
