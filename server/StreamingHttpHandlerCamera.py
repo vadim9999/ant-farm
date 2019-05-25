@@ -241,6 +241,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                         self.send_header('Location', '/index.html?id='+str(counter))
                         self.end_headers()
                     else:
+                        connectedUsers.append(userId)
                         print('it is html ')
                         mimetype = 'text/html'
                         content_type = 'text/html; charset=utf-8'
