@@ -14,17 +14,6 @@ class ControlServo():
         servoStr ="%u=%u\n" % (servoChannel, position)
         with open("/dev/servoblaster", "wb") as f:
             f.write(servoStr.encode("utf-8"))
-
-    # def initFeeder(self):
-    #     GPIO.setmode(GPIO.BCM)
-    #     GPIO.setup(18,GPIO.OUT)
-    #     self.pwm=GPIO.PWM(18,50)
-      
-    
-    # def stopServo(self):
-    #     # print("Stop")
-    #     self.pwm.stop()
-    #     GPIO.cleanup(18)
     
     def feedAfter(self, time):
         self.timer = time
@@ -45,7 +34,6 @@ class ControlServo():
 
         while True:
             self.setServo(self.servoChannel, val)
-            # time.sleep(.01)
             if val == 249:
                 break
             val = val + 1
@@ -53,7 +41,6 @@ class ControlServo():
         time.sleep(1)
         while True:
             self.setServo(self.servoChannel, val)
-            # time.sleep(.01)
             if val == 50:
                 break
             val = val - 1
