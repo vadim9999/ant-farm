@@ -53,7 +53,7 @@ function loadDoc() {
           document.getElementById('topWater').style.background = "red";
           break;
       }
-      
+
       document.getElementById('sky').style.height = data["waterLevel"] + "%";
       data["sensors"].map(sensor => {
 
@@ -62,22 +62,22 @@ function loadDoc() {
         document.getElementById(sensor.name + "Temp").innerHTML = sensor["Temp"] + "&#8451";
         document.getElementById("tempCircle_" + sensor.name).setAttribute("style", '-webkit-transform: rotate(' + (sensor["Temp"] + 70) + 'deg);')
       })
-     
+
       if (data["streaming"] === true) {
         if (document.getElementById("start-stream").hasAttribute("disabled") != true) {
           enableButtonStop("stream")
           startBlinking("blinkingStream")
-          
+
         }
-        
+
       } else {
         if (document.getElementById("start-stream").hasAttribute("disabled")) {
           enableButtonStart("stream")
           stopBlinking("blinkingStream")
-          
+
         }
       }
-      
+
       if (data["connectedId"] != "0") {
         if (isBlocked == false && data["connectedId"] != userId && isPreviewStart == true) {
 
@@ -135,7 +135,7 @@ function getVideoFiles() {
       var response = this.responseText;
       var data = response.substring(2, response.length - 2)
       var fileNames = data.split("', '");
-  
+
       document.getElementById("fileList").innerHTML = "";
 
       if (fileNames != undefined && fileNames.length > 0 && fileNames[0] != "") {
@@ -143,7 +143,7 @@ function getVideoFiles() {
           var a = document.createElement('a');
           a.className = "list-group-item list-group-item-action";
           a.innerHTML = file;
-    
+
           var mediaIcon = document.createElement("i");
 
           if (getExtensionFile(file) == "h264") {
@@ -206,7 +206,7 @@ function feed() {
   var userId = getUrlParam('id', 'Empty')
 
   var xhttp = new XMLHttpRequest();
-  
+
   xhttp.open("GET", "/feed?id=" + userId, true);
   xhttp.send();
 }
@@ -216,46 +216,52 @@ function feed() {
 // -------preview---------
 
 function captureImage() {
-  userId = getUrlParam('id', 'Empty')
-  var xhttp = new XMLHttpRequest();
   var filename = document.getElementById("capture-input").value;
-  var e = document.getElementById("resolutionImage")
-  var resolution = e.options[e.selectedIndex].value;
+  if (filename.length > 0) {
+    userId = getUrlParam('id', 'Empty')
+    var xhttp = new XMLHttpRequest();
 
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4) {
-      var a = document.createElement('div');
-      a.className = "alerts alert alert-success alert-dismissible fade show";
-      a.setAttribute("role", "alert")
-      a.innerHTML = "Зображення створено успішно!"
+    var e = document.getElementById("resolutionImage")
+    var resolution = e.options[e.selectedIndex].value;
 
-      var button = document.createElement('button');
-      button.className = "close";
-      button.type = "button"
-      button.setAttribute("data-dismiss", "alert")
-      button.setAttribute("aria-label", "Close")
-      a.appendChild(button)
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        var a = document.createElement('div');
+        a.className = "alerts alert alert-success alert-dismissible fade show";
+        a.setAttribute("role", "alert")
+        a.innerHTML = "Зображення створено успішно!"
 
-      var span = document.createElement("span");
-      span.setAttribute("aria-hidden", "true")
-      span.innerHTML = "&times;"
-      button.appendChild(span)
+        var button = document.createElement('button');
+        button.className = "close";
+        button.type = "button"
+        button.setAttribute("data-dismiss", "alert")
+        button.setAttribute("aria-label", "Close")
+        a.appendChild(button)
 
-      document.getElementById("alertBlock").innerHTML = ""
-      document.getElementById("alertBlock").appendChild(a)
-      
+        var span = document.createElement("span");
+        span.setAttribute("aria-hidden", "true")
+        span.innerHTML = "&times;"
+        button.appendChild(span)
 
-      setTimeout(function () {
-        document.getElementById("alertBlock").innerHTML = "";
-      }, 5000);
+        document.getElementById("alertBlock").innerHTML = ""
+        document.getElementById("alertBlock").appendChild(a)
+
+
+        setTimeout(function () {
+          document.getElementById("alertBlock").innerHTML = "";
+        }, 5000);
+      }
     }
+    xhttp.open("POST", "/capture_image?id=" + userId, true);
+    var result = {
+      "filename": filename,
+      "resolution": getResolution(resolution)
+    }
+    xhttp.send(JSON.stringify(result));
+  }else{
+    alert("Введіть ім'я зображення")
   }
-  xhttp.open("POST", "/capture_image?id=" + userId, true);
-  var result = {
-    "filename": filename,
-    "resolution": getResolution(resolution)
-  }
-  xhttp.send(JSON.stringify(result));
+
 }
 
 // -------------------
@@ -280,30 +286,36 @@ function getResolution(resolution) {
 // ---------------------
 // ---------Video-Record----------
 function startRecord() {
-  startBlinking("blinkingRecord")
-  enableButtonStop("record")
-  startStopWatch();
-  document.getElementById("info").setAttribute("title", "Зупиніть запис відео")
-  document.getElementById("videoResolution").setAttribute("disabled", "true")
-
-  var e = document.getElementById("resolutionRecord")
-  var resolution = e.options[e.selectedIndex].value;
-
   var filename = document.getElementById("start-record-input").value
-  userId = getUrlParam('id', 'Empty')
+  if (filename.length > 0) {
+    startBlinking("blinkingRecord")
+    enableButtonStop("record")
+    startStopWatch();
+    document.getElementById("info").setAttribute("title", "Зупиніть запис відео")
+    document.getElementById("videoResolution").setAttribute("disabled", "true")
 
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange
-    = function () {
-      if (this.readyState == 4) {
+    var e = document.getElementById("resolutionRecord")
+    var resolution = e.options[e.selectedIndex].value;
+
+
+    userId = getUrlParam('id', 'Empty')
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange
+      = function () {
+        if (this.readyState == 4) {
+        }
       }
+    xhttp.open("POST", "/start_record?id=" + userId, true);
+    var result = {
+      "filename": filename,
+      "resolution": getResolution(resolution)
     }
-  xhttp.open("POST", "/start_record?id=" + userId, true);
-  var result = {
-    "filename": filename,
-    "resolution": getResolution(resolution)
+    xhttp.send(JSON.stringify(result));
+  } else {
+    alert("Введіть ім'я відеофайлу")
   }
-  xhttp.send(JSON.stringify(result));
+
 }
 
 function stopRecord() {
@@ -336,15 +348,19 @@ function getStreamSettings() {
 // --------------------------
 
 function setStreamSettings() {
-  var xhttp = new XMLHttpRequest();
+
   var userId = getUrlParam('id', 'Empty')
   var youtube = document.getElementById("streamLink").value;
   var key = document.getElementById("streamKey").value;
-  var result = {
-    "youtube": youtube,
-    "key": key
-  }
-  
-  xhttp.open("POST", "/set_stream_settings?id=" + userId, true);
-  xhttp.send(JSON.stringify(result));
+  if (youtube.length > 0 && key.length > 0) {
+    var xhttp = new XMLHttpRequest();
+
+    var result = {
+      "youtube": youtube,
+      "key": key
+    }
+
+    xhttp.open("POST", "/set_stream_settings?id=" + userId, true);
+    xhttp.send(JSON.stringify(result));
+  } else alert("Заповніть поля 'Посилання' та 'Ключ' ")
 }

@@ -120,7 +120,7 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
             # connectedId = 2
             preview = True
             stream = False
-            recording = True
+            recording = False
             if preview == True:
                 if stream == True:
                     connectedId = 2
