@@ -23,6 +23,18 @@ html {
   display: inline-block;
 }
 
+/* media icons */
+.glyphicon{
+  float:right;
+  padding-left:30px;
+  font-size: 20px;
+}
+.videoIcon{
+  float: left;
+  padding-right:10px;
+  font-size:20px;
+}
+
 /* blinks */
 #blinkingStream {
   border-radius: 50%;
