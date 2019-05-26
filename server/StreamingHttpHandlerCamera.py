@@ -14,6 +14,7 @@ from os.path import isfile, join
 import os
 import shutil
 import json
+from subprocess import call
 
 counter = 0
 connectedUsers = [1]
@@ -98,7 +99,6 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             self.send_response(301)
             global counter
             counter = counter + 1
-            print("_________counter_____________")
             self.send_header('Location', '/index.html?id='+str(counter))  
             self.end_headers()
             return
@@ -204,6 +204,17 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                 self.send_header('Content-Length', len(content))
                 self.end_headers()
                 self.wfile.write(content)
+
+            # shtdown & reboot RPI
+            if self.path == "/shutdown_pi":
+                self.send_response(200)
+                self.end_headers()
+                call("sudo shutdown -h now", shell=True)
+            
+            if self.path == "/reboot_pi":
+                self.send_response(200)
+                self.end_headers()
+                call("sudo reboot", shell=True)
 
             # --------preview--------
             if self.path == "/stop":

@@ -124,18 +124,33 @@ function loadDoc() {
   xhttp.send();
 }
 
-function test() {
+function shutdownPi() {
+  console.log("shutdown");
+  userId = getUrlParam('id', 'Empty')
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      
+      console.log("shutdown");
+      
+    }
+  }
+  xhttp.open("GET", "/shutdown_pi?id=" + userId, true);
+  xhttp.send();
+}
+
+function rebootPi() {
   console.log("_____test______");
   userId = getUrlParam('id', 'Empty')
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
-      console.log("TEST");
-      // console.log(this.responseText);
+      console.log("reboot");
     }
   }
-  xhttp.open("GET", "/test?id=" + userId, true);
+  xhttp.open("GET", "/reboot_pi?id=" + userId, true);
   xhttp.send();
 }
 // --------------video files
