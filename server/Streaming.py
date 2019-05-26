@@ -174,7 +174,7 @@ class Streaming():
         }
         return json.dumps(data)
 
-    def startStream(self, userID=0, resolution1="640x480"):
+    def startStream(self, userID=0, resolution1="854x480"):
         if self.startedStream != True and userID != 0:
             self.connectedUserId = userID
             stream_cmd = 'ffmpeg -f h264 -r 25 -i - -itsoffset 5.5 -fflags nobuffer -f lavfi -i anullsrc -c:v copy -c:a aac -strict experimental -f flv ' + self.youtube + "/" + self.key
@@ -184,7 +184,7 @@ class Streaming():
             self.camera.vflip = True
             self.camera.hflip = True
             self.camera.start_recording(
-                self.stream_pipe.stdin, format='h264', bitrate=20000000)
+                self.stream_pipe.stdin, format='h264', bitrate=2000000)
 
             self.startedStream = True
             self.startRecordingStream()

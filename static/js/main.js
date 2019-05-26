@@ -268,15 +268,15 @@ function captureImage() {
 function getResolution(resolution) {
   switch (resolution) {
     case "720":
-      return "1024x768"
+      return "1280x720"
       break;
 
     case "480":
-      return "640x480"
+      return "854x480"
       break;
 
     case "240":
-      return "320x240"
+      return "426x240"
       break;
     default:
       break;

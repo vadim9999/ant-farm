@@ -1,9 +1,9 @@
 var item = "cursorQ dropdown-item";
-var resolution = "640x480";
+var resolution = "854x480";
 
 
 function onQ720() {
-  resolution = "1024x768"
+  resolution = "1280x720"
   document.getElementById("Q720").setAttribute("class", item + " active")
   document.getElementById("Q480").setAttribute("class", item)
   document.getElementById("Q240").setAttribute("class", item)
@@ -11,7 +11,7 @@ function onQ720() {
 }
 
 function onQ480() {
-  resolution = "640x480"
+  resolution = "854x480"
   document.getElementById("Q720").setAttribute("class", item)
   document.getElementById("Q480").setAttribute("class", item + " active")
   document.getElementById("Q240").setAttribute("class", item)
@@ -19,7 +19,7 @@ function onQ480() {
 }
 
 function onQ240() {
-  resolution = "320x240"
+  resolution = "426x240"
   document.getElementById("Q720").setAttribute("class", item)
   document.getElementById("Q480").setAttribute("class", item)
   document.getElementById("Q240").setAttribute("class", item + " active")
@@ -80,7 +80,7 @@ function startStream() {
 
   enableButtonStop("stream")
   var e = document.getElementById("resolutionStream")
-  var resolution = e.options[e.selectedIndex].value;
+  let resolution = e.options[e.selectedIndex].value;
 
   var xhttp = new XMLHttpRequest();
 
@@ -89,6 +89,7 @@ function startStream() {
       if (this.readyState == 4) {
       }
     }
+    
   xhttp.open("POST", "/start_stream?id=" + userId, true);
   xhttp.send(getResolution(resolution));
   waitStartPreview()
