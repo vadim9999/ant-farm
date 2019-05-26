@@ -4,7 +4,7 @@ from threading import Thread
 import sys
 from server.StreamingHttpHandlerCamera import StreamingHttpHandlerCamera
 from server.BluetoothServer import BluetoothServer
-
+import time
 HTTP_PORT = 80
 
 class StreamingServer(socketserver.ThreadingMixIn, HTTPServer):
@@ -13,6 +13,7 @@ class StreamingServer(socketserver.ThreadingMixIn, HTTPServer):
 
 def main():
     try:
+        time.sleep(10)
         http_server = StreamingServer(('', HTTP_PORT), StreamingHttpHandlerCamera)
        
         bluetooth = BluetoothServer()

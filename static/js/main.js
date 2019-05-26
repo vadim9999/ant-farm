@@ -62,12 +62,11 @@ function loadDoc() {
         document.getElementById(sensor.name + "Temp").innerHTML = sensor["Temp"] + "&#8451";
         document.getElementById("tempCircle_" + sensor.name).setAttribute("style", '-webkit-transform: rotate(' + (sensor["Temp"] + 70) + 'deg);')
       })
-
-      if (data["streaming"] == true) {
+     
+      if (data["streaming"] === true) {
         if (document.getElementById("start-stream").hasAttribute("disabled") != true) {
           enableButtonStop("stream")
           startBlinking("blinkingStream")
-          console.log("doesn't has attribute disabled start-stream");
           
         }
         
@@ -75,7 +74,7 @@ function loadDoc() {
         if (document.getElementById("start-stream").hasAttribute("disabled")) {
           enableButtonStart("stream")
           stopBlinking("blinkingStream")
-          console.log("has attribute disabled")
+          
         }
       }
       

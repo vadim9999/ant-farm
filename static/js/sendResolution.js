@@ -42,8 +42,11 @@ function startPreview() {
   isPreviewStart = true
 
   enableButtonStop('preview')
-  document.getElementById("start-record").removeAttribute("disabled")
+  if(document.getElementById("start-stream").hasAttribute("disabled") !== true){
+    document.getElementById("start-record").removeAttribute("disabled")
   document.getElementById("capture-image").removeAttribute("disabled")
+  }
+  
 
   var xhttp = new XMLHttpRequest();
   streamUrl = location.protocol + "//" + location.host + "/stream.mjpg?id=" + userId;

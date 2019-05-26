@@ -7,7 +7,10 @@ class Sensors():
     fullWaterPin = 23
     middleWaterPin = 24
     lowWaterPin = 25
-    isInitialize = False
+    
+
+    def __init__(self):
+        self.initWaterLevel()
 
     def initWaterLevel(self):
         print("init waterlevel")
@@ -72,9 +75,7 @@ class Sensors():
         return data
 
     def getWaterLevel(self):
-        if self.isInitialize == False:
-            self.isInitialize = True
-            self.initWaterLevel()
+        
 
         full = False
         middle = False
