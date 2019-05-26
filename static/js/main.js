@@ -95,11 +95,22 @@ function loadDoc() {
         document.getElementById("tempCircle_" + sensor.name).setAttribute("style", '-webkit-transform: rotate(' +(sensor["Temp"] + 70) + 'deg);' )
       })
       
+      if(data["streaming"] == true){
+        if(document.getElementById("start-stream").hasAttribute("disabled") != true){
+          enableButtonStop("stream")
+          startBlinking("blinkingStream")
+        }
+        // enableButtonStop("stream")
+      }else {
+        if(document.getElementById("start-stream").hasAttribute("disabled")){
+          enableButtonStart("stream")
+        }
+      }
        // add checking if stream is started enable button 
       if(data["connectedId"] != "0"){
         if (isBlocked == false && data["connectedId"] != userId && isPreviewStart == true){
           
-          document.getElementById("start-stream").disabled = true;
+          // document.getElementById("start-stream").disabled = true;
           // enableButtonStop("stream")
           document.getElementById("capture-image").disabled = true;
           document.getElementById("start-record").disabled = true;
@@ -111,7 +122,7 @@ function loadDoc() {
           console.log("Iin section remove disable");
           
           isBlocked = false
-          document.getElementById("start-stream").removeAttribute("disabled")
+          // document.getElementById("start-stream").removeAttribute("disabled")
           // enableButtonStart("stream")
           document.getElementById("capture-image").removeAttribute("disabled")
           document.getElementById("start-record").removeAttribute("disabled")

@@ -52,7 +52,10 @@ html {
   display: inline-block;
   background-color: red;
 }
-
+@keyframes blinker {  
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
 /* modals */
 .modal-body {
   max-height: calc(100vh - 210px);

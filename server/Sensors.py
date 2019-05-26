@@ -60,11 +60,12 @@ class Sensors():
         ]
         return result
 
-    def getSensorsData(self, connectedId):
+    def getSensorsData(self, connectedId, startedStreaming):
         data = {
             "sensors": self.getDataDHTS(),
             "waterLevel": self.getWaterLevel(),
-            "connectedId": connectedId
+            "connectedId": connectedId,
+            "streaming": startedStreaming
         }
 
         data = json.dumps(data)

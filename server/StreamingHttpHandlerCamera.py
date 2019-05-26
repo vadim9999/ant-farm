@@ -17,7 +17,7 @@ import json
 from subprocess import call
 
 counter = 0
-connectedUsers = [1]
+connectedUsers = []
 class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
     stream = Streaming()
     recordVideo = RecordVideo()
@@ -107,14 +107,15 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             content_type = 'text/html; charset=utf-8'
 
             connectedId = 0
+            startedStreaming = False
             if self.stream.isStartedPreview() == True:
                 if self.stream.isStartedStream() == True:
-                    connectedId = self.stream.getConnectedUserId()
+                    startedStreaming = self.stream.isStartedStream()
                 elif self.recordVideo.isStartedRecording() == True:
                     connectedId = self.recordVideo.getConnectedUserId()
 
             content = (self.sensors.getSensorsData(
-                connectedId)).encode('utf-8')
+                connectedId, startedStreaming)).encode('utf-8')
             self.send_response(200)
             self.send_header('Content-Type', content_type)
             self.send_header('Content-Length', len(content))
