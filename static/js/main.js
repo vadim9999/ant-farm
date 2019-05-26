@@ -241,7 +241,7 @@ function captureImage() {
 
       document.getElementById("alertBlock").innerHTML = ""
       document.getElementById("alertBlock").appendChild(a)
-      // document.getElementById("alertBlock").innerHTML = ""
+      
 
       setTimeout(function () {
         document.getElementById("alertBlock").innerHTML = "";
