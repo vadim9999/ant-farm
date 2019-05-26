@@ -104,6 +104,7 @@ function loadDoc() {
       }else {
         if(document.getElementById("start-stream").hasAttribute("disabled")){
           enableButtonStart("stream")
+          stopBlinking("blinkingStream")
         }
       }
        // add checking if stream is started enable button 
