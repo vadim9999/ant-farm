@@ -108,11 +108,12 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
 
             connectedId = 0
             startedStreaming = False
-            if self.stream.isStartedPreview() == True:
-                if self.stream.isStartedStream() == True:
-                    startedStreaming = self.stream.isStartedStream()
-                elif self.recordVideo.isStartedRecording() == True:
-                    connectedId = self.recordVideo.getConnectedUserId()
+            if self.stream.isStartedStream() == True:
+                print("stream is started")
+                startedStreaming = self.stream.isStartedStream()
+
+            if self.recordVideo.isStartedRecording() == True and self.stream.isStartedPreview() == True:
+                connectedId = self.recordVideo.getConnectedUserId()
 
             content = (self.sensors.getSensorsData(
                 connectedId, startedStreaming)).encode('utf-8')

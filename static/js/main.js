@@ -67,12 +67,15 @@ function loadDoc() {
         if (document.getElementById("start-stream").hasAttribute("disabled") != true) {
           enableButtonStop("stream")
           startBlinking("blinkingStream")
+          console.log("doesn't has attribute disabled start-stream");
+          
         }
         
       } else {
         if (document.getElementById("start-stream").hasAttribute("disabled")) {
           enableButtonStart("stream")
           stopBlinking("blinkingStream")
+          console.log("has attribute disabled")
         }
       }
       
