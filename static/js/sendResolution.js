@@ -42,11 +42,11 @@ function startPreview() {
   isPreviewStart = true
 
   enableButtonStop('preview')
-  if(document.getElementById("start-stream").hasAttribute("disabled") !== true){
+  if (document.getElementById("start-stream").hasAttribute("disabled") !== true) {
     document.getElementById("start-record").removeAttribute("disabled")
-  document.getElementById("capture-image").removeAttribute("disabled")
+    document.getElementById("capture-image").removeAttribute("disabled")
   }
-  
+
 
   var xhttp = new XMLHttpRequest();
   streamUrl = location.protocol + "//" + location.host + "/stream.mjpg?id=" + userId;
@@ -76,23 +76,37 @@ function stopPreview() {
 // ----------stream-------------
 function startStream() {
   userId = getUrlParam('id', 'Empty')
-  startBlinking("blinkingStream")
-
-  enableButtonStop("stream")
-  var e = document.getElementById("resolutionStream")
-  let resolution = e.options[e.selectedIndex].value;
 
   var xhttp = new XMLHttpRequest();
+  var userId = getUrlParam('id', 'Empty')
 
-  xhttp.onreadystatechange
-    = function () {
-      if (this.readyState == 4) {
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var str = this.responseText;
+      
+      var data = JSON.parse(str)
+      if (data["youtube"].length > 0 && data["key"].length > 0) {
+        startBlinking("blinkingStream")
+        enableButtonStop("stream")
+        
+        var e = document.getElementById("resolutionStream")
+        let resolution = e.options[e.selectedIndex].value;
+
+        var xhttp2 = new XMLHttpRequest();
+
+        xhttp2.open("POST", "/start_stream?id=" + userId, true);
+        xhttp2.send(getResolution(resolution));
+        waitStartPreview()
+      }else{
+        alert("Введіть 'Посилання' та 'Ключ' в Налаштуваннях ")
       }
+
     }
-    
-  xhttp.open("POST", "/start_stream?id=" + userId, true);
-  xhttp.send(getResolution(resolution));
-  waitStartPreview()
+  }
+  xhttp.open("GET", "/stream_settings?id=" + userId, true);
+  xhttp.send();
+
+
 }
 
 function stopStream() {

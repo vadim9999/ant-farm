@@ -146,8 +146,8 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 }
             ],
                 "waterLevel": 60,
-                "connectedId": connectedId,
-                "streaming": True
+                "connectedId": 2,
+                "streaming": False
             }
             result = json.dumps(data)
             content = result.encode("utf-8")
@@ -220,16 +220,17 @@ class StreamingHttpHandler(BaseHTTPRequestHandler):
                 self.send_response(200)
                 self.end_headers()
                 # @TODO change it
-                YOUTUBE = "rtmp://a.rtmp.youtube.com/live2/"
-                KEY = "6kbh-kq1m-zbty-e4rt"
+                YOUTUBE = ""
+                KEY = ""
                 # ------
                 data = {
                     "youtube": YOUTUBE,
                     "key": KEY
                 }
-                data = str(data)
+                # data = str(data)
+                data=json.dumps(data)
                 self.wfile.write(data.encode('utf-8'))
-            # -----------------------
+
         # --------------stream---------------------
 
             if self.path == "/stop_stream":
