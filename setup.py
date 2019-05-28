@@ -31,7 +31,6 @@ def main():
     finally:
         print("shutdown http_server")
         http_server.socket.close()
-        print("wait bluetooth")
         sys.exit() 
 
         

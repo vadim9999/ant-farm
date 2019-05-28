@@ -82,7 +82,7 @@ class Streaming():
                             frame = self.output.frame
 
                     except Exception as e:
-                        print("!!!!exception " + str(e))
+                        print(str(e))
 
                     selfed.wfile.write(b'--FRAME\r\n')
                     selfed.send_header('Content-Type', 'image/jpeg')

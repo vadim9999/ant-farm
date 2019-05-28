@@ -109,7 +109,6 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             connectedId = 0
             startedStreaming = False
             if self.stream.isStartedStream() == True:
-                print("stream is started")
                 startedStreaming = self.stream.isStartedStream()
 
             if self.recordVideo.isStartedRecording() == True and self.stream.isStartedPreview() == True:
@@ -148,7 +147,6 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                 self.send_response(204)
                 self.end_headers()
                 urls = url_parts[2].split("/")
-                print(urls[2])
                 filepath = "media/" + urls[2]
 
                 if os.path.exists(filepath):
@@ -245,17 +243,12 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
                 if self.path.endswith(".html"):
                     global connectedUsers
                     if userId in connectedUsers:
-                        self.send_response(301)
-                            
+                        self.send_response(301)    
                         counter = counter + 1
-                            
-                        print("_________counter22122_____________")
-
                         self.send_header('Location', '/index.html?id='+str(counter))
                         self.end_headers()
                     else:
                         connectedUsers.append(userId)
-                        print('it is html ')
                         mimetype = 'text/html'
                         content_type = 'text/html; charset=utf-8'
                         with io.open(self.path, 'r') as f:
