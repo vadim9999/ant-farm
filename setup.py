@@ -13,16 +13,13 @@ class StreamingServer(socketserver.ThreadingMixIn, HTTPServer):
 
 def main():
     try:
-        time.sleep(10)
         http_server = StreamingServer(('', HTTP_PORT), StreamingHttpHandlerCamera)
-       
         bluetooth = BluetoothServer()
         bluetooth_thread = Thread(target = bluetooth.run_server)
         bluetooth_thread.daemon = True
         print("Starting Bluetooth server")
         bluetooth_thread.start()
-
-        print ('Started httpserver on port ' , HTTP_PORT)
+        print ('Starting httpserver on port ' , HTTP_PORT)
         http_server.serve_forever()
         
     except KeyboardInterrupt:

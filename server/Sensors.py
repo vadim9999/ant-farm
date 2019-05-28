@@ -1,5 +1,5 @@
 import json
-import RPi.GPIO as GPIO  # Import Raspberry Pi GPIO library
+import RPi.GPIO as GPIO  
 import Adafruit_DHT
 
 
@@ -13,19 +13,15 @@ class Sensors():
         self.initWaterLevel()
 
     def initWaterLevel(self):
-        print("init waterlevel")
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.fullWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.middleWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.lowWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-    # def closeWaterLevel(self):
-    #     GPIO.cleanup()
-
     def getDataDHTS(self):
 
         humidityOutside, temperatureOutside = Adafruit_DHT.read_retry(
-            11, 27)  # DOne
+            11, 27)  
         humiditySot, temperatureSot = Adafruit_DHT.read_retry(11, 17)
         humidityArena, temperatureArena = Adafruit_DHT.read_retry(11, 26)
 
@@ -76,7 +72,6 @@ class Sensors():
 
     def getWaterLevel(self):
         
-
         full = False
         middle = False
         low = False
