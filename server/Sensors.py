@@ -14,10 +14,13 @@ class Sensors():
 
     def initWaterLevel(self):
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.fullWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(self.middleWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(self.lowWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
+        try:
+            GPIO.setup(self.fullWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+            GPIO.setup(self.middleWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+            GPIO.setup(self.lowWaterPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        except:
+            print("Err")
+            
     def getDataDHTS(self):
 
         humidityOutside, temperatureOutside = Adafruit_DHT.read_retry(
@@ -28,17 +31,14 @@ class Sensors():
         if humidityOutside is None and temperatureOutside is None:
             humidityOutside = 20
             temperatureOutside = 30
-            print('Failed to get reading. Try again!humidityOutside')
 
         if humiditySot is None and temperatureSot is None:
             humiditySot = 20
             temperatureSot = 30
-            print('Failed to get reading. Try again!humiditySot')
 
         if humidityArena is None and temperatureArena is None:
             humidityArena = 20
             temperatureArena = 30
-            print('Failed to get reading. Try again! temperatureArena')
 
         result = [
             {

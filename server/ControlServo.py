@@ -3,7 +3,7 @@ import time
 import threading
 
 class ControlServo():
-    timer = 3600
+    timer = 86400
     servoChannel = 0
     def __init__(self):
         

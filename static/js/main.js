@@ -1,4 +1,4 @@
-loadDoc();
+loadDoc()
 window.setInterval(function () {
   loadDoc()
 }, 5000)
