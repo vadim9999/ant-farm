@@ -217,8 +217,10 @@ function feed() {
 
 function captureImage() {
   var filename = document.getElementById("capture-input").value;
+  
   if (filename.length > 0) {
-    userId = getUrlParam('id', 'Empty')
+    if(/\s/.test(filename) != true){
+      userId = getUrlParam('id', 'Empty')
     var xhttp = new XMLHttpRequest();
 
     var e = document.getElementById("resolutionImage")
@@ -258,6 +260,9 @@ function captureImage() {
       "resolution": getResolution(resolution)
     }
     xhttp.send(JSON.stringify(result));
+    }else{
+      alert("Введіть ім'я файлу не використовую пробілів")
+    }
   }else{
     alert("Введіть ім'я зображення")
   }
@@ -286,9 +291,12 @@ function getResolution(resolution) {
 // ---------------------
 // ---------Video-Record----------
 function startRecord() {
-  var filename = document.getElementById("start-record-input").value
+  let filename = document.getElementById("start-record-input").value;
+  
+
   if (filename.length > 0) {
-    startBlinking("blinkingRecord")
+    if(/\s/.test(filename) != true){
+      startBlinking("blinkingRecord")
     enableButtonStop("record")
     startStopWatch();
     document.getElementById("info").setAttribute("title", "Зупиніть запис відео")
@@ -312,6 +320,12 @@ function startRecord() {
       "resolution": getResolution(resolution)
     }
     xhttp.send(JSON.stringify(result));
+    }
+    else{
+      alert("Введіть ім'я відеофайлу без пробілів")
+    }
+
+    
   } else {
     alert("Введіть ім'я відеофайлу")
   }
