@@ -217,53 +217,53 @@ function feed() {
 
 function captureImage() {
   var filename = document.getElementById("capture-input").value;
-  
+
   if (filename.length > 0) {
-    if(/\s/.test(filename) != true){
+    if (/\s/.test(filename) != true) {
       userId = getUrlParam('id', 'Empty')
-    var xhttp = new XMLHttpRequest();
+      var xhttp = new XMLHttpRequest();
 
-    var e = document.getElementById("resolutionImage")
-    var resolution = e.options[e.selectedIndex].value;
+      var e = document.getElementById("resolutionImage")
+      var resolution = e.options[e.selectedIndex].value;
 
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        var a = document.createElement('div');
-        a.className = "alerts alert alert-success alert-dismissible fade show";
-        a.setAttribute("role", "alert")
-        a.innerHTML = "Зображення створено успішно!"
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+          var a = document.createElement('div');
+          a.className = "alerts alert alert-success alert-dismissible fade show";
+          a.setAttribute("role", "alert")
+          a.innerHTML = "Зображення створено успішно!"
 
-        var button = document.createElement('button');
-        button.className = "close";
-        button.type = "button"
-        button.setAttribute("data-dismiss", "alert")
-        button.setAttribute("aria-label", "Close")
-        a.appendChild(button)
+          var button = document.createElement('button');
+          button.className = "close";
+          button.type = "button"
+          button.setAttribute("data-dismiss", "alert")
+          button.setAttribute("aria-label", "Close")
+          a.appendChild(button)
 
-        var span = document.createElement("span");
-        span.setAttribute("aria-hidden", "true")
-        span.innerHTML = "&times;"
-        button.appendChild(span)
+          var span = document.createElement("span");
+          span.setAttribute("aria-hidden", "true")
+          span.innerHTML = "&times;"
+          button.appendChild(span)
 
-        document.getElementById("alertBlock").innerHTML = ""
-        document.getElementById("alertBlock").appendChild(a)
+          document.getElementById("alertBlock").innerHTML = ""
+          document.getElementById("alertBlock").appendChild(a)
 
 
-        setTimeout(function () {
-          document.getElementById("alertBlock").innerHTML = "";
-        }, 5000);
+          setTimeout(function () {
+            document.getElementById("alertBlock").innerHTML = "";
+          }, 5000);
+        }
       }
-    }
-    xhttp.open("POST", "/capture_image?id=" + userId, true);
-    var result = {
-      "filename": filename,
-      "resolution": getResolution(resolution)
-    }
-    xhttp.send(JSON.stringify(result));
-    }else{
+      xhttp.open("POST", "/capture_image?id=" + userId, true);
+      var result = {
+        "filename": filename,
+        "resolution": getResolution(resolution)
+      }
+      xhttp.send(JSON.stringify(result));
+    } else {
       alert("Введіть ім'я файлу не використовую пробілів")
     }
-  }else{
+  } else {
     alert("Введіть ім'я зображення")
   }
 
@@ -292,40 +292,41 @@ function getResolution(resolution) {
 // ---------Video-Record----------
 function startRecord() {
   let filename = document.getElementById("start-record-input").value;
-  
+
 
   if (filename.length > 0) {
-    if(/\s/.test(filename) != true){
+    if (/\s/.test(filename) != true) {
       startBlinking("blinkingRecord")
-    enableButtonStop("record")
-    startStopWatch();
-    document.getElementById("info").setAttribute("title", "Зупиніть запис відео")
-    document.getElementById("videoResolution").setAttribute("disabled", "true")
+      enableButtonStop("record")
+      startStopWatch();
+      document.getElementById("info").setAttribute("title", "Зупиніть запис відео")
+      document.getElementById("videoResolution").setAttribute("disabled", "true")
+      document.getElementById("stop-preview").setAttribute("disabled", "true")
+      document.getElementById("start-stream").setAttribute("disabled", "true")
 
-    var e = document.getElementById("resolutionRecord")
-    var resolution = e.options[e.selectedIndex].value;
+      var e = document.getElementById("resolutionRecord")
+      var resolution = e.options[e.selectedIndex].value;
 
+      userId = getUrlParam('id', 'Empty')
 
-    userId = getUrlParam('id', 'Empty')
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange
-      = function () {
-        if (this.readyState == 4) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange
+        = function () {
+          if (this.readyState == 4) {
+          }
         }
+      xhttp.open("POST", "/start_record?id=" + userId, true);
+      var result = {
+        "filename": filename,
+        "resolution": getResolution(resolution)
       }
-    xhttp.open("POST", "/start_record?id=" + userId, true);
-    var result = {
-      "filename": filename,
-      "resolution": getResolution(resolution)
+      xhttp.send(JSON.stringify(result));
     }
-    xhttp.send(JSON.stringify(result));
-    }
-    else{
+    else {
       alert("Введіть ім'я відеофайлу без пробілів")
     }
 
-    
+
   } else {
     alert("Введіть ім'я відеофайлу")
   }
@@ -337,6 +338,10 @@ function stopRecord() {
   stopStopWatch();
   document.getElementById("info").removeAttribute("title")
   document.getElementById("videoResolution").removeAttribute("disabled")
+  document.getElementById("stop-preview").removeAttribute("disabled")
+  document.getElementById("start-stream").removeAttribute("disabled")
+  
+
   enableButtonStart("record")
   userId = getUrlParam('id', 'Empty')
   var xhttp = new XMLHttpRequest();
