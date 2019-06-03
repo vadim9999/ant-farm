@@ -91,6 +91,7 @@ class StreamingHttpHandlerCamera(BaseHTTPRequestHandler):
             data = self.rfile.read(int(self.headers['Content-Length']))
             data = int(data.decode("utf-8"))
             time = data * 86400
+            self.feeder.resetfeedAfter()
             self.feeder.feedAfter(time)
 
     def do_GET(self):
