@@ -71,7 +71,7 @@ function loadDoc() {
         }
 
       } else {
-        if (document.getElementById("start-stream").hasAttribute("disabled")) {
+        if (document.getElementById("start-stream").hasAttribute("disabled") && document.getElementById("start-record").hasAttribute("disabled") != true) {
           enableButtonStart("stream")
           stopBlinking("blinkingStream")
 
