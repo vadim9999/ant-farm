@@ -63,15 +63,14 @@ function loadDoc() {
         document.getElementById("tempCircle_" + sensor.name).setAttribute("style", '-webkit-transform: rotate(' + (sensor["Temp"] + 70) + 'deg);')
       })
 
-      if (data["streaming"] === true) {
+      if (data["streaming"] === true) { 
         if (document.getElementById("start-stream").hasAttribute("disabled") != true) {
           enableButtonStop("stream")
           startBlinking("blinkingStream")
-
         }
 
       } else {
-        if (document.getElementById("start-stream").hasAttribute("disabled") && document.getElementById("start-record").hasAttribute("disabled") != true) {
+        if (document.getElementById("start-stream").hasAttribute("disabled") === true) {
           enableButtonStart("stream")
           stopBlinking("blinkingStream")
 
