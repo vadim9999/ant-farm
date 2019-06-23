@@ -92,7 +92,7 @@ function loadDoc() {
           document.getElementById("start-record").removeAttribute("disabled")
         }
       }
-
+      document.getElementById("cpu_temp").innerHTML = data["cpu_temp"];
     }
   }
   xhttp.open("GET", "/sensors", true);

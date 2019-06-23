@@ -1,7 +1,7 @@
 import json
 import RPi.GPIO as GPIO  
 import Adafruit_DHT
-
+import os
 
 class Sensors():
     fullWaterPin = 23
@@ -59,12 +59,17 @@ class Sensors():
         ]
         return result
 
+    def measure_temp(self):
+        temp = os.popen("vcgencmd measure_temp").readline()
+        return (temp.replace("temp=",""))
+
     def getSensorsData(self, connectedId, startedStreaming):
         data = {
             "sensors": self.getDataDHTS(),
             "waterLevel": self.getWaterLevel(),
             "connectedId": connectedId,
-            "streaming": startedStreaming
+            "streaming": startedStreaming,
+            "cpu_temp": self.measure_temp()
         }
 
         data = json.dumps(data)
