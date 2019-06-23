@@ -20,7 +20,7 @@
     <div class="container">
       <a class="navbar-brand" href="index.html">
         <img src="static/images/logo1.png" width="30" height="30" alt="">
-        Мурашина ферма
+        Ant Farm
       </a>
       <div class="pos-f-t">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -30,17 +30,17 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="index.html">Панель керування
+              <a class="nav-link active" href="index.html">Control Panel
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" data-toggle="modal" data-target="#aboutSite">Автор</a>
+              <a class="nav-link" href="#" data-toggle="modal" data-target="#aboutSite">About author</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" onclick="shutdownPi()"><i class="fas fa-power-off"></i> Вимкнути</a>
+              <a class="nav-link" href="#" onclick="shutdownPi()"><i class="fas fa-power-off"></i> Shutdown</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" onclick="rebootPi()"><i class="fas fa-sync-alt"></i> Перезавантажити</a>
+              <a class="nav-link" href="#" onclick="rebootPi()"><i class="fas fa-sync-alt"></i> Reboot</a>
             </li>
           </ul>
         </div>
@@ -71,7 +71,7 @@
                   class="btn btn-outline-primary">
                   <i class="fas fa-expand"></i>
                 </button>
-                <span id="info" tabindex="0" title="Якість відео">
+                <span id="info" tabindex="0" title="Quality">
                   <div class="btn-group dropup" style="float:right; padding-right: 10px;">
 
                     <button id="videoResolution" type="button" class="btn btn-primary dropdown-toggle"
@@ -92,7 +92,7 @@
         <div col="col-auto" class="rowGrid">
 
           <button id="start-stream" type="button" onClick="startStream();" class="btn btn-outline-primary">
-            <i class="fas fa-play-circle"></i> Почати трансляцію
+            <i class="fas fa-play-circle"></i> Start stream
           </button>
 
           <select style="width:15%; display:inline-block" class="custom-select " id="resolutionStream"
@@ -105,16 +105,16 @@
 
           <button id="stop-stream" type="button" onClick="stopStream();" class="btn btn-outline-danger" disabled>
             <div id="blinkingStream"></div>
-            Зупинити
+            Stop
           </button>
 
           <button type="button" class="btn btn-outline-primary" onClick="getStreamSettings();" data-toggle="modal"
             data-target="#settingsStream">
-            <i class="fas fa-cogs"></i> Налаштування
+            <i class="fas fa-cogs"></i> Settings
           </button>
         </div>
         <div class="input-group ">
-          <input id="start-record-input" type="text" class="form-control" placeholder="Ім'я відеофайлу"
+          <input id="start-record-input" type="text" class="form-control" placeholder="Name of video"
             aria-describedby="button-addon4">
           <div class="input-group-append" id="button-addon4">
             <select style=" display:inline-block" class="custom-select " id="resolutionRecord"
@@ -124,18 +124,18 @@
               <option value="240">240</option>
             </select>
             <button id="start-record" class="btn btn-outline-primary" type="button" onclick="startRecord()" disabled>
-              <i class="fas fa-video"></i> Почати запис
+              <i class="fas fa-video"></i> Start record
             </button>
 
             <button id="stop-record" class="btn btn-outline-danger" type="button" onclick="stopRecord()" disabled>
               <div id="blinkingRecord"></div>
               <div id="stopWatch"><time>00:00:00</time></div>
-              Зупинити
+              Stop
             </button>
           </div>
         </div>
         <div class="input-group rowGrid">
-          <input id="capture-input" type="text" class="form-control" placeholder="Ім'я зображення"
+          <input id="capture-input" type="text" class="form-control" placeholder="Name of image"
             aria-describedby="button-addon4">
 
           <div class="input-group-append" id="button-addon4">
@@ -147,17 +147,17 @@
               <option value="240">426x240</option>
             </select>
             <button id="capture-image" onClick="captureImage()" class="btn btn-outline-primary" type="button" disabled>
-              <i class="fas fa-camera"></i> Створити зображення
+              <i class="fas fa-camera"></i> Take a photo
             </button>
           </div>
         </div>
         <button type="button" onClick="getVideoFiles();" class="btn btn-primary " data-toggle="modal"
           data-target="#displayListVideos">
-          <i class="fas fa-images"></i> Медіафайли
+          <i class="fas fa-images"></i> Mediafiles
         </button>
         <button type="button" onClick="getItemsTime();" class="btn btn-primary " data-toggle="modal"
           data-target="#feeder">
-          <i class="fas fa-cog"></i> Налаштування годівниці
+          <i class="fas fa-cog"></i> Settings feeder
         </button>
       </div>
 
@@ -191,7 +191,7 @@
           </div>
         </div>
         <div class="row">
-          <h5>В сотах</h5>
+          <h5>Honeycomb</h5>
         </div>
 
         <div class="row">
@@ -223,7 +223,7 @@
           </div>
         </div>
         <div class="row">
-          <h5>В арені</h5>
+          <h5>Arena</h5>
         </div>
         <div class="row">
 
@@ -255,7 +255,7 @@
           </div>
         </div>
         <div class="row">
-          <h5>В приміщенні</h5>
+          <h5>Outside</h5>
         </div>
       </div>
 
@@ -287,7 +287,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="settingsStream">Налаштування трансляції в YouTube <i
+              <h5 class="modal-title" id="settingsStream">Streaming settings in YouTube <i
                   class="fab fa-youtube"></i></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -296,19 +296,19 @@
             <div class="modal-body">
               <form>
                 <div class="form-group">
-                  <label for="inputLink">Посилання</label>
+                  <label for="inputLink">Link</label>
                   <input id="streamLink" type="text" class="form-control" id="inputLink"
-                    placeholder="Введіть посилання">
+                    placeholder="Input link">
                 </div>
                 <div class="form-group">
-                  <label for="inputKey">Ключ</label>
-                  <input id="streamKey" type="text" class="form-control" id="inputKey" placeholder="Введіть ключ">
+                  <label for="inputKey">Key</label>
+                  <input id="streamKey" type="text" class="form-control" id="inputKey" placeholder="Input key">
                 </div>
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
-              <button type="button" class="btn btn-primary" onClick="setStreamSettings()">Зберегти зміни</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onClick="setStreamSettings()">Save</button>
             </div>
           </div>
         </div>
@@ -319,7 +319,7 @@
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalCenterTitle">Медіафайли</h5>
+              <h5 class="modal-title" id="exampleModalCenterTitle">Mediafiles</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -329,8 +329,8 @@
               </ul>
             </div>
             <div class="modal-footer">
-              <button type="button" onClick="getVideoFiles()" class="btn btn-primary">Оновити список</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+              <button type="button" onClick="getVideoFiles()" class="btn btn-primary">Refresh</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
             </div>
           </div>
@@ -341,14 +341,14 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="feederTitle">Налаштування годівниці</h5>
+              <h5 class="modal-title" id="feederTitle">Settings feeder</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
 
-              <label for="inputInterval">Виберіть інтервал (днях):</label>
+              <label for="inputInterval">Interval</label>
               <select id="inputInterval" style="width:15%; display:inline-block" class="custom-select">
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -356,12 +356,12 @@
               </select>
               <div>
                 <button type="button" class="btn btn-primary" onClick="feed()"><i class="fas fa-utensils"></i>
-                  Погодувати</button>
+                  Feed now</button>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
-              <button type="button" class="btn btn-primary" onClick="setSettingsFeeder()">Зберегти зміни</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onClick="setSettingsFeeder()">Save changes</button>
             </div>
           </div>
         </div>
@@ -372,22 +372,16 @@
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="aboutSiteModalTitle">Про автора</h5>
+              <h5 class="modal-title" id="aboutSiteModalTitle">About author</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <p style="text-align:center">Дипломний проект </br>
-                на тему: Розробка та програмування Web-серверу
-                на мові Python та додатку на основі Android
-                на базі одноплатного комп'ютера Raspberry
-                для забезпечення діяльності мурашиної ферми</p>
-              <p>Виконавець студент групи К-1-15 Путров Вадим Дмитрович</br>
-                Керівник дипломного проекту Єрьоміна Анастасія Вікторівна</p>
+              
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
@@ -398,7 +392,7 @@
       <footer class="footer fixed-bottom bg-black small text-center mainfooter">
         <div class="container">
         </br>
-          <span style="margin-top:20%">&copy; Путров Вадим 2019</span>
+          <span style="margin-top:20%">&copy; Putrov Vadim 2019</span>
         </div>
       </footer>
       <script src="static/jquery/jquery-3.3.1.slim.min.js"></script>
