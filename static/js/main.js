@@ -230,7 +230,7 @@ function captureImage() {
           var a = document.createElement('div');
           a.className = "alerts alert alert-success alert-dismissible fade show";
           a.setAttribute("role", "alert")
-          a.innerHTML = "Зображення створено успішно!"
+          a.innerHTML = "Image was created successfully!"
 
           var button = document.createElement('button');
           button.className = "close";
@@ -260,10 +260,10 @@ function captureImage() {
       }
       xhttp.send(JSON.stringify(result));
     } else {
-      alert("Введіть ім'я файлу не використовую пробілів")
+      alert("Input name of image without spaces")
     }
   } else {
-    alert("Введіть ім'я зображення")
+    alert("Input name of photo")
   }
 
 }
@@ -298,7 +298,7 @@ function startRecord() {
       startBlinking("blinkingRecord")
       enableButtonStop("record")
       startStopWatch();
-      document.getElementById("info").setAttribute("title", "Зупиніть запис відео")
+      document.getElementById("info").setAttribute("title", "Stop recording video")
       document.getElementById("videoResolution").setAttribute("disabled", "true")
       document.getElementById("stop-preview").setAttribute("disabled", "true")
       document.getElementById("start-stream").setAttribute("disabled", "true")
@@ -322,12 +322,12 @@ function startRecord() {
       xhttp.send(JSON.stringify(result));
     }
     else {
-      alert("Введіть ім'я відеофайлу без пробілів")
+      alert("Input name of video without spaces")
     }
 
 
   } else {
-    alert("Введіть ім'я відеофайлу")
+    alert("Input name of video")
   }
 
 }
@@ -380,5 +380,5 @@ function setStreamSettings() {
 
     xhttp.open("POST", "/set_stream_settings?id=" + userId, true);
     xhttp.send(JSON.stringify(result));
-  } else alert("Заповніть поля 'Посилання' та 'Ключ' ")
+  } else alert("Input fields 'Link' and 'Key'")
 }
