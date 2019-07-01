@@ -10,22 +10,22 @@ Using technology:
  
  ## Screenshots
 
-![Control Panel](https://github.com/vadim9999/ant-farm/blob/master/screenshots/1.png)
-![Mediafiles](https://github.com/vadim9999/ant-farm/blob/master/screenshots/2.png)
-![Settings feeder](https://github.com/vadim9999/ant-farm/blob/master/screenshots/3.png)
-![Settings streaming to YouTube](https://github.com/vadim9999/ant-farm/blob/master/screenshots/4.png)
+<img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/1.png"  height="340" width="440" >
+<img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/2.png"  height="340" width="440" >
+<img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/3.png"  height="340" width="440" >
+<img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/4.png"  height="340" width="440" >
 
 ## Instruction of using farm
 
-Installing an Ant Farm:
-    1. Place the uniform on the rack on a flat surface.
-    2. Fill the dry feed into the container of the automatic feeder.
-    3. Remove the float from the drinker and pour water to the top mark. Lower the float to water and close the bowl lid.
-    4. Adjust the amount of water droplets with the wheel.
+### Installation of Ant Farm:
+1. Place the forcarius on the table.
+2. Fill the dry feed into the container of the automatic feeder.
+3. Remove the float from the drinker and pour water to the top mark. Lower the float to water and close the bowl lid.
+4. Adjust the amount of water droplets with the wheel.
 
-First launch of the farm:
-    1. Check all the wires for damage.
-    2. Insert the power plug into the wall outlet (220V). You can also disconnect the USB device from the power supply and connect it to another power supply (5V) or to a PC.
+### First launch of the farm:
+1. Check all the wires for damage.
+2. Insert the power plug into the wall outlet (220V). You can also disconnect the USB device from the power supply and connect it to another power supply (5V) or to a PC.
     3. Wait 2 minutes until the device boots. Find out if the device is working on a green LED that is in the device housing.
     4. Currently, the farm is not connected to any WIFI network. To connect it, install ant-farm.apk on Android.
     5. After successful installation, go to the Bluetooth settings on your smartphone. Settings -> Bluetooth -> Enable Bluetooth. Search for devices. In the list of found devices, connect to the ant-farm device. Exit the settings.
@@ -45,5 +45,5 @@ Using a webpage:
     7. To feed, press the "Feeder Settings" key, then select the interval or the "Feed" key, which will start the feeder mechanism.
 The web page displays information about 3 gauges and water level. Each sensor shows the temperature and humidity of the air. The first sensor is located in the "cell" of the formicary, the second in the "arena", the third in the room. In the arena there is a feeder based on raspberry pi, a water tank and a regulating wheel to limit the amount of water droplets.
 
-![Ant Farm](https://github.com/vadim9999/ant-farm/blob/master/screenshots/farm.png)
+<img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/farm.png"  height="440" width="340" >
 
