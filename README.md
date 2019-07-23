@@ -75,7 +75,13 @@ https://www.raspberrypi.org/documentation/usage/webcams/.
 The device for creating a broadcast on the Internet will be a camera. The video in h264 format will be transmitted using the ffmpeg program to the YouTube server.
 In this work the 5-megapixel camera RPI Camera Rev 1.3 based on the sensor OV5647 was used. It connects to the CSI connector that comes with the cable.
 
+<img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/camera.png"  height="240" width="340" >
 
+The camera is small in size: 25 x 20 x 9 mm. Supported video formats are 1080r with a frame rate of 30 frames per second (fps), 720p with 60 fps, and 480p with 90 fps. In order for Raspberry Pi to recognize the camera, you need to enable its support at the raspi-config level. To do this, at the command line you must enter:
+$ sudo raspi-config
+Go to the "Interfaces options" section. Select "P1 Camera" and press "Enter".
+
+<img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/camera-settings.png"  height="240" width="340" >
 
  ## Screenshots
 
