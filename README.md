@@ -1,12 +1,26 @@
 # Ant Farm
-Using technology:
-1. Web server: 
- - Python3.7 
+
+Ant Farm contains web-server and application on OS Android. 
+
+Technology:
+1. Writing web server on Python3.7 used this libraries: 
  - picamera
  - http.server
  - socketserver
  - subprocess
  - os
+2. Frontend:
+ - HTML
+ - CSS
+ - JS
+ - AJAX
+ - Bootstrap
+ - Font Awesome
+
+ ## Using this project
+ 
+ 1. Clone this repository in `home` directory of Raspberry Pi Zero Wireless.
+ 2. Open `ant-farm` and execute command 'sudo python3.7 setup.py'.
  
  ## Screenshots
 
