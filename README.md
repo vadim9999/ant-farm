@@ -10,6 +10,7 @@ Ant Farm contains web-server and application on OS Android.
 3. Informing about the water level in the tank.
 4. Provision of information on temperature and humidity in the form of cats.
 
+
 1. Writing web server on Python3.7 used this libraries: 
  - picamera
  - http.server
@@ -29,6 +30,53 @@ Ant Farm contains web-server and application on OS Android.
  1. Clone this repository in `home` directory of Raspberry Pi Zero Wireless.
  2. Open `ant-farm` and execute command 'sudo python3.7 setup.py'.
  
+ ## Components that was used in the Ant Farm
+ 
+ ### 1. Raspberry Pi Zero Wireless
+ 
+ <img src = "https://user-images.githubusercontent.com/35640573/51474686-bf139480-1d88-11e9-8e91-6340771ea96b.png"  height="240" width="340">
+<img src = "https://user-images.githubusercontent.com/35640573/51474785-0bf76b00-1d89-11e9-8ada-9bc09edb9296.png"  height="240" width="340">
+<img src = "https://user-images.githubusercontent.com/35640573/51475009-cb4c2180-1d89-11e9-981a-1e947a3ea6ee.png"  height="240" width="340" >
+
+| --- | --- |
+| --- | --- |
+System on a chip (SoC) | Broadcom BCM2835 (CPU, GPU, DSP and SDRAM)
+Processor | 32-bit 1-core ARMv6Z ARM1176JZF-S with a clock frequency of 1 GHz, 16 KB cache L1 and 128 KB cache L2 (ARM11 family)
+Graphics processor | The dual-core GPU VideoCore IV® clocked at @ 250 MHz supports the standards OpenGL ES 2.0, OpenVG, MPEG-2, VC-1 and is capable of encoding, decoding and output Full HD video (1080p, 30 FPS, H.264 High-Profile)
+RAM | 512 MB SDRAM LPDDR2 400 MHz (with GPU)
+Storage | microSDHC memory card slot
+Wi-Fi / Bluetooth | Wi-Fi 802.11n and Bluetooth 4.1 (Bluetooth Classic and LE) provided by the Cypress chip CYW43438
+Video input | 1 x CSI for camera connection via MIPI interface
+Video output | 1 x HDMI via mini HDMI connector (1080p60) 1 x composite video via two pins on the board (labeled TV)
+Audio input | Via I²S
+Audio output | HDMI
+USB ports | 1 Micro USB 2.0 port directly from BCM2835
+Peripherals | 40 general-purpose input-output ports (GPIO), UART (Serial), I²S, I²C / TWI, SPI with a selector between two devices; Power Pins: 3.3 V, 5 V and Ground.
+Power | 5 V, 2 A via micro USB or GPIO
+Power consumption | 100 mA (0.5 W) on average (standby), 350 mA (1.75 W) maximum, under stress (a monitor, keyboard and mouse are connected)
+OS | Raspbian, Ubuntu, Debian, Fedora, Arch Linux, Gentoo, RISC OS, Android, Firefox OS, NetBSD, FreeBSD, Slackware, Tiny Core Linux
+
+One of the features of Raspberry Pi is a series of GPIO contacts along the top edge of the board. GPIO stands for general purpose entry / exit. These contacts are the physical interface between Raspberry Pi and external devices.
+The GPIO allows Raspberry Pi to control external devices by connecting to electronic circuits. The controller is able to control LEDs, turn them on or off, start electric motors and much more. You can also find out whether the key is pressed to receive temperature and humidity data
+
+Useful links that you can find below:
+- [Source of table](https://micro-pi.ru/raspberry-pi-zero-w-rpi0w-bcm2835/)
+- [Connecting camera to raspberry pi zero w via connector](https://4te.me/post/camera-raspberry-pi/)
+
+http://isearch.kiev.ua/ru/searchpracticeru/-internetsecurity-ru/1790-how-to-set-up-the-camera-module-raspberry-pi
+https://learn.sparkfun.com/tutorials/setting-up-the-pi-zero-wireless-pan-tilt-camera/configure-the-raspberry-pi
+https://thepihut.com/blogs/raspberry-pi-tutorials/16021420-how-to-install-use-the-raspberry-pi-camera
+с помощью python https://dantheiotman.com/2017/08/28/realtime-video-using-a-raspberry-pi-zero-w-and-python-picamera/
+или подключение веб-камеры( можно осуществлять стрим с помощью команды в консоли). 
+https://www.raspberrypi.org/documentation/usage/webcams/.
+
+### Camera module for RPI
+
+The device for creating a broadcast on the Internet will be a camera. The video in h264 format will be transmitted using the ffmpeg program to the YouTube server.
+In this work the 5-megapixel camera RPI Camera Rev 1.3 based on the sensor OV5647 was used. It connects to the CSI connector that comes with the cable.
+
+
+
  ## Screenshots
 
 <img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/1.png"  height="340" width="440" >
