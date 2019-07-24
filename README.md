@@ -83,6 +83,28 @@ Go to the "Interfaces options" section. Select "P1 Camera" and press "Enter".
 
 <img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/camera-settings.png"  height="240" width="340" >
 
+### Sensors DHT11
+
+In this work, the sensors DHT11 are used.
+The DHT11 sensor is a digital temperature and humidity sensor that allows you to calibrate the digital signal at the output. It consists of a capacitive humidity sensor and thermistor. In addition, the sensor contains ADC for converting analog values of humidity and temperature.
+
+**Characteristics**:
+- Power supply: I / O 3.5-5.5 V;
+- Moisture determination: 20-90% RH ± 5% (max.);
+- Temperature determination: 0-50 ºC ± 2% (max.);
+- Frequency of request: no more than 1 Hz;
+- Dimensions 15.5 x 12 x 5.5 mm.
+Outputs:
+1. VCC (3-5V supply);
+2. Data Out - Data output;
+3. NC - not used;
+4. Land
+
+<img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/DHT11.png"  height="240" width="340" >
+
+### Servo
+    
+    
  ## Screenshots
 
 <img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/1.png"  height="340" width="440" >
