@@ -10,14 +10,13 @@ Ant Farm contains web-server and application on OS Android.
 3. Informing about the water level in the tank.
 4. Provision of information on temperature and humidity in the form of cats.
 
-
-
 **Writing web server on Python3.7 used this libraries:** 
  - picamera
  - http.server
  - socketserver
  - subprocess
  - os
+ 
 **Frontend:**
  - HTML
  - CSS
