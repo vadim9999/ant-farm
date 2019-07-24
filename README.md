@@ -94,7 +94,8 @@ The DHT11 sensor is a digital temperature and humidity sensor that allows you to
 - Temperature determination: 0-50 ºC ± 2% (max.);
 - Frequency of request: no more than 1 Hz;
 - Dimensions 15.5 x 12 x 5.5 mm.
-Outputs:
+
+**Outputs**:
 1. VCC (3-5V supply);
 2. Data Out - Data output;
 3. NC - not used;
@@ -103,9 +104,41 @@ Outputs:
 <img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/DHT11.png"  height="240" width="340" >
 
 ### Servo
+    SG90 servo actuator was used to create the feeder. The servo is used to rotate the piston in the cylinder of the syringe.
+SG90 servo 2kg is the most common servo of all time. It is used in aeromodeling, ship modeling, works and other products.
+
+**Characteristics:**
+• Unloaded speed: 0.12 sec. at a power supply of 4.8V;
+• torque: 2 kg / cm;
+• temperature range: from 0 to + 50 ° С;
+• operating voltage of the power supply: 3.5-5 V;
+• current consumption in operation: 50-80 mA;
+• current consumption in anticipation: 5-10 mA;
+• turning angle: 180 degrees;
+• Dimensions: 3.3 cm x 3 cm x 1.3 cm
     
-    
- ## Screenshots
+<img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/servo.png"  height="240" width="340" >
+
+### Gerkons (reed switch)
+
+Gerkons are used as indicators of water level in the boat. Each bottle is attached to the syringe horizontally at an even distance.
+Gerkon - an electromechanical device, a switch, the movement of which electrical contacts is guided by a magnetic field.
+**Characteristics:**
+- Switching voltage: up to 100 V;
+- Switching power: up to 10 W;
+- Resistance to the contact, not more than: 0.1 Ohm;
+- Insulation resistance: 10 ohms;
+- Time of operation, no more: 1 ms;
+- Time of release, no more: 0.5 ms;
+- MDS operation, A: 10-30;
+- MDS release, A: 4-7;
+- Capacity of contact, no more: 0.7 pF;
+- Operating temperature range: -60 ... +150 ° С;
+- Dimensions: glass bulb - 15 mm, diameter - 2 mm, exits - 12 mm
+
+<img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/gerkones.png"  height="240" width="340" >
+
+## Screenshots
 
 <img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/1.png"  height="340" width="440" >
 <img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/2.png"  height="340" width="440" >
