@@ -171,28 +171,92 @@ Gerkon - an electromechanical device, a switch, the movement of which electrical
 
 ## Creation of web server
 
-HTTP Web server is a process that was hosted on a computer and rocked two words:
- 1. Interview HTTP to a specific TCP socket address (IP addresses and port number).
- 2. Obbliya tsei powered and nadsilaє vіdpovіd koristuvachevі.
-There is a web server in Python 3 that has two modules: http.server and socketserver.
-For real simple server will be available Vikoristovuvati BaseHTTPRequestHandler. Tsei class mozhe vikorisovuvatsya yak base for realіzatsіі vlasnogo ombrivnika zapіtіv, scho prutsyyut in the system HTTP. If the key is to insert the HTTP connection, then the headers of your account will be analyzed, updated via the search method do_POST () and do_GET (). Application views of a simple web server for Python versions 3.7:
+HTTP Web server is a process that runs on a computer and does two things:
+1. Listen to incoming HTTP requests to a specific TCP socket address (IP address and port number).
+2. Processes this request and sends a response to the user.
+
+To create a web server on Python 3, two modules were imported: `http.server` and `socketserver`.
+To implement a simple server, it will be enough to use BaseHTTPRequestHandler. This class can be used as the basis for implementing its own request handler, working on the HTTP system. After the client establishes the connection and HTTP - the headers of his request will be analyzed, the method calls are called depending on the type of do_POST () and do_GET (). An example of a simple Python web server version 3.7:
+
+```
 from http.server import BaseHTTPRequestHandler
 class HttpProcessor (BaseHTTPRequestHandler):
 def do_GET (self):
-self.path == / ’:
+self.path == '/':
 self.send_response (200)
 self.send_header ('content-type', 'text / html')
 self.end_headers ()
 self.wfile.write ("text")
-In the Do_GET () method, the URL of the gate is duplicated. self.path - zberig URL URL. Do_GET () spratsovuє if the key of this heap is uploaded to the server.
-You must connect to the HTTPServer class, transferring it to the parameters of the IP address and port, using the HTTP server, and the BaseHTTPRequestHandler, which will be downloaded to the server:
+```
+
+The `Do_GET ()` method compares URL paths. `self.path` - saves the URL path. `Do_GET()` works when a client requests a server.
+You must create an `HTTPServe`r class object by passing it as the IP address and port on which the HTTP server will work, as well as `BaseHTTPRequestHandler`, which will be arranged and processed on the server request:
+```
 http_server = HTTPServer (('', 80), HttpProcessor)
 http_server.serve_forever ()
-The first row is an instance of the HTTPServer class, which entered your home address, behind which the http-feed has been sent to the serve_forever () method [21].
-In this work for http, write in the class StreamingHttpHandlerCamera.py as follows:
-    • Do_POST: "/ start_record", "/ capture_image", "/ start", "/ start_stream", "/ set_stream_settings", "/ set_settings_feeder";
-    • Do_GET: "/", "/ sensors", "/index.html", "/ feed", "/ stream_settings", "/ stop_record", "/ media", "/ shutdown_pi", "/ reboot_pi", " / stop "," / wait_start_preview "," / stream.mjpg ".
-The server is listed on the Raspberry Pi, the key is dynamically configured by the browser from the server. Tobto is for optimizing the content of HTTP connections in local languages or global least.
+```
+The first line creates an instance of the `HTTPServer` class by specifying the address for which HTTP requests will be queried, and then the `serve_forever()` method is called.
+In this paper, the following query paths are used to handle the http request in the `StreamingHttpHandlerCamera.py` class:
+- **Do_POST**: "/ start_record", "/ capture_image", "/ start", "/ start_stream", "/ set_stream_settings", "/ set_settings_feeder";
+- **Do_GET**: "/", "/ sensor", "/index.html", "/ feed", "/ stream_settings", "/ stop_record", "/ media", "/ shutdown_pi", "/ reboot_pi", " / stop "," / wait_start_preview "," /stream.mjpg ".
+The server is located on Raspberry Pi, the client is dynamically loaded into the browser from the server. That is, for debugging, HTTP communication must be configured on a local or global network.
+
+## Setting up video streaming to YouTube
+
+To organize streaming video, the Linux FFMPEG utility with h264 support is used. The following commands are used to set all of its parts needed for streaming video:
+```
+$ sudo sh -c 'echo' deb http://www.deb-multimedia.org jessie main non-free >> >> /etc/apt/sources.list.d/deb-multimedia.list
+$ sudo sh -c 'echo' deb-src http://www.deb-multimedia.org jessie main non-free ">> /etc/apt/sources.list.d/deb-multimedia.list '
+$ sudo apt-get update
+$ sudo apt-get install deb-multimedia-keyring
+$ sudo apt-get update
+$ sudo apt-get install build-essential libmp3lame-dev libvorbis-dev libtheora-dev libspeex-dev yasm libopenjpeg-dev libx264-dev libogg-dev
+$ cd ~
+$ sudo git clone git: //git.videolan.org/x264
+$ cd x264 /
+$ sudo ./configure --host = arm-unknown-linux-gnueabi --enable-static --disable-opencl
+$ sudo make
+$ sudo make install
+$ cd ~
+$ sudo git clone https://github.com/FFmpeg/FFmpeg.git
+$ cd FFmpeg /
+$ sudo ./configure --arch = armel --target-os = linux --enable-gpl --enable-libx264 --enable-nonfree
+$ sudo make
+$ sudo make install.
+```
+Source:https://github.com/tgogos/rpi_ffmpeg
+
+The following command is used to start the streaming of video to the Internet (YouTube):
+```
+ffmpeg -f h264 -r 25 -i -itsoffset 5.5 -fflags nobuffer -f lavfi -i anullsrc -c: v copy -c: a aac -strict experimental -f flv 'youtube + "/" + key
+```
+In order for the team to work in the terminal, instead of youtube and key, you need to insert the link and the key that was issued when creating the broadcast on YouTube.
+To run a video broadcast using `ffmpeg` in Python, we will use the subprocess module. Example:
+
+```
+import subprocess
+import picamera
+import time
+YOUTUBE = "rtmp: //a.rtmp.youtube.com/live2/"
+KEY = #ENTER PRIVATE KEY HERE #
+stream_cmd = ffmpeg -f h264 -r 25 -i -itsoffset 5.5 -fflags nobuffer -f lavfi -i anullsrc -c: v copy -c: a aac -strict experimental -f flv 'youtube + "/" + key
+stream_pipe = subprocess.Popen (stream_cmd, shell = True, stdin = subprocess.PIPE)
+camera = picamera.PiCamera (resolution = (640, 480), framerate = 25)
+try:
+  camera.framerate = 25
+  camera.vflip = True
+  camera.hflip = True
+  camera.start_recording (stream_pipe.stdin, format = 'h264', bitrate = 2000000)
+  while True:
+     camera.wait_recording (1)
+except KeyboardInterrupt:
+     camera.stop_recording ()
+finally:
+  camera.close ()
+  stream.stdin.close ()
+  stream.wait ()
+```
+Source: https://picamera.readthedocs.io/en/release-1.13/recipes1.html#recording-to-a-network-stream
 
 ## Screenshots
 
