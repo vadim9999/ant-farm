@@ -103,6 +103,20 @@ The DHT11 sensor is a digital temperature and humidity sensor that allows you to
 
 <img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/DHT11.png"  height="240" width="340" >
 
+---
+Sources
+
+DHT 11 или BME280
+https://kropochev.com/?go=all/raspberry-pi-and-humidity-sensor-dht/
+[Connection to pi two version of DHT11 with 3 or 4 pins](http://www.circuitbasics.com/how-to-set-up-the-dht11-humidity-sensor-on-the-raspberry-pi/)
+http://virtuoso-blog.s3-website-us-east-1.amazonaws.com/posts/pi-zero-dht11.html
+[Shchema of connection and python code ](https://www.raspberrypi-spy.co.uk/2017/09/dht11-temperature-and-humidity-sensor-raspberry-pi/)
+https://www.rlocman.ru/review/article.html?di=336425
+<img src= "https://user-images.githubusercontent.com/35640573/51789909-e9a18b00-2196-11e9-8663-3fcf68318432.png" height= "150" width="450">
+<img src="https://user-images.githubusercontent.com/35640573/51789927-27061880-2197-11e9-8106-c9456453e251.png" height= "150" width="450">
+
+---
+
 ### Servo
     SG90 servo actuator was used to create the feeder. The servo is used to rotate the piston in the cylinder of the syringe.
 SG90 servo 2kg is the most common servo of all time. It is used in aeromodeling, ship modeling, works and other products.
@@ -118,6 +132,19 @@ SG90 servo 2kg is the most common servo of all time. It is used in aeromodeling,
 • Dimensions: 3.3 cm x 3 cm x 1.3 cm
     
 <img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/servo.png"  height="240" width="340" >
+
+---
+Sources:
+
+<img src ="https://user-images.githubusercontent.com/35640573/51799265-05a13d00-2228-11e9-8b10-621baf7861de.png" height="150" width="250">
+![image](https://user-images.githubusercontent.com/35640573/51798836-96284f00-2221-11e9-8faa-5e8d04eee1ec.png)
+
+https://raspberry.com.ua/rasberry-pi-lesson-8/
+[код на python и подключение к RPI](http://www.avislab.com/blog/raspberry-pi-pwm_ru/)
+[Connection Servo to RPI Zero](https://www.instructables.com/id/Control-Servo-Via-Raspberry-Pi-Zero/)
+**Note:** First of all we need about 1kΩ resistor. It may protect the GPIO pin from unexpectedly high currents in the control signal, which could occur if a fault developed on the servo.
+
+---
 
 ### Gerkons (reed switch)
 
@@ -137,6 +164,35 @@ Gerkon - an electromechanical device, a switch, the movement of which electrical
 - Dimensions: glass bulb - 15 mm, diameter - 2 mm, exits - 12 mm
 
 <img src = "https://github.com/vadim9999/ant-farm/blob/master/screenshots/gerkones.png"  height="240" width="340" >
+
+## Structural scheme
+
+[Will be scheme]
+
+## Creation of web server
+
+HTTP Web server is a process that was hosted on a computer and rocked two words:
+ 1. Interview HTTP to a specific TCP socket address (IP addresses and port number).
+ 2. Obbliya tsei powered and nadsilaє vіdpovіd koristuvachevі.
+There is a web server in Python 3 that has two modules: http.server and socketserver.
+For real simple server will be available Vikoristovuvati BaseHTTPRequestHandler. Tsei class mozhe vikorisovuvatsya yak base for realіzatsіі vlasnogo ombrivnika zapіtіv, scho prutsyyut in the system HTTP. If the key is to insert the HTTP connection, then the headers of your account will be analyzed, updated via the search method do_POST () and do_GET (). Application views of a simple web server for Python versions 3.7:
+from http.server import BaseHTTPRequestHandler
+class HttpProcessor (BaseHTTPRequestHandler):
+def do_GET (self):
+self.path == / ’:
+self.send_response (200)
+self.send_header ('content-type', 'text / html')
+self.end_headers ()
+self.wfile.write ("text")
+In the Do_GET () method, the URL of the gate is duplicated. self.path - zberig URL URL. Do_GET () spratsovuє if the key of this heap is uploaded to the server.
+You must connect to the HTTPServer class, transferring it to the parameters of the IP address and port, using the HTTP server, and the BaseHTTPRequestHandler, which will be downloaded to the server:
+http_server = HTTPServer (('', 80), HttpProcessor)
+http_server.serve_forever ()
+The first row is an instance of the HTTPServer class, which entered your home address, behind which the http-feed has been sent to the serve_forever () method [21].
+In this work for http, write in the class StreamingHttpHandlerCamera.py as follows:
+    • Do_POST: "/ start_record", "/ capture_image", "/ start", "/ start_stream", "/ set_stream_settings", "/ set_settings_feeder";
+    • Do_GET: "/", "/ sensors", "/index.html", "/ feed", "/ stream_settings", "/ stop_record", "/ media", "/ shutdown_pi", "/ reboot_pi", " / stop "," / wait_start_preview "," / stream.mjpg ".
+The server is listed on the Raspberry Pi, the key is dynamically configured by the browser from the server. Tobto is for optimizing the content of HTTP connections in local languages or global least.
 
 ## Screenshots
 
