@@ -285,6 +285,69 @@ The website was created using HTML, CSS and JavaScript. The following frameworks
 - sendResolution.js - contains functions that change the quality of the image of the video stream, start and stop the video stream, start and stop broadcasting to the Internet;
  - timer.js - functions for recording the number of recordable video time;
 
+## Control sensors and servo via web server 
+
+The server manages the Raspberry Pi direction, that is, it handles the command to receive sensor data and the servo startup, so it must be run in sudo access mode, since only in this mode the application has access to the GPIO.
+To manage GPIO on Raspberry Pi, the following libraries are used: RPi.GPIO, Adafruit_DHT, Servoblaster.
+Adafruit_DHT is a Python library for reading humidity and temperature sensors for the DHT series on Raspberry Pi.
+For example, to get data from sensors, the following code is used:
+
+```
+import Adafruit_DHT
+sensor = Adafruit_DHT.DHT11
+pin = 23
+humidity, temperature = Adafruit_DHT.read_retry (sensor, pin)
+if humidity is not None and temperature is not None:
+    print ('Temp = {0: 0.1f} * C Humidity = {1: 0.1f}%'. format (temperature, humidity))
+else:
+    print ('Failed to read. Try again!')
+```
+
+The client creates a request ("/ sensors") for obtaining moisture and temperature data. Server receiving this request sends status 200 and header. Next, you call the function and get two numeric values ​​in the humidity and temperature variables.
+humidity, temperature = Adafruit_DHT.read_retry (sensor, pin)
+After receiving these values sent to the client.
+Servoblaster - A Python library that runs through DMA. With it you can control 8 servo drives. Servoblaster is installed as a daemon and allows you to manage servo drives through files. That is, you can manage it through a file system. Allows control using any programming language or command line, and does not require the configuration of additional modules such as RPIO .
+Servo management in Python is carried out in the following way:
+
+```
+import time
+def setServo (self, servoChannel, position):
+        servoStr = "% u =% u \ n"% (servoChannel, position)
+        with open ("/ dev / servoblaster", "wb") as f:
+        f.write (servoStr.encode (utf-8))
+
+hour = 50
+        self.direction = 1
+        self.setServo (self.servoChannel, h)
+
+        while True:
+            self.setServo (self.servoChannel, h)
+            if val == 249:
+                break
+            hour = hour + 1
+
+        time.sleep (1)
+        while True:
+            self.setServo (self.servoChannel, h)
+            if val == 50:
+                break
+            hour = hour - 1
+```
+
+If the customer has made a "/ feed" request. The server, after receiving it, will send the status 200 and the header. The piston returns to 180 degrees and returns to its original state.
+The RPi.GPIO library is used to get the water level. Receiving water level data is also included in the / sensor query. Example of water level determination:
+
+```
+GPIO.setup (self.fullWaterPin, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+GPIO.setup (self.middleWaterPin, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+GPIO.setup (self.lowWaterPin, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+if GPIO.input (self.fullWaterPin) == GPIO.HIGH:
+full = True
+if GPIO.input (self.middleWaterPin) == GPIO.HIGH:
+middle = True
+if GPIO.input (self.lowWaterPin) == GPIO.HIGH:
+low = True
+```
 
 ## Screenshots
 
