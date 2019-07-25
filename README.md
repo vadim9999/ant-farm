@@ -1,6 +1,6 @@
 # Ant Farm
 
-Ant Farm contains web-server and application on OS Android. 
+Ant Farm contains web-server and application on OS Android (app project https://github.com/vadim9999/AntFarmReactNative). 
 
 **Goal**: Develop and program the Python Web server and an Android application using the Raspberry to support the activity of an Ant Farm. 
 
@@ -257,6 +257,34 @@ finally:
   stream.wait ()
 ```
 Source: https://picamera.readthedocs.io/en/release-1.13/recipes1.html#recording-to-a-network-stream
+
+## Creation of control panel
+
+The website was created using HTML, CSS and JavaScript. The following frameworks were used: Bootstrap 4, Font Awesome.
+
+**The web page consists of:**
+- video streaming player;
+- humidity and temperature indices;
+- water level indicator;
+- control unit.
+
+**Video stream control unit consists of:**
+- broadcast block: the start of the broadcast, the quality of the video stream, the "Settings" key, which specifies the link and the key;
+- video recording unit: field name of the video file name, selection of record quality, start and stop keys for video recording;
+- image creation block: input field, image name, quality selection, and image creation key;
+- Additional keys: "Media" and "Setup" feeder.
+
+**CSS styles are in static / css and include the following files:**
+- thermometer.css - styles for temperature and humidity indicators;
+- main.css - the main file that contains the styles for the entire file index.html;
+- waterLevel.css - styles for water level indicators;
+
+**The javascript files are located in the static / js folder and contain the following files:**
+- helper.js - functions that make active start and stop keys for streaming, recording video and viewing;
+- main.js - functions that send a request to the server, some of them receive information. Sending request for information from sensors, turning off RPi, activating feeder, creating image, recording video and stopping it, transferring settings for streaming to the Internet;
+- sendResolution.js - contains functions that change the quality of the image of the video stream, start and stop the video stream, start and stop broadcasting to the Internet;
+ - timer.js - functions for recording the number of recordable video time;
+
 
 ## Screenshots
 
